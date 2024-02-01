@@ -3,7 +3,7 @@ import { Movie } from '../model/movie';
 import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
 import { IonicModule } from '@ionic/angular';
-import Swiper from 'swiper';
+
 
 
 
