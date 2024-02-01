@@ -1,19 +1,18 @@
 <ion-content [fullscreen]="true">
-  <ion-grid>
-    <ion-row>
-      @for(movie of popularMovies; track movie.id) {
-        <ion-col size="6" size-md="4" size-lg="3">
-          <ion-card>
+    <div class="row">
+      <h5>Popular Movies</h5>
+      <div class="rowposter">
+       
+        @for(movie of popularMovies; track movie.id) {
+          
             <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-            <ion-card-header>
-              <ion-card-subtitle>{{ movie.release_date }}</ion-card-subtitle>
-              <ion-card-title>{{ movie.title }}</ion-card-title>
-              <ion-card-subtitle>{{ movie.genre_names }}</ion-card-subtitle>
-            </ion-card-header>
-          </ion-card>
-        </ion-col>
-      }
-    </ion-row>
-  </ion-grid>
+            
+            
+        }
+       
+      </div>
+    </div>
+    
+ 
 </ion-content>
 
