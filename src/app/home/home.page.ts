@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Movie } from '../model/movie';
 import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
 import { IonicModule } from '@ionic/angular';
+import Swiper from 'swiper';
+
+
 
 @Component({
   selector: 'app-home',
@@ -12,9 +15,14 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule],
 })
 export class HomePage {
+  
+
   popularMovies: Movie[] =  [];
 
-  constructor(private movieService: MovieService) { }
+
+  constructor(private movieService: MovieService) {
+    
+   }
   ngOnInit(): void {
     this.getPopularMovies();
   }
@@ -30,4 +38,6 @@ export class HomePage {
       }
     });
   }
+
+  
 }
