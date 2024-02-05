@@ -1,3 +1,5 @@
+import { credits } from "./credits";
+
 export class Movie {
     adult?: boolean;
     backdrop_path?: string;
@@ -12,5 +14,5 @@ export class Movie {
     release_date?: Date;
     title?: string;
     video?: boolean;
-    credits: any;
+    credits ?: credits;
 }
