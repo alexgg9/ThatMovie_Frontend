@@ -1,34 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>{{ movie?.title }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-navbar [title]="'ThatMovie'"></app-navbar>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <img [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path" [alt]="movie?.title">
-    <ion-card-content>
-      <ion-card-title>{{ movie?.title }}</ion-card-title>
-      <ion-card-subtitle>{{ movie?.release_date }}</ion-card-subtitle>
-      <p>{{ movie?.overview }}</p>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Reparto</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item >
-          @for(actor of movie?.credits?.cast; track actor.name) {
-            {{ actor.name }}
-          }
-         
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-
-  
+  <ion-grid class="movie-profile">
+    <ion-row class="movie-header">
+      <ion-col size-xs="12" size-md="3" >
+        <img
+          class="movie-poster"
+          [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path"
+          [alt]="movie?.title"
+        />
+      </ion-col>
+      <ion-col size-xs="12" size-md="9">
+        <div class="movie-details">
+          <h1 class="movie-title">{{ movie?.title }}</h1>
+          <p class="movie-release-date">{{ movie?.release_date }}</p>
+          <p class="movie-overview">{{ movie?.overview }}</p>
+          <div class="cast-list">
+            <h3>Reparto</h3>
+            <ion-list>
+              <ion-item *ngFor="let actor of movie?.credits?.cast">
+                {{ actor.name }}
+              </ion-item>
+            </ion-list>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
