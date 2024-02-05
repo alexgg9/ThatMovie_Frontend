@@ -14,12 +14,9 @@ export class MovieService {
   private apiPopular = environment.apiUrl + '/api/movies/popular';
   private apiUpcoming = environment.apiUrl + '/api/movies/upcoming';
   private apiNowPlaying = environment.apiUrl + '/api/movies/now_playing';
+  private apiProfiles = environment.apiUrl + '/api/movies/';
 
   constructor(private http: HttpClient) { }
-
-  private api = environment.apiUrl + '/api/movies/popular';
-  private apiProfiles = environment.apiUrl + '/api/movies/${id}';
-  constructor(private http: HttpClient) {}
 
 
   getPopularMovies(): Observable<MovieResponse> {
@@ -34,8 +31,7 @@ export class MovieService {
     return this.http.get<MovieResponse>(this.apiUpcoming);
   }
   getProfileMovies(id: number): Observable<Movie> {
-
-    return this.http.get<Movie>(this.apiProfiles);
+    return this.http.get<Movie>(this.apiProfiles + id);
   }
   
 }

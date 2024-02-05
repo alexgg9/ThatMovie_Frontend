@@ -8,7 +8,7 @@
           <ion-label class="section-label">Popular Movies</ion-label>
           <div class="movie-container">
             @for(movie of popularMovies; track movie.id) {
-              <ion-card class="movie-card">
+              <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
                 <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
               </ion-card>
             }
