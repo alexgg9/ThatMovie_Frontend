@@ -1,39 +1,28 @@
-// Estilos generales
-
-
-
-// Estilos específicos para el carrusel Swiper
-.swiper-container {
-  width: 100%;
-  height: 100%;
-
-  .swiper-slide {
-    display: flex;
-  
- 
-
-    // Otros estilos de diapositivas aquí
-  }
-
-  
-  // Agregar estilos adicionales según sea necesario
+.section-label {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 20px 0;
+  margin-left: 20px;
 }
-.rowposter{
+
+.rowposter {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.movie-container {
   display: flex;
-  overflow-y: hidden;
-  overflow-x: scroll;
-}
-.rowing{
-  max-height: 200px;
-  object-fit: contain;
-}
-.img{
-  width: 20px;
-  height: 300px;
+  padding: 10px 0;
 }
 
+.movie-card {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  max-width: 200px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
 
-
-
-
-
+.movie-card:hover {
+  transform: scale(1.05);
+}

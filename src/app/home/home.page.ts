@@ -2,9 +2,11 @@ import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angu
 import { Movie } from '../model/movie';
 import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
-import { IonicModule } from '@ionic/angular';
-
-
+import { IonicModule} from '@ionic/angular';
+import { NavbarComponent } from '../components/navbar/navbar.component';
+import { register } from 'swiper/element/bundle';
+import Swiper from 'swiper';
+register();
 
 
 @Component({
@@ -12,19 +14,31 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule],
+  imports: [IonicModule, NavbarComponent],
 })
 export class HomePage {
   
 
   popularMovies: Movie[] =  [];
+  nowPlayingMovies: Movie[] = [];
+  upcomingMovies: Movie[] = [];
 
 
   constructor(private movieService: MovieService) {
     
    }
+
+   ngAfterViewInit() {
+    const swiper = new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      nested: true,
+    });
+  }
+
   ngOnInit(): void {
     this.getPopularMovies();
+    this.getNowPlaying();
+    this.getUpcomingMovies();
   }
 
   getPopularMovies() {
@@ -33,11 +47,31 @@ export class HomePage {
       if (response.results) {
         this.popularMovies = response.results;
       } else {
-        // Manejar el caso en el que 'results' es undefined
         console.error('No se encontraron películas en la respuesta.');
       }
     });
   }
 
+  getNowPlaying() {
+    this.movieService.getUpcomingMovies().subscribe((response: MovieResponse) => {
+      console.log('Movies from service:', response.results);
+      if (response.results) {
+        this.nowPlayingMovies = response.results;
+      } else {
+        console.error('No se encontraron más pelúculas en la respuesta.');
+      }
+    });
+  }
+
+  getUpcomingMovies() {
+    this.movieService.getUpcomingMovies().subscribe((response: MovieResponse) => {
+      console.log('Movies from service:', response.results);
+      if (response.results) {
+        this.upcomingMovies = response.results;
+      } else {
+        console.error('No se encontraron más pelúculas en la respuesta.');
+      }
+    });
+  }
   
 }

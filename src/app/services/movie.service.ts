@@ -9,12 +9,22 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class MovieService {
-  private api = environment.apiUrl + '/api/movies/popular';
+  private apiPopular = environment.apiUrl + '/api/movies/popular';
+  private apiUpcoming = environment.apiUrl + '/api/movies/upcoming';
+  private apiNowPlaying = environment.apiUrl + '/api/movies/now_playing';
 
   constructor(private http: HttpClient) { }
 
   getPopularMovies(): Observable<MovieResponse> {
-    return this.http.get<MovieResponse>(this.api);
+    return this.http.get<MovieResponse>(this.apiPopular);
+  }
+
+  getNowPlaying(): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(this.apiNowPlaying);
+  }
+
+  getUpcomingMovies(): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(this.apiUpcoming);
   }
   
 }
