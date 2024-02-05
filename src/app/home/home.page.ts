@@ -6,6 +6,7 @@ import { IonicModule} from '@ionic/angular';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { register } from 'swiper/element/bundle';
 import Swiper from 'swiper';
+import { RouterModule } from '@angular/router';
 register();
 
 
@@ -14,7 +15,7 @@ register();
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, NavbarComponent],
+  imports: [IonicModule, NavbarComponent, RouterModule],
 })
 export class HomePage {
   

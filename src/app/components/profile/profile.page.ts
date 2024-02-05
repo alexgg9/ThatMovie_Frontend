@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProfilePage implements OnInit {
 
-  movie: Movie | undefined;
+  movie?: Movie | undefined;
 
   constructor(
     private movieService: MovieService,

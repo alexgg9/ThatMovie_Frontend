@@ -6,7 +6,7 @@
 
 <ion-content class="ion-padding">
   <ion-card>
-    <img [src]="movie?.poster_path" [alt]="movie?.title">
+    <img [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path" [alt]="movie?.title">
     <ion-card-content>
       <ion-card-title>{{ movie?.title }}</ion-card-title>
       <ion-card-subtitle>{{ movie?.release_date }}</ion-card-subtitle>
