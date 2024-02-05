@@ -5,13 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { Movie } from 'src/app/model/movie';
 import { MovieService } from 'src/app/services/movie.service';
 import { ActivatedRoute } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent]
 })
 export class ProfilePage implements OnInit {
 
