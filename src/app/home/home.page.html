@@ -1,18 +1,48 @@
+<app-navbar [title]="'ThatMovie'"></app-navbar>
+
 <ion-content [fullscreen]="true">
-    <div class="row">
-      <h5>Popular Movies</h5>
-      <div class="rowposter">
-       
-        @for(movie of popularMovies; track movie.id) {
-          
-            <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-            
-            
-        }
-       
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="section">
+          <ion-label class="section-label">Popular Movies</ion-label>
+          <div class="movie-container">
+            @for(movie of popularMovies; track movie.id) {
+              <ion-card class="movie-card">
+                <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+              </ion-card>
+            }
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="swiper-slide">
+        <div class="section">
+          <ion-label class="section-label">Now Playing</ion-label>
+          <div class="movie-container">
+            @for(movie of nowPlayingMovies; track movie.id) {
+              <ion-card class="movie-card">
+                <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+              </ion-card>
+            }
+          </div>
+        </div>
+      </div>
+    
+      <div class="swiper-slide">
+        <div class="section">
+          <ion-label class="section-label">Upcoming Movies</ion-label>
+          <div class="movie-container">
+            @for(movie of upcomingMovies; track movie.id) {
+              <ion-card class="movie-card">
+                <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+              </ion-card>
+            }
+          </div>
+        </div>
       </div>
     </div>
-    
- 
+    <div class="swiper-pagination"></div>
+  </div>
 </ion-content>
-
