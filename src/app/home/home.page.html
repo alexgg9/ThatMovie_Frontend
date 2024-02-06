@@ -1,48 +1,41 @@
-<app-navbar [title]="'ThatMovie'"></app-navbar>
 
-<ion-content [fullscreen]="true">
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
+<ion-label>Popular Movies</ion-label>
+<div class="swiper-container popular-movies">
+  <div class="swiper-wrapper">
+    @for(movie of popularMovies; track movie.id) {
       <div class="swiper-slide">
-        <div class="section">
-          <ion-label class="section-label">Popular Movies</ion-label>
-          <div class="movie-container">
-            @for(movie of popularMovies; track movie.id) {
-              <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
-                <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-              </ion-card>
-            }
-          </div>
-        </div>
+        <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
+          <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+        </ion-card>
       </div>
-      
-      
-      <div class="swiper-slide">
-        <div class="section">
-          <ion-label class="section-label">Now Playing</ion-label>
-          <div class="movie-container">
-            @for(movie of nowPlayingMovies; track movie.id) {
-              <ion-card class="movie-card">
-                <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-              </ion-card>
-            }
-          </div>
-        </div>
-      </div>
-    
-      <div class="swiper-slide">
-        <div class="section">
-          <ion-label class="section-label">Upcoming Movies</ion-label>
-          <div class="movie-container">
-            @for(movie of upcomingMovies; track movie.id) {
-              <ion-card class="movie-card">
-                <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-              </ion-card>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="swiper-pagination"></div>
+    }
   </div>
-</ion-content>
+  <div class="swiper-pagination"></div>
+</div>
+
+<ion-label>Now Playing</ion-label>
+<div class="swiper-container now-playing">
+  <div class="swiper-wrapper">
+    @for(movie of nowPlayingMovies; track movie.id) {
+      <div class="swiper-slide">
+        <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
+          <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+        </ion-card>
+      </div>
+    }
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+<ion-label>Upcoming Movies</ion-label>
+<div class="swiper-container upcoming-movies">
+  <div class="swiper-wrapper">
+    @for(movie of upcomingMovies; track movie.id) {
+      <div class="swiper-slide">
+        <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
+          <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+        </ion-card>
+      </div>
+    }
+  </div>
+  <div class="swiper-pagination"></div>
+</div>

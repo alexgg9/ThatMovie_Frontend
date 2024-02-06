@@ -1,8 +1,8 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Movie } from '../model/movie';
 import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
-import { IonicModule} from '@ionic/angular';
+import { IonContent, IonicModule} from '@ionic/angular';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { register } from 'swiper/element/bundle';
 import Swiper from 'swiper';
@@ -15,9 +15,11 @@ register();
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, NavbarComponent, RouterModule],
+  imports: [IonicModule, NavbarComponent, RouterModule]
 })
-export class HomePage {
+export class HomePage implements AfterViewInit{
+  
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   
 
   popularMovies: Movie[] =  [];
@@ -29,12 +31,33 @@ export class HomePage {
     
    }
 
-   ngAfterViewInit() {
-    const swiper = new Swiper('.swiper-container', {
+   ngAfterViewInit(): void {
+    new Swiper('.swiper-container', {
       direction: 'horizontal',
-      nested: true,
+      slidesPerView: 7,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: 7,
+        },
+        768: {
+          slidesPerView: 5,
+        },
+        640: {
+          slidesPerView: 3,
+        },
+        320: {
+          slidesPerView: 2,
+        },
+      }
     });
   }
+
+  
 
   ngOnInit(): void {
     this.getPopularMovies();
@@ -54,7 +77,7 @@ export class HomePage {
   }
 
   getNowPlaying() {
-    this.movieService.getUpcomingMovies().subscribe((response: MovieResponse) => {
+    this.movieService.getNowPlaying().subscribe((response: MovieResponse) => {
       console.log('Movies from service:', response.results);
       if (response.results) {
         this.nowPlayingMovies = response.results;
