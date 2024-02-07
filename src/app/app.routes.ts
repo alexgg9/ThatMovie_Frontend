@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile/:id',
-    loadComponent: () => import('./components/profile/profile.page').then( m => m.ProfilePage)
+    loadComponent: () => import('./profile/profile.page').then( m => m.ProfilePage)
   },
 
 ];
