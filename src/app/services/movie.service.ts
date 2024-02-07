@@ -15,6 +15,7 @@ export class MovieService {
   private apiUpcoming = environment.apiUrl + '/api/movies/upcoming';
   private apiNowPlaying = environment.apiUrl + '/api/movies/now_playing';
   private apiProfiles = environment.apiUrl + '/api/movies/';
+  private apisearch = environment.apiUrl + '/api/movies/search';
 
   constructor(private http: HttpClient) { }
 
@@ -33,5 +34,11 @@ export class MovieService {
   getProfileMovies(id: number): Observable<Movie> {
     return this.http.get<Movie>(this.apiProfiles + id);
   }
+
+  getSearchMovies(query: string): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(this.apisearch + query);
+  }
+
+
   
 }
