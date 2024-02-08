@@ -36,7 +36,7 @@ export class MovieService {
   }
 
   getSearchMovies(query: string): Observable<MovieResponse> {
-    return this.http.get<MovieResponse>(this.apisearch + query);
+    return this.http.get<MovieResponse>(this.apisearch);
   }
 
 

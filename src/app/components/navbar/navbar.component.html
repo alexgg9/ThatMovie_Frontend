@@ -8,6 +8,6 @@
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-searchbar slot="end"></ion-searchbar>
+    <ion-searchbar slot="end" (ionInput)="onSearchInput($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header> 
