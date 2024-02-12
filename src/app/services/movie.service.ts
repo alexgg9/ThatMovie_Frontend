@@ -36,7 +36,8 @@ export class MovieService {
   }
 
   getSearchMovies(query: string): Observable<MovieResponse> {
-    return this.http.get<MovieResponse>(this.apisearch);
+    const url = this.apisearch + '?movieName=' + query;
+    return this.http.get<MovieResponse>(url);
   }
 
 
