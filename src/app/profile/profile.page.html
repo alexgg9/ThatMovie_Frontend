@@ -9,12 +9,20 @@
           [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path"
           [alt]="movie?.title"
         />
+        <ion-list>
+          <ion-item class="genre-item">
+            @for(genre of movie?.genres; track movie?.id){  
+              {{ genre.name }}{{$last ? '' : ' | '}}
+            }
+          </ion-item>
+        </ion-list>
       </ion-col>
       <ion-col size-xs="12" size-md="9">
         <div class="movie-details">
           <h1 class="movie-title">{{ movie?.title }}</h1>
           <p class="movie-release-date">{{ movie?.release_date }}</p>
           <p class="movie-overview">{{ movie?.overview }}</p>
+      
           <div class="cast-list">
             <h3>Reparto</h3>
             <ion-list>

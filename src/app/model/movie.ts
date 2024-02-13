@@ -1,10 +1,11 @@
 import { credits } from "./credits";
+import { Genre } from "./genre";
+
 
 export class Movie {
     adult?: boolean;
     backdrop_path?: string;
-    genre_ids?: number[];
-    genre_names?: string[];
+    genres?: Genre[];
     id?: number;
     original_language?: string;
     original_title?: string;
