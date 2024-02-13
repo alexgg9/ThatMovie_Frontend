@@ -3,29 +3,7 @@
     <ion-title>
       {{ title }}
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon slot="icon-only" name="search"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-searchbar debounce="500" (ionInput)="onSearchInput($event)"></ion-searchbar>
-    <ion-content>
- 
-      <ion-select placeholder="Seleccionar película" (ionChange)="onMovieSelected($event)">
-
-        @for(movie of filteredMovies; track movie.id){ 
-        <ion-select-option >
-          <div>
-            {{ movie.title }}
-          </div>
-          
-        
-        </ion-select-option>
-      }
-      </ion-select>
-    </ion-content>
-    
-  </ion-toolbar>
+    <ion-searchbar  debounce="500" slot="end" (ionInput)="onSearchInput($event)"></ion-searchbar>
   
+  </ion-toolbar>
 </ion-header>
-
