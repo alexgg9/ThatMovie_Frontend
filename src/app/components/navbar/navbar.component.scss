@@ -37,6 +37,7 @@ ion-toolbar {
       --border-radius: 30px; // Borde más redondeado para el ion-searchbar en pantallas más grandes
     }
   }
+
 }
 
 .searchResults{
@@ -47,3 +48,14 @@ ion-toolbar {
   z-index:99999;
 
 }
+
+
+  .searchResults{
+    position:absolute;
+    right:0px;
+    border:1px solid black;
+    padding:20px;
+    z-index:99999;
+
+  }
+
