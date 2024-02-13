@@ -1,4 +1,19 @@
-<app-navbar [title]="'ThatMovie'"></app-navbar>
+<app-navbar [title]="'ThatMovie'" style="display:block;margin-bottom:20px" (onSearch)="onSearch($event)"></app-navbar>
+@if(searching){
+<div class="searchResults">
+  @for(movie of moviesSearched; track movie.id) {
+    <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
+      <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+    </ion-card>
+  }@empty {
+    @if(statusSearch){
+      <p>Buscando...</p>
+    }@else {
+      <p>No hay resultados</p>
+    }
+  }
+</div>
+}
 <ion-label>Popular Movies</ion-label>
 <div class="swiper-container popular-movies">
   <div class="swiper-wrapper">

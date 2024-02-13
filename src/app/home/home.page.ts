@@ -20,6 +20,13 @@ register();
 export class HomePage implements AfterViewInit{
   
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
+  public moviesSearched:{
+    id: number,
+    title: string,
+    poster_path: string    
+  }[] = [];
+  public searching = false;
+  public statusSearch=false;
   
 
   popularMovies: Movie[] =  [];
@@ -96,6 +103,44 @@ export class HomePage implements AfterViewInit{
         console.error('No se encontraron más pelúculas en la respuesta.');
       }
     });
+  }
+
+
+  onSearch(event: any) {
+    console.log(event);
+    if(event){
+      this.searching=true;
+      this.searchMovies(event);
+    }else{
+      this.searching=false;
+    }
+
+  }
+
+  searchMovies(query: string) {
+    console.log(query)
+    this.statusSearch=true;
+    this.movieService.getSearchMovies(query).subscribe(
+      (response: any) => {
+        console.log(response)
+        if (response.results) {
+          this.moviesSearched = response.results.map((movie: any) => ({
+            id: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path
+          }));
+        } else {
+          console.error('No se encontraron películas en la respuesta.');
+          this.moviesSearched = [];
+        }
+        this.statusSearch=false;
+      },
+      (error: any) => {
+        console.error('Error al obtener películas:', error);
+        this.moviesSearched = [];
+        this.statusSearch=false;
+      }
+    );
   }
   
 }
