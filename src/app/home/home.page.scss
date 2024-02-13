@@ -32,3 +32,22 @@
   transform: scale(1.06);
   cursor: pointer;
 }
+
+
+.searchResults{
+  position:absolute;
+  display: block;
+  top:60px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
+  right:10px;
+  width:50%;
+  border:1px solid rgb(137, 137, 137);
+  background-color: rgba(255, 255, 255, 0.722);
+  padding:20px;
+  z-index:9999;
+
+  card{
+    flex-direction: column;
+  }
+}

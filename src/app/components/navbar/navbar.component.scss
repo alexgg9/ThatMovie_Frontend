@@ -38,3 +38,12 @@ ion-toolbar {
       }
     }
   }
+
+  .searchResults{
+    position:absolute;
+    right:0px;
+    border:1px solid black;
+    padding:20px;
+    z-index:99999;
+
+  }
