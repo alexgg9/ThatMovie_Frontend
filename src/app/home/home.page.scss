@@ -7,6 +7,13 @@
   scrollbar-width: none;
 }
 
+.container{
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 
 .movie-container::-webkit-scrollbar {
   display: none;

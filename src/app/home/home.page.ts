@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Movie } from '../model/movie';
 import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
@@ -17,9 +17,11 @@ register();
   standalone: true,
   imports: [IonicModule, NavbarComponent, RouterModule]
 })
-export class HomePage implements AfterViewInit{
+export class HomePage implements AfterViewInit, OnInit{
   
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
+  @ViewChild('container') container!: ElementRef
+  calculatedHeightVariable!: number;
   public moviesSearched:{
     id: number,
     title: string,
@@ -70,6 +72,7 @@ export class HomePage implements AfterViewInit{
     this.getPopularMovies();
     this.getNowPlaying();
     this.getUpcomingMovies();
+    this.calculateHeight();
   }
 
   getPopularMovies() {
@@ -142,5 +145,26 @@ export class HomePage implements AfterViewInit{
       }
     );
   }
+
+  @HostListener('window:load', ['$event'])
+  onLoad(event: any) {
+    this.calculateHeight();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculateHeight(); 
+  }
+
+  private calculateHeight() {
+    const windowHeight = window.innerHeight;
+    const calculatedHeight = windowHeight - 80;
+    console.log('Altura calculada:', calculatedHeight);
+    this.calculatedHeightVariable = calculatedHeight;
+    if (this.container) {
+      this.container.nativeElement.style.height = calculatedHeight + 'px';
+    }
+  }
+  
   
 }
