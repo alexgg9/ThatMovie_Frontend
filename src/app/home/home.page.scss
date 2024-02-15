@@ -48,13 +48,18 @@
   border-radius: 20px;
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
   right:10px;
-  width:50%;
+  width:30%;
   border:1px solid rgb(137, 137, 137);
-  background-color: rgba(255, 255, 255, 0.722);
+  background-color: rgba(255, 255, 255, 0.5);
   padding:20px;
   z-index:9999;
+  max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto; /* Agrega desplazamiento vertical si es necesario */
 
-  card{
-    flex-direction: column;
+  ::ng-deep ion-list,
+  ::ng-deep ion-item {
+    background-color: rgba(255, 255, 255, 0.5) !important;
   }
+
 }
+
