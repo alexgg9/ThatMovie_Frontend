@@ -110,10 +110,11 @@ export class HomePage implements AfterViewInit, OnInit{
 
 
   onSearch(event: any) {
-    console.log(event);
+    console.log(event.pos);  //usálo para 
+   // (document.getElementById("result") as any).style.left=event.pos.offsetLeft+"px";
     if(event){
       this.searching=true;
-      this.searchMovies(event);
+      this.searchMovies(event.data);
     }else{
       this.searching=false;
     }

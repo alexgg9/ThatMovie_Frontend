@@ -1,61 +1,51 @@
-// Estilos para el navbar responsivo en Ionic, incluyendo el ion-searchbar
-
 ion-toolbar {
   ion-title {
-    font-size: 1.5em; // Tamaño de fuente para el título del navbar
+    font-size: 1.5em;
     color: #FFDB58;
   }
 
   ion-searchbar {
-    max-width: 150px; // Ancho máximo para el ion-searchbar en todas las pantallas
-    --border-radius: 20px; // Borde más redondeado para el ion-searchbar
-    font-size: 1em; // Tamaño de letra para el texto en el ion-searchbar
+    width: 100%;
+    max-width: 1000px; /* Ajusta el ancho máximo según tus necesidades */
+    --border-radius: 25px;
+    font-size: 1em;
+    
+    .searchbar-input {
+      text-align: left;
+    }
+
+    .searchbar-placeholder {
+      text-align: left;
+    }
   }
 
   ion-buttons {
     ion-button {
       &.search-button {
-        display: block; // Mostrar el botón de búsqueda por defecto en todas las pantallas
+        display: block;
       }
     }
   }
 
   @media (max-width: 767px) {
     ion-title {
-      font-size: 1.2em; // Tamaño de fuente más pequeño para el título en dispositivos móviles
+      font-size: 1.2em;
     }
 
     ion-searchbar {
-      display: block; // Mostrar el ion-searchbar en dispositivos móviles
-      font-size: 0.8em; // Tamaño de letra más pequeño para el texto en el ion-searchbar en dispositivos móviles
+      display: block;
+      font-size: 0.8em;
+      width: 100%;
+      max-width: none;
+      margin-left: 0; /* Elimina el margen izquierdo en dispositivos móviles */
     }
   }
 
   @media (min-width: 768px) {
     ion-searchbar {
-      max-width: 200px; // Ancho ligeramente mayor para el ion-searchbar en pantallas más grandes (escritorio)
-      --border-radius: 30px; // Borde más redondeado para el ion-searchbar en pantallas más grandes
+      max-width: 500px; /* Ajusta el ancho máximo en pantallas más grandes */
+      --border-radius: 30px;
+      width: auto; /* Restablece el ancho automático en pantallas más grandes */
     }
   }
-
 }
-
-.searchResults{
-  position:absolute;
-  right:0px;
-  border:1px solid black;
-  padding:20px;
-  z-index:99999;
-
-}
-
-
-  .searchResults{
-    position:absolute;
-    right:0px;
-    border:1px solid black;
-    padding:20px;
-    z-index:99999;
-
-  }
-

@@ -1,6 +1,6 @@
 <app-navbar [title]="'ThatMovie'" style="display:block;margin-bottom:20px" (onSearch)="onSearch($event)"></app-navbar>
 @if(searching){
-  <div class="searchResults">
+  <div id="result" class="searchResults">
   
      
         <ion-list>
@@ -24,7 +24,7 @@
   </div>
   }
 <div #container class="container">
-<ion-label>Popular Movies</ion-label>
+<ion-label style="margin-left: 15px; font-size: 20px;">Popular Movies</ion-label>
 <div class="swiper-container popular-movies">
   <div class="swiper-wrapper">
     @for(movie of popularMovies; track movie.id) {
@@ -38,7 +38,7 @@
   <div class="swiper-pagination"></div>
 </div>
 
-<ion-label>Now Playing</ion-label>
+<ion-label style="margin-left: 15px; font-size: 20px;">Now Playing</ion-label>
 <div class="swiper-container now-playing">
   <div class="swiper-wrapper">
     @for(movie of nowPlayingMovies; track movie.id) {
@@ -51,7 +51,7 @@
   </div>
   <div class="swiper-pagination"></div>
 </div>
-<ion-label>Upcoming Movies</ion-label>
+<ion-label style="margin-left: 15px; font-size: 20px;">Upcoming Movies</ion-label>
 <div class="swiper-container upcoming-movies">
   <div class="swiper-wrapper">
     @for(movie of upcomingMovies; track movie.id) {
