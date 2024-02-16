@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
+    <ion-title slot="start">
       {{ title }}
     </ion-title>
-    <ion-searchbar  debounce="500" slot="end" (ionInput)="onSearchInput($event)"></ion-searchbar>
+    <ion-searchbar  debounce="300"  (ionInput)="onSearchInput($event)"></ion-searchbar>
   
   </ion-toolbar>
 </ion-header>

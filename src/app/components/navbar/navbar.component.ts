@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -10,13 +10,30 @@ import { IonicModule } from '@ionic/angular';
 })
 export class NavbarComponent  {
   @Input() title: string = 'ThatMovie';
-  @Output() onSearch: EventEmitter<string> = new EventEmitter();
+  @Output() onSearch: EventEmitter<any> = new EventEmitter();
 
-
+  constructor(private elRef:ElementRef) {
+    
+  }
 
   onSearchInput(event: CustomEvent) {
+    console.log(this.elRef.nativeElement.left);
+    let offsetLeft = 0;
+    let offsetTop = 0;
+
+    let el = event.target as HTMLElement | null;
+    while(el){
+        offsetLeft += el.offsetLeft;
+        offsetTop += el.offsetTop;
+        el = el.parentElement;
+    }
+    const pos = { offsetTop:offsetTop , offsetLeft:offsetLeft };
+
     const searchQuery = (event.target as HTMLInputElement).value;
-    this.onSearch.emit(searchQuery);
+    this.onSearch.emit({
+      pos:pos,
+      data:searchQuery
+    });
   }
 
 
