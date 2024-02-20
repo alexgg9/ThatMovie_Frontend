@@ -1,9 +1,19 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title slot="start">
-      {{ title }}
-    </ion-title>
-    <ion-searchbar  debounce="300"  (ionInput)="onSearchInput($event)"></ion-searchbar>
-  
+  <ion-toolbar >
+    <ion-title slot="start">{{ title }}</ion-title>
+
+    <ion-buttons slot="secondary">
+      <ion-button routerLink="/playlist">
+        List
+      </ion-button>
+      <ion-button>
+        Watchlist
+      </ion-button>
+    </ion-buttons>
+
+    <ion-searchbar debounce="300" (ionInput)="onSearchInput($event)" slot="secondary"></ion-searchbar>
+    <ion-avatar slot="end">
+      <img class="avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
   </ion-toolbar>
 </ion-header>
