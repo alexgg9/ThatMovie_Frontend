@@ -1,38 +1,61 @@
 <app-navbar [title]="'ThatMovie'"></app-navbar>
-
-<ion-content class="ion-padding">
+<div #container class="container">
+ 
   <ion-grid class="movie-profile">
+    @if(loaded()){
     <ion-row class="movie-header">
-      <ion-col size-xs="12" size-md="3" >
-        <img
-          class="movie-poster"
-          [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path"
-          [alt]="movie?.title"
-        />
-        <ion-list>
-          <ion-item class="genre-item">
-            @for(genre of movie?.genres; track movie?.id){  
-              {{ genre.name }}{{$last ? '' : ' | '}}
-            }
-          </ion-item>
-        </ion-list>
+      <ion-col size-xs="12" size-md="3">
+        <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path" [alt]="movie?.title" />
       </ion-col>
-      <ion-col size-xs="12" size-md="9">
+
+      <ion-col size-xs="12" size-md="5">
         <div class="movie-details">
           <h1 class="movie-title">{{ movie?.title }}</h1>
+          <p class="movie-director" *ngFor="let crew of movie?.credits?.crew">
+            <ng-container *ngIf="crew.job === 'Director'">Directed By {{ crew.name }}</ng-container>
+          </p>
           <p class="movie-release-date">{{ movie?.release_date }}</p>
           <p class="movie-overview">{{ movie?.overview }}</p>
-      
-          <div class="cast-list">
-            <h3>Reparto</h3>
-            <ion-list>
-              <ion-item *ngFor="let actor of movie?.credits?.cast">
-                {{ actor.name }}
-              </ion-item>
-            </ion-list>
+          <div class="genre-container">
+            <ng-container *ngFor="let genre of movie?.genres; let last = last;">
+              <ion-button mode="ios" shape="round" fill="outline" size="small">{{ genre.name }}</ion-button>
+            </ng-container>
           </div>
         </div>
       </ion-col>
+   
+      <ion-col size-xs="12" size-md="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Rating</ion-card-title>
+            <ion-card-subtitle></ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>Card Rating</ion-card-content>
+        </ion-card>
+      </ion-col>
     </ion-row>
+  }
+        <h3>Cast</h3>
+        <div #swiperContainer class="swiper-container">
+          <div class="swiper-wrapper">
+            @for(actor of movie?.credits?.cast; track actor.name) {
+              <div class="swiper-slide">
+                <ion-card class="actor-card">
+                  <img [src]="'https://image.tmdb.org/t/p/w500/' + actor?.profile_path" alt="{{ actor.name }}" class="actor-image" />
+                  <ion-card-header>
+                    <ion-card-title class="actor-name">{{ actor.name }}</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <p class="character-name">{{ actor.character }}</p>
+                  </ion-card-content>
+                </ion-card>
+              </div>
+              <div class="swiper-pagination"></div>
+            }
+          </div>
+        </div>
+   
   </ion-grid>
-</ion-content>
+</div>
+
+
