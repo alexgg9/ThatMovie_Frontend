@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import { Movie } from '../model/movie';
 import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
-import { IonContent, IonicModule} from '@ionic/angular';
+import { IonicModule} from '@ionic/angular';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { register } from 'swiper/element/bundle';
 import Swiper from 'swiper';
@@ -151,17 +151,16 @@ export class HomePage implements AfterViewInit, OnInit{
   onLoad(event: any) {
     this.calculateHeight();
   }
-
+  
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateHeight(); 
   }
-
+  
   private calculateHeight() {
     const windowHeight = window.innerHeight;
-    const calculatedHeight = windowHeight - 80;
+    const calculatedHeight = windowHeight - 80; // Ajusta según el tamaño del encabezado
     console.log('Altura calculada:', calculatedHeight);
-    this.calculatedHeightVariable = calculatedHeight;
     if (this.container) {
       this.container.nativeElement.style.height = calculatedHeight + 'px';
     }
