@@ -14,5 +14,14 @@ export const routes: Routes = [
     path: 'profile/:id',
     loadComponent: () => import('./profile/profile.page').then( m => m.ProfilePage)
   },
+  {
+    path: 'playlist',
+    loadComponent: () => import('./playlist/playlist.page').then((m) => m.PlaylistPage)
+  },
+  {
+    path: '',
+    redirectTo: 'playlist',
+    pathMatch: 'full',
+  },
 
 ];

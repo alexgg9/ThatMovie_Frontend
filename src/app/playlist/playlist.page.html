@@ -1,13 +1,14 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>playlist</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">playlist</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="movie-list">
+  <div class="movie-list-item">
+    @for(list of playlist; track list.id) {
+      <ion-card>
+        <div class="poster" *ngFor="let posterUrl of (getPostersForPlaylist(list.id) | async)">
+          <div [ngStyle]="{ 'background-image': 'url(' + posterUrl + ')' }">
+            <!-- Contenido del ion-card -->
+          </div>
+        </div>
+      </ion-card>
+     
+    }
+    </div>
+</div>

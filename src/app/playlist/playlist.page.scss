@@ -1,0 +1,12 @@
+.movie-list-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 5px;
+    //background: url('ruta/a/la/imagen-de-fondo.jpg') center/cover;
+ 
+  
+  @media (max-width: 768px) { /* Ajuste para dispositivos móviles */
+    grid-template-columns: 1fr; /* Una sola columna */
+  }
+
+}
