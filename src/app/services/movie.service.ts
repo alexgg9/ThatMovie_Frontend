@@ -40,6 +40,10 @@ export class MovieService {
     return this.http.get<MovieResponse>(url);
   }
 
+  getMovieIdFromProfile(id: string): Observable<number> {
+    return this.http.get<number>(`${this.apiProfiles}${id}/movie_id`);
+}
+
 
   
 }

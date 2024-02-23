@@ -1,5 +1,6 @@
 import { credits } from "./credits";
 import { Genre } from "./genre";
+import { Video } from "./video";
 
 
 export class Movie {
@@ -14,6 +15,6 @@ export class Movie {
     poster_path?: string;
     release_date?: Date;
     title?: string;
-    video?: boolean;
+    videos?: Video[];
     credits ?: credits;
 }
