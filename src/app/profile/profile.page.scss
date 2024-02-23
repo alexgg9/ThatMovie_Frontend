@@ -117,13 +117,36 @@ ion-button[mode="ios"] {
 }
 
 .actor-name {
-  margin-top: 10px; /* Espacio entre la imagen y el nombre del actor */
-  color: #333; /* Color del nombre del actor */
+  margin-top: 10px;
+  color: #333;
 }
 
 .character-name {
-  margin-top: 5px; /* Espacio entre el nombre del actor y el nombre del personaje */
-  color: #777; /* Color del nombre del personaje */
+  margin-top: 5px;
+  color: #777;
 }
 
+.star-rating {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  
 
+
+fa-icon{
+  color: grey;
+  margin-right: 5px;
+  font-size: 30px;
+  cursor: pointer;
+  
+
+&.rated,
+&:hover,
+&:hover ~ fa-icon {
+  color:gold;
+}
+
+  transition: color 0.3s ease-in-out;
+
+  }
+}

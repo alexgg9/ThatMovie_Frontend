@@ -8,6 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import Swiper from 'swiper';
 import { register } from 'swiper/element/bundle';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { ReviewService } from '../services/review.service';
+import { Review } from '../model/review';
+import { IonTextarea } from '@ionic/angular/standalone';
 register();
 
 @Component({
@@ -15,10 +20,12 @@ register();
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent]
+  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent, FontAwesomeModule]
 })
 export class ProfilePage implements AfterViewInit, OnInit {
-
+  faStar = faStar;
+  rating = 0;
+  content: string = '';
   movie?: Movie | undefined;
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('container') container!: ElementRef
@@ -27,9 +34,54 @@ export class ProfilePage implements AfterViewInit, OnInit {
 
   constructor(
     private movieService: MovieService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private reviewService: ReviewService
   ) {}
+  
 
+  setRating(rating: number) {
+    this.rating = rating;
+  }
+
+  onReviewInput(event: Event): void {
+    const target = event.target as HTMLIonTextareaElement;
+    this.content = target.value || '';
+  }
+
+
+  submitReview(): void {
+    console.log('Valor de this.rating:', this.rating);
+    console.log('Valor de this.content:', this.content);
+    
+    if (this.rating !== 0 && this.content !== '') {
+        const userId = 1; 
+        const perfilId = this.route.snapshot.paramMap.get('id');
+        console.log('ID del perfil:', perfilId);
+        if (perfilId !== null) {
+            const nuevaReview: Review = {
+                movie_id: +perfilId,
+                rating: this.rating,
+                content: this.content,
+                author: userId,
+                created_at: new Date()
+            };
+            this.reviewService.createReview(nuevaReview).subscribe(
+                (response) => {
+                    console.log('Revisión creada exitosamente:', response);
+                },
+                (error) => {
+                    console.error('Error al crear la revisión:', error);
+                }
+            );
+        } else {
+            console.error('El ID del perfil es null.');
+        }
+    } else {
+        console.error('Por favor seleccione una calificación y escriba un comentario antes de enviar la revisión.');
+    }
+}
+
+    
 
   ngOnInit(): void {
     const movieIdString = this.route.snapshot.paramMap.get('id');
@@ -38,11 +90,9 @@ export class ProfilePage implements AfterViewInit, OnInit {
       if (!isNaN(movieId)) {
         this.getMovieProfile(movieId);
       } else {
-        // Manejar el caso en el que el ID de la película no es un número válido
         console.error('El ID de la película no es un número válido.');
       }
     } else {
-      // Manejar el caso en el que el parámetro 'id' es null o no está presente en la URL
       console.error('El parámetro "id" es nulo o no está presente en la URL.');
     }
   }
@@ -106,7 +156,7 @@ onResize(event: any) {
 
 private calculateHeight() {
   const windowHeight = window.innerHeight;
-  const calculatedHeight = windowHeight - 80; // Ajusta según el tamaño del encabezado
+  const calculatedHeight = windowHeight - 80;
   console.log('Altura calculada:', calculatedHeight);
   if (this.container) {
     this.container.nativeElement.style.height = calculatedHeight + 'px';
