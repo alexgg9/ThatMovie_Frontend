@@ -46,12 +46,12 @@ export class PlaylistPage implements OnInit {
     });
   }
 
-  async abrirModalCrearLista() {
-    const modal = await this.modalController.create({
-      component: CrearListaComponent,
-      componentProps: { /* Propiedades opcionales que puedes pasar al modal */ }
-    });
-    return await modal.present();
-  }
+
+
+
+ 
+ 
+ 
+
 
 }

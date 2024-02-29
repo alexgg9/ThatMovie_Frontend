@@ -148,7 +148,7 @@ ion-button[mode="ios"] {
 }
 
 .actor-info-box {
-  display: none;
+  opaçity: 0;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
   border: 1px solid #000;
@@ -162,8 +162,13 @@ ion-button[mode="ios"] {
 }
 
 .actor-card:hover .actor-info-box {
-  display: block;
+  animation: fadeIn 1s;
   transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 

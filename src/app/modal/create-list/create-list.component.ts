@@ -15,7 +15,7 @@ export class CreateListComponent  implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService) {
     this.form = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.minLength(4)] 
+      nombre: ['', [Validators.required, Validators.minLength(4)] ]
       
     });
   }
