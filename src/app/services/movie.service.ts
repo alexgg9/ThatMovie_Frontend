@@ -16,6 +16,7 @@ export class MovieService {
   private apiNowPlaying = environment.apiUrl + '/api/movies/now_playing';
   private apiProfiles = environment.apiUrl + '/api/movies/';
   private apisearch = environment.apiUrl + '/api/movies/search';
+  private apiSimilar = environment.apiUrl + '/api/movies/similar/';
 
   constructor(private http: HttpClient) { }
 
@@ -44,6 +45,8 @@ export class MovieService {
     return this.http.get<number>(`${this.apiProfiles}${id}/movie_id`);
 }
 
-
+  getSimilarMovies(id: number): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(this.apiSimilar + id);
+  }
   
 }

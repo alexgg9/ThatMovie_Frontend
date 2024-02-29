@@ -1,3 +1,5 @@
+import { Member } from "./member";
+
 export class Review {
     id?: number;
     content?: string;
