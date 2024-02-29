@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { Playlist } from '../model/Playlist';
 import { PlaylistService } from '../services/playlist.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 
 @Component({
   selector: 'app-playlist',
@@ -34,8 +34,24 @@ export class PlaylistPage implements OnInit {
     if (playlistId !== undefined) {
       return this.playlistService.getPostersForPlaylist(playlistId);
     } else {
-      // Manejar el caso en el que playlistId es undefined
-      return new Observable<string[]>(); // O devolver un Observable vacío o con un valor por defecto
+      return of([]); 
     }
   }
+
+  obtenerYAsignarPosters(playlistId: number | undefined) {
+    this.getPostersForPlaylist(playlistId).subscribe((result) => {
+      this.posters = result;
+    }, (error) => {
+      // Manejar errores si es necesario
+    });
+  }
+
+  async abrirModalCrearLista() {
+    const modal = await this.modalController.create({
+      component: CrearListaComponent,
+      componentProps: { /* Propiedades opcionales que puedes pasar al modal */ }
+    });
+    return await modal.present();
+  }
+
 }

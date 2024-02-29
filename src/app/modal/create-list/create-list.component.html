@@ -1,0 +1,8 @@
+<form [formGroup]="form" (ngSubmit)="crearLista()">
+  <div>
+    <label for="nombre">Nombre de la lista:</label>
+    <input type="text" id="nombre" formControlName="nombre">
+    <!-- Otros campos del formulario -->
+  </div>
+  <button type="submit">Crear lista</button>
+</form>

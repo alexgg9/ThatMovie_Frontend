@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 export class PlaylistService {
   private apiPlaylist = environment.apiUrl + '/playlist';
   private PosterList = environment.apiUrl + '/playlist/posters';
+  private createList = environment.apiUrl + '/playlist';
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +25,10 @@ export class PlaylistService {
   getPostersForPlaylist(id: number): Observable<string[]> {
     const url = `${this.PosterList}/${id}/posters`;
     return this.http.get<string[]>(url);
+  }
+
+  postCreateList(playlist: Playlist): Observable<Playlist> {
+    return this.http.post<Playlist>(this.createList, playlist);
   }
 
 
