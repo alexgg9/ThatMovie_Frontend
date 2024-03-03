@@ -107,7 +107,6 @@ getSimilarMovies(id: number): void {
       direction: 'horizontal',
       slidesPerView: 7,
       spaceBetween: 20,
-      loop: true,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
@@ -139,7 +138,24 @@ getSimilarMovies(id: number): void {
     const similarSwiper = new Swiper(this.similarContainer.nativeElement, {
       direction: 'horizontal',
       slidesPerView: 7,
-      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: 7,
+        },
+        768: {
+          slidesPerView: 5,
+        },
+        640: {
+          slidesPerView: 3,
+        },
+        320: {
+          slidesPerView: 2,
+        },
+      }
     })
   }
 
@@ -162,7 +178,15 @@ getSimilarMovies(id: number): void {
     }
   }
 
-
+  getDirectors(): string {
+    if (!this.movie || !this.movie.credits || !this.movie.credits.crew) {
+      return '';
+    }
+    
+    const directors = this.movie.credits.crew.filter(crew => crew.job === 'Director').map(crew => crew.name);
+    return directors.join(', ');
+  }
+  
   submitReview(): void {
     console.log('Valor de this.rating:', this.rating);
     console.log('Valor de this.content:', this.content);
