@@ -6,25 +6,27 @@
   <ion-card class="register-card">
     <ion-card-content>
       <div class="register-container">
+        <form (ngSubmit)="register()" [formGroup]="registerForm">
         <ion-item lines="none">
-          <ion-input placeholder="Username" type="text"></ion-input>
+          <ion-input formControlName="username" placeholder="Username" type="text"></ion-input>
         </ion-item>
         <ion-item lines="none">
-          <ion-input placeholder="Email" type="email"></ion-input>
+          <ion-input formControlName="email" placeholder="Email" type="email"></ion-input>
         </ion-item>
         <ion-item lines="none">
-          <ion-input placeholder="Name" type="text"></ion-input>
+          <ion-input formControlName="name" placeholder="Name" type="text"></ion-input>
         </ion-item>
         <ion-item lines="none">
-          <ion-input placeholder="Surname" type="text"></ion-input>
+          <ion-input formControlName="surname" placeholder="Surname" type="text"></ion-input>
         </ion-item>
         <ion-item lines="none">
-          <ion-input placeholder="Password" type="password"></ion-input>
+          <ion-input formControlName="password" placeholder="Password" type="password"></ion-input>
         </ion-item>
         <ion-button expand="block" color="warning">Register</ion-button>
         <div class="login">
           <a href="/login">Already have an account? Log in</a>
         </div>
+      </form>
       </div>
     </ion-card-content>
   </ion-card>
