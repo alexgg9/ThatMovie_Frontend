@@ -11,10 +11,8 @@
       <ion-col size-xs="12" size-md="5">
         <div class="movie-details">
           <h1 class="movie-title">{{ movie?.title }}</h1>
-          <p class="movie-director" *ngFor="let crew of movie?.credits?.crew">
-            <ng-container *ngIf="crew.job === 'Director'">Directed By {{ crew.name }}</ng-container>
-          </p>
-          <p class="movie-release-date">{{ movie?.release_date }}</p>
+          <p class="movie-director"> Directed By {{ getDirectors() }} </p>
+          <p class="movie-release-date">{{ movie?.release_date | date:'yyyy' }}</p>
           <p class="movie-overview">{{ movie?.overview }}</p>
           <div class="genre-container">
             <ng-container *ngFor="let genre of movie?.genres; let last = last;">
@@ -80,7 +78,7 @@
       </ion-col>
     </ion-row>
   }
-  <h3>Cast</h3>
+  <ion-label style="margin-left: 15px; font-size: 20px;">Cast</ion-label>
   <div #swiperContainer class="swiper-container">
     <div class="swiper-wrapper">
       @for(actor of movie?.credits?.cast; track actor.name) {
@@ -102,7 +100,7 @@
   <div #similarContainer class="swiper-container">
       <div class="swiper-wrapper">
         @for(movie of similarMovies; track movie.id) {
-        <div class="swiper-slide">
+        <div class="swiper-slide" *ngIf="movie.poster_path">
           <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
             <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
           </ion-card>

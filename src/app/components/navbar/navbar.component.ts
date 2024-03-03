@@ -13,9 +13,12 @@ export class NavbarComponent  {
   @Input() title: string = 'ThatMovie';
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
 
-  constructor(private elRef:ElementRef) {
-    
-  }
+  isSmallScreen: boolean = false;
+  isLargeScreen: boolean = false;
+
+  constructor(private elRef:ElementRef) {}
+
+  
 
   onSearchInput(event: CustomEvent) {
     console.log(this.elRef.nativeElement.left);
