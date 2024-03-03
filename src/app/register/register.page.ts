@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LoginService } from '../services/login.service';
+import { registerRequest } from './registerRequest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +16,8 @@ import { LoginService } from '../services/login.service';
 export class RegisterPage implements OnInit {
 
   registerForm: FormGroup;
-
-  constructor(private formBuilder: FormBuilder, private LoginService: LoginService) {
+  registerError: string = "";
+  constructor(private formBuilder: FormBuilder, private router: Router ,private LoginService: LoginService) {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
       name: ['', Validators.required],
@@ -28,19 +30,29 @@ export class RegisterPage implements OnInit {
   ngOnInit(): void {
   }
 
+  
+
   register() {
     if (this.registerForm.valid) {
-      // Llamar al servicio de registro con los datos del formulario
-      this.LoginService.getRegister(this.registerForm.value).subscribe(
-        (response) => {
-          // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+      this.registerError = "";
+      this.LoginService.getRegister(this.registerForm.value as registerRequest).subscribe({
+        next: (response) => {
+          console.log('Registro exitoso:', response);
+          this.router.navigateByUrl('/login');
+          this.registerForm.reset();
         },
-        (error) => {
-          // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        error: (error) => {
+          console.error('Error al registrar usuario:', error);
+          this.registerError = error;
+        },
+        complete: () => {
+          console.info("Registro completo");
         }
-      );
+      });
     } else {
-      // Manejar el caso en el que el formulario no es válido, por ejemplo, mostrar mensajes de validación
+      console.error('El formulario no es válido. Por favor, corrija los campos resaltados.');
+      this.registerForm.markAllAsTouched();
+      alert("Error al ingresar los datos.");
     }
   }
 
