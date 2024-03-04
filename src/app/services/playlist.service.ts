@@ -11,6 +11,7 @@ export class PlaylistService {
   private apiPlaylist = environment.apiUrl + '/playlist';
   private PosterList = environment.apiUrl + '/playlist/posters';
   private createList = environment.apiUrl + '/playlist';
+  private movieList = environment.apiUrl + '/playlist';
 
   constructor(private http: HttpClient) {}
 
@@ -31,5 +32,8 @@ export class PlaylistService {
     return this.http.post<Playlist>(this.createList, playlist);
   }
 
+  getMovieList(id: number): Observable<Playlist> {
+    return this.http.get<Playlist>(this.movieList + id);
+  }
 
 }
