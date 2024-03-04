@@ -1,4 +1,4 @@
-export class cast{
+export interface cast{
     name ?: string;
     profile_path ?: string;
     character ?: string;
