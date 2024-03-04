@@ -33,7 +33,8 @@ export class PlaylistService {
   }
 
   getMovieList(id: number): Observable<Playlist> {
-    return this.http.get<Playlist>(this.movieList + id);
+    const url = `${this.movieList}/${id}`;
+    return this.http.get<Playlist>(url);
   }
 
 }

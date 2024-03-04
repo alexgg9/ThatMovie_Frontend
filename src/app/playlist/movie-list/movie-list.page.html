@@ -2,9 +2,9 @@
   <ion-list *ngIf="movies">
     <ion-item >
       @for(movie of movies; track movie.id) {
-        <ion-thumbnail slot="start">
+        <ion-card slot="start">
           <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-        </ion-thumbnail>
+        </ion-card>
         <ion-label class="movie-title">{{ movie.title }}</ion-label>
       }
     
