@@ -1,4 +1,4 @@
-export class crew{
+export interface crew{
     name ?: string;
     job ?: string;
 }

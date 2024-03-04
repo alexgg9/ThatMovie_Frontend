@@ -1,4 +1,4 @@
-export class Genre {
+export interface Genre {
     id?: number;
     name?: string;
 }

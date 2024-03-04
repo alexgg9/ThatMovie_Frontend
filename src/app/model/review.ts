@@ -1,4 +1,3 @@
-import { Member } from "./member";
 import { Movie } from "./movie";
 
 export interface Review {

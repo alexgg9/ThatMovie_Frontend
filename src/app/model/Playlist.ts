@@ -1,7 +1,7 @@
 import { Member } from "./member";
 import { Movie } from "./movie";
 
-export class Playlist {
+export interface Playlist {
     id ?: number;
     name ?: string;
     like ?: boolean;

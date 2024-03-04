@@ -1,6 +1,6 @@
 import { Video } from "./video";
 
-export class Videos {
+export interface Videos {
     id?: string;
     results?: Video[];
 }
