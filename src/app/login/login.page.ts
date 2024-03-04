@@ -38,25 +38,35 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       this.loginError = "";
       this.loginService.getlogin(this.loginForm.value as LoginRequest).subscribe({
-        next: (userData) => {
-          console.log(userData);
-          // Aquí puedes manejar la respuesta del servidor, por ejemplo, guardar el token de autenticación, redireccionar a otra página, etc.
-          this.router.navigateByUrl('/home');
-          this.loginForm.reset();
+        next: (response: any) => {
+          if (response && response.token) {
+            const jwtToken = response.token;
+            localStorage.setItem('JWT', jwtToken);
+            this.router.navigateByUrl('/home');
+            this.loginForm.reset();
+          } else {
+            this.loginError = "No se recibió un token de autenticación en la respuesta";
+          }
         },
-        error: (errorData) => {
-          console.error(errorData);
-          this.loginError = errorData;
-          // Aquí puedes manejar cualquier error que se produzca durante la solicitud de inicio de sesión
+        error: (error) => {
+          console.error(error);
+          if (error && error.error && error.error.message) {
+            this.loginError = error.error.message;
+          } else {
+            this.loginError = "Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.";
+          }
         },
         complete: () => {
           console.info("Login completo");
         }
       });
-    }
-    else {
+    } else {
       this.loginForm.markAllAsTouched();
       alert("Error al ingresar los datos.");
     }
   }
+  
+  
+  
+
 }
