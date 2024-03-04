@@ -36,7 +36,7 @@ export const routes: Routes = [
     loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
   },
   {
-    path: 'movie-list',
+    path: 'movie-list/:id',
     loadComponent: () => import('./playlist/movie-list/movie-list.page').then( m => m.MovieListComponent)
   },
 
