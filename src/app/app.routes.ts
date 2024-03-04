@@ -22,7 +22,8 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'playlist',
     pathMatch: 'full',
-  },  {
+  },
+  {
     path: 'user-profile',
     loadComponent: () => import('./user-profile/user-profile.page').then( m => m.UserProfilePage)
   },
@@ -33,6 +34,10 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
+  },
+  {
+    path: 'movie-list',
+    loadComponent: () => import('./playlist/movie-list/movie-list.page').then( m => m.MovieListComponent)
   },
 
 

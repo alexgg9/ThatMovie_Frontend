@@ -6,17 +6,19 @@ import { Playlist } from '../model/Playlist';
 import { PlaylistService } from '../services/playlist.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, of } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.page.html',
   styleUrls: ['./playlist.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 export class PlaylistPage implements OnInit {
   playlist: Playlist[] = [];
   posters: string[] = [];
+
 
   constructor(private playlistService: PlaylistService) { }
 
