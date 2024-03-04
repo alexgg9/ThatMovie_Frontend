@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { IonicModule } from '@ionic/angular';
 
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -13,10 +14,34 @@ import { Router } from '@angular/router';
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class RegisterPage implements OnInit {
+
+  registerForm: FormGroup;
+  constructor(private formBuilder: FormBuilder,private authService: AuthService) {
+    this.registerForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      fullName: ['', Validators.required]
+    });
+   }
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
 
- 
+  register(): void {
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value)
+        .subscribe(
+          response => {
+            console.log('Registro exitoso:', response);
+          },
+          error => {
+            console.error('Error en el registro:', error);
+          }
+        );
+    } else {
+      console.error('Formulario inválido');
+    }
+  }
 
 }

@@ -6,7 +6,7 @@
   <ion-card class="register-card">
     <ion-card-content>
       <div class="register-container">
-       
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
         <ion-item lines="none">
           <ion-input formControlName="username" placeholder="Username" type="text"></ion-input>
         </ion-item>
@@ -26,7 +26,7 @@
         <div class="login">
           <a href="/login">Already have an account? Log in</a>
         </div>
-      
+      </form>
       </div>
     </ion-card-content>
   </ion-card>
