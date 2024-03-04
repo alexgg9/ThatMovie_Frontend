@@ -28,4 +28,8 @@ export class MemberService {
   deleteMember(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiMembers}/${id}`);
   }
+
+  getMemberByUsername(username: string): Observable<Member> {
+    return this.http.get<Member>(`${this.apiMembers}/username/${username}`);
+  }
 }

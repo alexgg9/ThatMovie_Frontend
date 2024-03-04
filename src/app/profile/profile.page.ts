@@ -38,8 +38,6 @@ export class ProfilePage implements AfterViewInit, OnInit {
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute,
-    private reviewService: ReviewService,
-    private memberService: MemberService
   ) {}
   
 
@@ -187,44 +185,6 @@ getSimilarMovies(id: number): void {
     return directors.join(', ');
   }
   
-  submitReview(): void {
-    console.log('Valor de this.rating:', this.rating);
-    console.log('Valor de this.content:', this.content);
-    
-    if (this.rating !== 0 && this.content !== '') {
-        const userId = 1; 
-        const perfilId = this.route.snapshot.paramMap.get('id');
-        console.log('ID del perfil:', perfilId);
-
-        if (perfilId !== null) {
-            this.memberService.getMemberById(userId).subscribe(
-                (member) => {
-                    const nuevaReview: Review = {
-                        movie_id: +perfilId,
-                        rating: this.rating,
-                        content: this.content,
-                        author: member.id,
-                        created_at: new Date()
-                    };
-                    this.reviewService.createReview(nuevaReview).subscribe(
-                        (response) => {
-                            console.log('Revisión creada exitosamente:', response);
-                        },
-                        (error) => {
-                            console.error('Error al crear la revisión:', error);
-                        }
-                    );
-                },
-                (error) => {
-                    console.error('Error al obtener el miembro:', error);
-                }
-            );
-        } else {
-            console.error('El ID del perfil es null.');
-        }
-    } else {
-        console.error('Por favor seleccione una calificación y escriba un comentario antes de enviar la revisión.');
-    }
-}
   
+
 }
