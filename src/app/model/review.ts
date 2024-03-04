@@ -1,10 +1,11 @@
 import { Member } from "./member";
+import { Movie } from "./movie";
 
-export class Review {
+export interface Review {
     id?: number;
     content?: string;
     rating?: number;
-    author?: number;
+    member?: number;
     created_at?: Date;
-    movie_id?: number;
+    movie?:Movie;
 }
