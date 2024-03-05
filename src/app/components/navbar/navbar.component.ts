@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class NavbarComponent  {
   isSmallScreen: boolean = false;
   isLargeScreen: boolean = false;
 
-  constructor(private elRef:ElementRef, public authService: AuthService, private router: Router) {}
+  constructor(private elRef:ElementRef, public authService: AuthService, private router: Router, private toastController: ToastController) {}
 
   
 
@@ -44,6 +44,16 @@ export class NavbarComponent  {
   logout(): void {
     this.authService.isLogout();
     this.router.navigate(['/login']);
+    this.showToast('Sesión finalizada', 'success', 2000);
+  }
+
+  async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: duration,
+      color: color
+    });
+    toast.present();
   }
 
 }

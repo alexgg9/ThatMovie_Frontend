@@ -14,6 +14,7 @@ import { ReviewService } from '../services/review.service';
 import { Review } from '../model/review';
 import { MemberService } from '../services/member.service';
 import { MovieResponse } from '../model/movieResponse';
+import { Member } from '../model/member';
 register();
 
 @Component({
@@ -29,6 +30,8 @@ export class ProfilePage implements AfterViewInit, OnInit {
   content: string = '';
   movie?: Movie | undefined;
   similarMovies: Movie[] = [];
+  member?: Member;
+
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('similarContainer') similarContainer!: ElementRef
   @ViewChild('container') container!: ElementRef
@@ -38,12 +41,18 @@ export class ProfilePage implements AfterViewInit, OnInit {
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute,
+    private reviewService: ReviewService,
+    private memberService: MemberService
   ) {}
   
-
-  setRating(rating: number) {
-    this.rating = rating;
+  setRating(rating: number): void {
+    if (this.rating === rating) {
+      this.rating = 0;
+    } else {
+      this.rating = rating;
+    }
   }
+  
 
   onReviewInput(event: Event): void {
     const target = event.target as HTMLIonTextareaElement;
@@ -52,6 +61,7 @@ export class ProfilePage implements AfterViewInit, OnInit {
 
 
 ngOnInit(): void {
+  this.getMember();
   const movieIdString = this.route.snapshot.paramMap.get('id');
   if (movieIdString !== null) {
     const movieId = parseInt(movieIdString, 10);
@@ -65,6 +75,17 @@ ngOnInit(): void {
     console.error('El parámetro "id" es nulo o no está presente en la URL.');
   }
 }
+
+getMember(): void {
+  const currentMember = this.memberService.getCurrentMember();
+  if (currentMember) {
+    this.member = currentMember;
+    console.log('Member:', this.member);
+  } else {
+    console.error('No se pudo obtener la información del usuario.');
+  }
+}
+
 
 getSimilarMovies(id: number): void {
   this.movieService.getSimilarMovies(id).subscribe((response: MovieResponse) => {
@@ -183,6 +204,25 @@ getSimilarMovies(id: number): void {
     
     const directors = this.movie.credits.crew.filter(crew => crew.job === 'Director').map(crew => crew.name);
     return directors.join(', ');
+  }
+  
+  submitReview(): void {
+    console.log(this.rating, this.content, this.member, this.movie);
+    const review: Review = {
+      rating: this.rating,
+      content: this.content,
+      member: this.member,
+      movie: this.movie,
+    };
+
+    this.reviewService.createReview(review).subscribe(
+      (response) => {
+        console.log('Revisión creada con éxito:', response);
+      },
+      (error) => {
+        console.error('Error al crear la revisión:', error);
+      }
+    );
   }
   
   

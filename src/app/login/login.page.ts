@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular/standalone';
 import { MemberService } from '../services/member.service';
+import { Member } from '../model/member';
 
 
 @Component({
@@ -35,19 +36,29 @@ export class LoginPage {
 
   
  
-  async login(): Promise<void> {
+  login(): void {
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
       this.authService.login(username, password)
         .subscribe(
-          response => {
-            this.showToast('Inicio de sesión exitoso ', 'success', 2000);
-            this.memberService.setMember(response);
-            this.router.navigate(['/home']);
+          (response: any) => {
+            this.memberService.getMemberByUsername(username)
+              .subscribe(
+                (member: Member) => {
+                  this.memberService.setCurrentMember(member);
+                  console.log(member);
+                  this.router.navigate(['/home']);
+                },
+                error => {
+                  console.error('Error al obtener el miembro:', error);
+                  this.showToast('Error en el inicio de sesión', 'danger', 2000);
+                }
+              );
           },
           error => {
-            this.showToast('Error en el inicio de sesión ', 'danger', 2000);
+            console.error('Error en el inicio de sesión:', error);
+            this.showToast('Error en el inicio de sesión', 'danger', 2000);
           }
         );
     } else {

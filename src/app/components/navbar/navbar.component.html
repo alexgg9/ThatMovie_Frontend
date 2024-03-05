@@ -10,26 +10,8 @@
       </ion-button>
     </ion-buttons>
     <ion-searchbar debounce="300" (ionInput)="onSearchInput($event)" slot="secondary"></ion-searchbar>
-
-    <ion-buttons slot="end">
-      @if(!authService.isLoggedIn){
-      <ion-button [routerLink]="['/login']">
-        Sign in!
-      </ion-button>  
-      }
-      
-      @if(!authService.isLoggedIn){
-        <ion-button [routerLink]="['/register']">
-          Sign up!
-        </ion-button>  
-      }
-      
-      @if(authService.isLoggedIn){
-      <ion-button (click)="logout()">
-        Logout
-      </ion-button>  
-      }
-
-    </ion-buttons>
+    <ion-button (click)="logout()" slot="end">
+      Logout
+    </ion-button>    
   </ion-toolbar>
 </ion-header>
