@@ -47,7 +47,7 @@
           <ion-card-content>
             <ion-textarea rows="4" [(ngModel)]="content" (input)="onReviewInput($event)" placeholder="Write your review..."></ion-textarea>
             <div style="display: flex; justify-content: center;">
-              <ion-button mode="ios" shape="round" fill="outline" size="small" (click)="submitReview()">Submit</ion-button>
+              <ion-button class="button-color" color="success" (click)="submitReview()">Save Review</ion-button>
             </div>
           </ion-card-content>
         </ion-card>
