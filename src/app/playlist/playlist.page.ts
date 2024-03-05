@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Playlist } from '../model/Playlist';
 import { PlaylistService } from '../services/playlist.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, of } from 'rxjs';
+import { CreateListComponent } from '../modal/create-list/create-list.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -19,15 +20,16 @@ export class PlaylistPage implements OnInit {
   playlist: Playlist[] = [];
   posters: string[] = [];
 
-
-  constructor(private playlistService: PlaylistService) { }
+  constructor(private playlistService: PlaylistService, private modalController: ModalController) { }
 
   ngOnInit(): void {
     this.allplaylist();
   }
 
   allplaylist(): void {
+    
     this.playlistService.getPlaylist().subscribe((data: Playlist[]) => {
+      
       this.playlist = data; 
     });
   }
@@ -49,7 +51,15 @@ export class PlaylistPage implements OnInit {
   }
 
 
-
+  async openCreateListModal() {
+    const modal = await this.modalController.create({
+      component: CreateListComponent,
+      componentProps: {
+        // Aquí puedes pasar cualquier dato que necesites al modal
+      }
+    });
+    return await modal.present();
+  }
 
  
  

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Playlist } from '../model/Playlist';
 import { Observable } from 'rxjs/internal/Observable';
+import { AuthService } from './auth.service';
+import { MemberService } from './member.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,8 @@ export class PlaylistService {
   private createList = environment.apiUrl + '/playlist';
   private movieList = environment.apiUrl + '/playlist';
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient,private memberService: MemberService) {}
 
 
 
@@ -30,7 +33,9 @@ export class PlaylistService {
 
   postCreateList(playlist: Playlist): Observable<Playlist> {
     return this.http.post<Playlist>(this.createList, playlist);
-  }
+}
+
+
 
   getMovieList(id: number): Observable<Playlist> {
     const url = `${this.movieList}/${id}`;

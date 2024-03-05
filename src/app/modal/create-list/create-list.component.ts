@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlaylistService } from 'src/app/services/playlist.service';
-
+import { IonInput } from "@ionic/angular/standalone";
+import { MemberService } from 'src/app/services/member.service';
+import { Playlist } from 'src/app/model/Playlist';
+import { Member } from 'src/app/model/member';
 
 @Component({
   selector: 'app-create-list',
   templateUrl: './create-list.component.html',
   styleUrls: ['./create-list.component.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [IonInput, FormsModule, ReactiveFormsModule],
 })
 export class CreateListComponent  implements OnInit {
   public form: FormGroup;
+  member?: Member;
 
-  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService) {
+  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService, private memberService: MemberService) {
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(4)] ]
       
@@ -22,32 +26,43 @@ export class CreateListComponent  implements OnInit {
 
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getMember();
   }
 
   public crearLista(): void {
     if (this.form.invalid) {
       return;
     }
-
+  
     const nombreLista = this.form.get('nombre')?.value;
-    // Obtener otros valores del formulario según sea necesario
-
-    // Crear el objeto de lista utilizando los valores del formulario
-    const nuevaLista: any = {
-      nombre: nombreLista,
-      // Otros campos de la lista que se obtienen del formulario
+  
+    const nuevaLista: Playlist = {
+      name: nombreLista,
+      member: this.member
     };
-
-    // Llamar al método en el servicio para crear la lista
-    this.playlistService.postCreateList(nuevaLista).subscribe((respuesta) => {
-      // Manejar la respuesta del servicio, por ejemplo, mostrar un mensaje de éxito
-      console.log('Lista creada correctamente:', respuesta);
-    }, (error) => {
-      // Manejar cualquier error que pueda ocurrir al llamar al servicio
-      console.error('Error al crear la lista:', error);
-    });
+  
+    console.log(nuevaLista);
+  
+    this.playlistService.postCreateList(nuevaLista).subscribe(
+      (response) => {
+        console.log('Lista creada con éxito:', response);
+        
+      },
+      (error) => {
+        console.error('Error al crear la lista:', error);
+        
+      }
+    );
   }
 
+  getMember(): void {
+    const currentMember = this.memberService.getCurrentMember();
+    if (currentMember) {
+      this.member = currentMember;
+      console.log('Member:', this.member);
+    } else {
+      console.error('No se pudo obtener la información del usuario.');
+    }
+  }
 
 }

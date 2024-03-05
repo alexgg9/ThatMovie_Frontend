@@ -1,13 +1,16 @@
 <ion-content>
   <ion-list *ngIf="movies">
-    <ion-item >
+    <ion-item>
       @for(movie of movies; track movie.id) {
-        <ion-card slot="start">
-          <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+        <ion-card>
+          <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.title">
+          
         </ion-card>
-        <ion-label class="movie-title">{{ movie.title }}</ion-label>
       }
-    
+      
     </ion-item>
   </ion-list>
+  <ion-button  class="fixed-button">
+    <ion-icon  src="assets/icon/add-circle.svg"></ion-icon>
+  </ion-button>
 </ion-content>
