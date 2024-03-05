@@ -1,8 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="crearLista()">
-  <div>
-    <label for="nombre">Nombre de la lista:</label>
-    <input type="text" id="nombre" formControlName="nombre">
-    <!-- Otros campos del formulario -->
+  <div class="input-container">
+   
+    <ion-input label="Nombre de la Lista" label-placement="floating" fill="outline" placeholder="Nombre de la lista" id="nombre" formControlName="nombre"></ion-input>
+    <button type="submit">Crear lista</button>
   </div>
-  <button type="submit">Crear lista</button>
+  
 </form>
