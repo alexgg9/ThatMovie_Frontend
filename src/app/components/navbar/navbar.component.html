@@ -11,12 +11,15 @@
     </ion-buttons>
     <ion-searchbar debounce="300" (ionInput)="onSearchInput($event)" slot="secondary"></ion-searchbar>
 
-    <ion-buttons>
-      <ion-button routerLink="/login">
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!authService.isLoggedIn" [routerLink]="['/login']">
         Sign in!
       </ion-button>
-      <ion-button routerLink="/register">
+      <ion-button *ngIf="!authService.isLoggedIn" [routerLink]="['/register']">
         Sign up!
+      </ion-button>
+      <ion-button *ngIf="authService.isLoggedIn" (click)="logout()">
+        Logout
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

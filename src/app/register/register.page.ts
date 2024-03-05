@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -13,35 +13,46 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
 
   registerForm: FormGroup;
-  constructor(private formBuilder: FormBuilder,private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder,private authService: AuthService, private router: Router, private toastController: ToastController) {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+      surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      fullName: ['', Validators.required]
+      name: ['', Validators.required]
     });
    }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  register(): void {
+  
+   register(): void {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value)
         .subscribe(
           response => {
-            console.log('Registro exitoso:', response);
+              this.showToast(response, 'success', 2000);
+              this.router.navigate(['/login']);
           },
           error => {
-            console.error('Error en el registro:', error);
+            this.showToast('Error en el registro', 'danger', 2000);
           }
         );
     } else {
-      console.error('Formulario inválido');
+      this.showToast('Formulario inválido', 'danger');
     }
+  }
+  
+  
+  
+  
+  async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: duration,
+      color: color
+    });
+    toast.present();
   }
 
 }

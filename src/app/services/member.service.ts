@@ -10,8 +10,18 @@ import { Observable } from 'rxjs';
 export class MemberService {
 
   private apiMembers = environment.apiUrl + '/member';
+  private memberData: any;
 
   constructor(private http: HttpClient) { }
+
+  setMember(memberData: any) {
+    this.memberData = memberData;
+  }
+
+  getMember() {
+    return this.memberData;
+  }
+
 
   getAllMembers(): Observable<Member[]> {
     return this.http.get<Member[]>(this.apiMembers);
