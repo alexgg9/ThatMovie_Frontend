@@ -224,6 +224,8 @@ getSimilarMovies(id: number): void {
       }
     );
   }
+
+  
   
   
 
