@@ -29,51 +29,27 @@
         </div>
       </ion-col>
       
-      <!--RATING CARD-->
+      <!-- RATING CARD -->
       <ion-col size-xs="12" size-md="4">
         <ion-card>
-            <ion-card-header>
-                <ion-card-title style="text-align: center;">Rating</ion-card-title>
-            </ion-card-header>
-          
-            <div class="star-rating">
+          <ion-card-header>
+            <ion-card-title style="text-align: center;">Rating</ion-card-title>
+          </ion-card-header>
 
-                <fa-icon
-                  [class.rated]="rating >= 5"
-                  [icon]="faStar"
-                  (click)="setRating(5)">
-                </fa-icon>
+          <div class="star-rating">
+            <fa-icon [class.rated]="rating >= 5" [icon]="faStar" (click)="setRating(5)"></fa-icon>
+            <fa-icon [class.rated]="rating >= 4" [icon]="faStar" (click)="setRating(4)"></fa-icon>
+            <fa-icon [class.rated]="rating >= 3" [icon]="faStar" (click)="setRating(3)"></fa-icon>
+            <fa-icon [class.rated]="rating >= 2" [icon]="faStar" (click)="setRating(2)"></fa-icon>
+            <fa-icon [class.rated]="rating >= 1" [icon]="faStar" (click)="setRating(1)"></fa-icon>
+          </div>
 
-                <fa-icon
-                  [class.rated]="rating >= 4"
-                  [icon]="faStar" 
-                  (click)="setRating(4)"
-                 ></fa-icon>
-
-                <fa-icon 
-                  [class.rated]="rating >= 3"
-                  [icon]="faStar" 
-                  (click)="setRating(3)"
-                ></fa-icon>
-
-                <fa-icon
-                  [class.rated]="rating >= 2"
-                  [icon]="faStar" 
-                  (click)="setRating(2)">
-                </fa-icon>
-
-                <fa-icon 
-                  [class.rated]="rating >= 1"
-                  [icon]="faStar" 
-                  (click)="setRating(1)">
-              </fa-icon>
-
+          <ion-card-content>
+            <ion-textarea rows="4" [(ngModel)]="content" (input)="onReviewInput($event)" placeholder="Write your review..."></ion-textarea>
+            <div style="display: flex; justify-content: center;">
+              <ion-button mode="ios" shape="round" fill="outline" size="small" (click)="submitReview()">Submit</ion-button>
             </div>
-            
-            <ion-card-content>
-                <ion-textarea rows="4"  (input)="onReviewInput($event)" placeholder="Write your review..."></ion-textarea>
-                <ion-button mode="ios" shape="round" fill="outline" size="small" >Submit</ion-button>
-            </ion-card-content>
+          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>

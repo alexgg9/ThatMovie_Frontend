@@ -10,16 +10,16 @@ import { Observable } from 'rxjs';
 export class MemberService {
 
   private apiMembers = environment.apiUrl + '/member';
-  private memberData: any;
+  private currentMember: Member | undefined;
 
   constructor(private http: HttpClient) { }
 
-  setMember(memberData: any) {
-    this.memberData = memberData;
+  setCurrentMember(member: Member) {
+    this.currentMember = member;
   }
 
-  getMember() {
-    return this.memberData;
+  getCurrentMember(): Member | undefined {
+    return this.currentMember;
   }
 
 
