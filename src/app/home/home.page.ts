@@ -29,6 +29,7 @@ export class HomePage implements AfterViewInit, OnInit{
   }[] = [];
   public searching = false;
   public statusSearch=false;
+  private searchInputClicked = false;
   
 
   popularMovies: Movie[] =  [];
@@ -110,20 +111,20 @@ export class HomePage implements AfterViewInit, OnInit{
 
 
   onSearch(event: any) {
-    console.log(event.pos);  //usálo para 
-   // (document.getElementById("result") as any).style.left=event.pos.offsetLeft+"px";
-    if(event){
-      this.searching=true;
+    console.log(event.pos);  
+    if (event) {
+      this.searching = true;
+      this.searchInputClicked = true;
       this.searchMovies(event.data);
-    }else{
-      this.searching=false;
+    } else {
+      this.searching = false;
     }
 
   }
 
   searchMovies(query: string) {
     console.log(query)
-    this.statusSearch=true;
+    this.statusSearch = true;
     this.movieService.getSearchMovies(query).subscribe(
       (response: any) => {
         console.log(response)
@@ -137,15 +138,27 @@ export class HomePage implements AfterViewInit, OnInit{
           console.error('No se encontraron películas en la respuesta.');
           this.moviesSearched = [];
         }
-        this.statusSearch=false;
+        this.statusSearch = false;
+        if (this.moviesSearched.length === 0) {
+          this.searching = false; // Ocultar el div de búsqueda si no hay resultados
+        }
       },
       (error: any) => {
         console.error('Error al obtener películas:', error);
         this.moviesSearched = [];
-        this.statusSearch=false;
+        this.statusSearch = false;
       }
     );
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: any) {
+    if (!this.searchInputClicked && !event.target.closest('.searchResults')) {
+      this.searching = false;
+    }
+    this.searchInputClicked = false;
+  }
+  
 
   @HostListener('window:load', ['$event'])
   onLoad(event: any) {

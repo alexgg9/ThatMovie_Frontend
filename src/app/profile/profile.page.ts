@@ -31,7 +31,7 @@ export class ProfilePage implements AfterViewInit, OnInit {
   movie?: Movie | undefined;
   similarMovies: Movie[] = [];
   member?: Member;
-
+  reviews: Review[] = [];
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('similarContainer') similarContainer!: ElementRef
   @ViewChild('container') container!: ElementRef
