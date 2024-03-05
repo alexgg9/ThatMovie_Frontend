@@ -39,4 +39,7 @@ export class MovieListComponent implements OnInit {
       this.movies = playlist.movies; // Suponiendo que la propiedad que contiene las películas se llama "movies"
     });
   }
+
+  
+
 }

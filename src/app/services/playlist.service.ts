@@ -14,7 +14,7 @@ export class PlaylistService {
   private PosterList = environment.apiUrl + '/playlist/posters';
   private createList = environment.apiUrl + '/playlist';
   private movieList = environment.apiUrl + '/playlist';
-
+  private addMovieList = environment.apiUrl + '/playlist/playlist/{id}/addMovie';
 
   constructor(private http: HttpClient,private memberService: MemberService) {}
 
@@ -40,6 +40,11 @@ export class PlaylistService {
   getMovieList(id: number): Observable<Playlist> {
     const url = `${this.movieList}/${id}`;
     return this.http.get<Playlist>(url);
+  }
+
+  addMovieToList(playlistId: string, movieId: string): Observable<any> {
+    const url = this.addMovieList.replace('{id}', playlistId);
+    return this.http.post(url, { movieId: movieId });
   }
 
 }
