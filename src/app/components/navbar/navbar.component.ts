@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent  {
   isSmallScreen: boolean = false;
   isLargeScreen: boolean = false;
 
-  constructor(private elRef:ElementRef) {}
+  constructor(private elRef:ElementRef, public authService: AuthService, private router: Router) {}
 
   
 
@@ -40,6 +41,9 @@ export class NavbarComponent  {
     });
   }
 
-
+  logout(): void {
+    this.authService.isLogout();
+    this.router.navigate(['/login']);
+  }
 
 }
