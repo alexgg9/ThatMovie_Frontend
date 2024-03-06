@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlaylistService } from 'src/app/services/playlist.service';
-import { IonInput } from "@ionic/angular/standalone";
+import { IonInput, ModalController, IonButton } from "@ionic/angular/standalone";
 import { MemberService } from 'src/app/services/member.service';
 import { Playlist } from 'src/app/model/Playlist';
 import { Member } from 'src/app/model/member';
@@ -11,13 +11,13 @@ import { Member } from 'src/app/model/member';
   templateUrl: './create-list.component.html',
   styleUrls: ['./create-list.component.scss'],
   standalone: true,
-  imports: [IonInput, FormsModule, ReactiveFormsModule],
+  imports: [IonButton, IonInput, FormsModule, ReactiveFormsModule],
 })
 export class CreateListComponent  implements OnInit {
   public form: FormGroup;
   member?: Member;
 
-  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService, private memberService: MemberService) {
+  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService, private memberService: MemberService, private modalController: ModalController) {
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(4)] ]
       
@@ -64,5 +64,12 @@ export class CreateListComponent  implements OnInit {
       console.error('No se pudo obtener la información del usuario.');
     }
   }
+
+  closeModal() {
+    this.modalController.dismiss();
+  }
+
+
+
 
 }
