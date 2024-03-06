@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="crearLista()">
   <div class="input-container">
-   
+    <ion-title>Crear Lista</ion-title>
     <ion-input label="Nombre de la Lista" label-placement="floating" fill="outline" placeholder="Nombre de la lista" id="nombre" formControlName="nombre"></ion-input>
     <button type="submit">Crear lista</button>
     <ion-button (click)="closeModal()">Cerrar Modal</ion-button>
