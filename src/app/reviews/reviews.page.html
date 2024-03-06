@@ -1,0 +1,36 @@
+<app-navbar [title]="'ThatMovie'"></app-navbar>
+
+<ion-content>
+  <ion-list lines="none">
+    <ng-container *ngFor="let review of reviews">
+      <ng-container *ngIf="review.movie?.poster_path">
+        <ion-item class="review-item">
+          <ion-thumbnail slot="start">
+            <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + review.movie?.poster_path" alt="Movie Poster">
+          </ion-thumbnail>
+          <ion-label class="movie-details">
+            <h3>{{ review.movie?.title }}</h3>
+            <p>{{ review.content }}</p>
+            <div class="stars">
+              <fa-icon [icon]="FaStar" [ngStyle]="{ color: 'gold' }" *ngFor="let _ of getStarArray(review.rating)"></fa-icon>
+            </div>
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button (click)="editReview(review)">Editar</ion-button>
+            <ion-button color="danger" (click)="deleteReview(review)">Eliminar</ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+  </ion-list>
+</ion-content>
+
+
+
+
+
+
+
+
+
+

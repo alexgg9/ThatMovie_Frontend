@@ -15,6 +15,7 @@ import { Review } from '../model/review';
 import { MemberService } from '../services/member.service';
 import { MovieResponse } from '../model/movieResponse';
 import { Member } from '../model/member';
+import { ToastController } from '@ionic/angular/standalone';
 register();
 
 @Component({
@@ -42,7 +43,8 @@ export class ProfilePage implements AfterViewInit, OnInit {
     private movieService: MovieService,
     private route: ActivatedRoute,
     private reviewService: ReviewService,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private toastController: ToastController
   ) {}
   
   setRating(rating: number): void {
@@ -217,15 +219,22 @@ getSimilarMovies(id: number): void {
 
     this.reviewService.createReview(review).subscribe(
       (response) => {
-        console.log('Revisión creada con éxito:', response);
+        this.showToast('Revisión creada con exito', 'success', 2000);
       },
       (error) => {
-        console.error('Error al crear la revisión:', error);
+        this.showToast('Error al crear la revisión', 'danger', 2000);
       }
     );
   }
 
-  
+  async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: duration,
+      color: color
+    });
+    toast.present();
+  }
   
   
 

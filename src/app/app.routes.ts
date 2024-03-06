@@ -38,7 +38,11 @@ export const routes: Routes = [
   {
     path: 'movie-list/:id',
     loadComponent: () => import('./playlist/movie-list/movie-list.page').then( m => m.MovieListComponent)
+  },  {
+    path: 'reviews',
+    loadComponent: () => import('./reviews/reviews.page').then( m => m.ReviewsPage)
   },
+
 
 
 ];

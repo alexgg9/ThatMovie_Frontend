@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular/';
+import { IonicModule } from '@ionic/angular';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { Member } from '../model/member';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonCardContent ,IonContent , IonCard, IonItem ,IonButton,CommonModule, FormsModule, NavbarComponent, ReactiveFormsModule]
+  imports: [IonicModule,CommonModule, FormsModule, NavbarComponent, ReactiveFormsModule]
 })
 export class LoginPage {
 
