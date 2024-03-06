@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlaylistService } from 'src/app/services/playlist.service';
-import { IonInput, ModalController, IonButton } from "@ionic/angular/standalone";
+import { IonInput, ModalController, IonButton, IonTitle, ToastController } from "@ionic/angular/standalone";
 import { MemberService } from 'src/app/services/member.service';
 import { Playlist } from 'src/app/model/Playlist';
 import { Member } from 'src/app/model/member';
@@ -11,13 +11,13 @@ import { Member } from 'src/app/model/member';
   templateUrl: './create-list.component.html',
   styleUrls: ['./create-list.component.scss'],
   standalone: true,
-  imports: [IonButton, IonInput, FormsModule, ReactiveFormsModule],
+  imports: [IonTitle, IonButton, IonInput, FormsModule, ReactiveFormsModule],
 })
 export class CreateListComponent  implements OnInit {
   public form: FormGroup;
   member?: Member;
 
-  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService, private memberService: MemberService, private modalController: ModalController) {
+  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService, private memberService: MemberService, private modalController: ModalController, public toastController: ToastController) {
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(4)] ]
       
@@ -45,8 +45,9 @@ export class CreateListComponent  implements OnInit {
   
     this.playlistService.postCreateList(nuevaLista).subscribe(
       (response) => {
-        console.log('Lista creada con éxito:', response);
-        
+       
+        this.modalController.dismiss();
+        this.showToast('Lista creada con éxito', 'success', 2000);
       },
       (error) => {
         console.error('Error al crear la lista:', error);
@@ -69,7 +70,14 @@ export class CreateListComponent  implements OnInit {
     this.modalController.dismiss();
   }
 
-
+  async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: duration,
+      color: color
+    });
+    toast.present();
+  }
 
 
 }

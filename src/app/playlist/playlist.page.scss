@@ -21,3 +21,30 @@
   z-index: 999; 
   background-color: green !important;
 }
+
+.searchResults{
+  position:absolute;
+  display: block;
+  top:60px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
+  left: 1100px;
+  width:25%;
+ 
+  background-color: rgba(36, 34, 34, 0.5);
+  padding:20px;
+  z-index:9999;
+  max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto; /* Agrega desplazamiento vertical si es necesario */
+
+  ::ng-deep ion-list,
+  ::ng-deep ion-item {
+    background-color: rgba(37, 36, 36, 0.5) !important;
+  }
+
+
+
+
+  
+
+}

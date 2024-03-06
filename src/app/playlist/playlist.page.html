@@ -1,3 +1,28 @@
+<app-navbar [title]="'ThatMovie'" style="display:block;margin-bottom:20px" (onSearch)="onSearch($event)"></app-navbar>
+@if(searching){
+  <div id="result" class="searchResults">
+  
+     
+        <ion-list>
+          @for(movie of moviesSearched; track movie.id) {
+           <ion-item  [routerLink]="['/profile', movie.id]">
+            <ion-thumbnail  slot="start">
+              <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+            </ion-thumbnail>
+            <ion-label class="movie-title">{{ movie.title }}</ion-label>
+           </ion-item> 
+          }@empty {
+            @if(statusSearch){
+              <p>Buscando...</p>
+            }@else {
+              <p>No hay resultados</p>
+            }
+          }
+        </ion-list>
+      
+   
+  </div>
+  }
 <div class="movie-list movie-list-container">
   <div class="movie-list-item">
     @for(list of playlist; track list.id) {
@@ -17,8 +42,6 @@
           </ion-item>
         </ion-list>
         }
-       
-        <ion-button fill="clear">Like {{list?.like}} </ion-button>
       </ion-card>
      
     }
