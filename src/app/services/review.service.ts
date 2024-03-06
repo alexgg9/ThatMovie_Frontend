@@ -10,7 +10,12 @@ import { Observable } from 'rxjs';
 export class ReviewService {
 
   private apiReviews = environment.apiUrl + '/reviews';
+  private apiMembersReviews = environment.apiUrl + '/reviews/member';
   constructor(private http: HttpClient) { }
+
+  getMemberReviews(id: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiMembersReviews}/${id}`);
+  }
 
   getAllReviews(): Observable<Review[]> {
     return this.http.get<Review[]>(this.apiReviews);
