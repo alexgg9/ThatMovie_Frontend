@@ -1,22 +1,23 @@
 .movie-list-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 5px;
-    //background: url('ruta/a/la/imagen-de-fondo.jpg') center/cover;
- 
-  
-  @media (max-width: 768px) { /* Ajuste para dispositivos móviles */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 5px;
+  /* background: url('ruta/a/la/imagen-de-fondo.jpg') center/cover; */
+}
+
+@media (max-width: 768px) { /* Ajuste para dispositivos móviles */
+  .movie-list-item {
     grid-template-columns: 1fr; /* Una sola columna */
   }
-
 }
+
 .fixed-button {
   position: fixed;
   bottom: 50px;
   right: 50px; 
   width: 60px;
   height: 60px; 
-  border-radius: 50%  !important;
+  border-radius: 50% !important;
   z-index: 999; 
   background-color: green !important;
 }

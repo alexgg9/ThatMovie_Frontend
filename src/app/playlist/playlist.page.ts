@@ -19,6 +19,7 @@ import { RouterModule } from '@angular/router';
 export class PlaylistPage implements OnInit {
   playlist: Playlist[] = [];
   posters: string[] = [];
+  router: any;
 
   constructor(private playlistService: PlaylistService, private modalController: ModalController) { }
 
@@ -58,10 +59,14 @@ export class PlaylistPage implements OnInit {
         // Aquí puedes pasar cualquier dato que necesites al modal
       }
     });
-    return await modal.present();
+  
+    await modal.present();
+  
+    const { data } = await modal.onDidDismiss();
+  
+    // Realiza el refresco de página aquí después de cerrar el modal
+    window.location.reload();
   }
-
- 
   
  
 

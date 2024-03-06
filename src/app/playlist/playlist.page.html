@@ -1,4 +1,4 @@
-<div class="movie-list">
+<div class="movie-list movie-list-container">
   <div class="movie-list-item">
     @for(list of playlist; track list.id) {
       <ion-card  [routerLink]="['/movie-list', list?.id]">
