@@ -25,3 +25,8 @@ ThatMovie Frontend es la interfaz de usuario desarrollada con Ionic y Angular pa
 ## Autores
 - [Alejandro Gálvez García](https://github.com/alexgg9) - Desarrollador FullStack
 - [Rafael Lucena Valle](https://github.com/rafa30052003) - Desarrollador FullStack
+
+## Despliegue
+- [Enlace al despliegue frontend](https://that-movie-frontend.vercel.app/)
+- [Enlace al despliegue backend](https://thatmovie-backend.onrender.com/)
+- [Repositorio del Backend](https://github.com/rafa30052003/ThatMovie_Backend)
