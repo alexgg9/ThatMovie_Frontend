@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from './auth.service';
 import { MemberService } from './member.service';
-import { Playlist } from 'src/app/model/playlist';
+import { Playlist } from '../model/playlist';
 
 
 

@@ -11,6 +11,7 @@ import { MovieService } from '../services/movie.service';
 import { NavbarComponent } from "../components/navbar/navbar.component";
 import { Playlist } from '../model/playlist';
 
+
 @Component({
     selector: 'app-playlist',
     templateUrl: './playlist.page.html',
