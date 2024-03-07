@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PlaylistService } from 'src/app/services/playlist.service';
-import { playlist } from 'src/app/model/Playlist';
+
+import { Playlist } from 'src/app/model/playlist';
+
 import { Movie } from 'src/app/model/movie';
 import { ActivatedRoute } from '@angular/router';
 

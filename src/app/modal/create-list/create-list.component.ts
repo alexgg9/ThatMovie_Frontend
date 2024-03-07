@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Valid
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { IonInput, ModalController, IonButton, IonTitle, ToastController } from "@ionic/angular/standalone";
 import { MemberService } from 'src/app/services/member.service';
-import { playlist } from 'src/app/model/Playlist';
+
+import { Playlist } from 'src/app/model/playlist';
+
 import { Member } from 'src/app/model/member';
 
 @Component({
@@ -30,34 +32,35 @@ export class CreateListComponent  implements OnInit {
   }
 
   public crearLista(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.member) {
+      console.error('El formulario es inválido o no hay un miembro actual.');
       return;
     }
-  
     const nombreLista = this.form.get('nombre')?.value;
-  
-    const nuevaLista: playlist = {
+
+    console.log(this.member)
+    const nuevaLista: Playlist = {
+
       name: nombreLista,
-      member: this.member
+      member: this.member,
+
     };
-  
-    console.log(nuevaLista);
-  
+    console.log('Nueva lista:', nuevaLista);
     this.playlistService.postCreateList(nuevaLista).subscribe(
-      (response) => {
-       
+      (nuevaLista) => {
         this.modalController.dismiss();
-        this.showToast('Lista creada con éxito', 'success', 2000);
+        this.showToast('Lista creada con éxito', 'success', 2000);
       },
       (error) => {
         console.error('Error al crear la lista:', error);
-        
+        this.showToast('Error al crear la lista', 'danger', 2000);
       }
     );
   }
 
   getMember(): void {
     const currentMember = this.memberService.getCurrentMember();
+    console.log(currentMember);
     if (currentMember) {
       this.member = currentMember;
       console.log('Member:', this.member);

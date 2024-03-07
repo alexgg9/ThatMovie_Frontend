@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { playlist } from '../model/Playlist';
+
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from './auth.service';
 import { MemberService } from './member.service';
+import { Playlist } from '../model/playlist';
+
+
+
 
 @Injectable({
   providedIn: 'root'
