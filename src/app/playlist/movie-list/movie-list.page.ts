@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
-import { Playlist } from 'src/app/model/playlist';
-
 import { Movie } from 'src/app/model/movie';
 import { ActivatedRoute } from '@angular/router';
+import { playlist } from 'src/app/model/playlist';
 
 @Component({
   selector: 'app-movie-list',
