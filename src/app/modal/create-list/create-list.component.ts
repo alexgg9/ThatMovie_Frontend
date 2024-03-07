@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Valid
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { IonInput, ModalController, IonButton, IonTitle, ToastController } from "@ionic/angular/standalone";
 import { MemberService } from 'src/app/services/member.service';
-import { Playlist } from 'src/app/model/Playlist';
+import { playlist } from 'src/app/model/Playlist';
 import { Member } from 'src/app/model/member';
 
 @Component({
@@ -36,7 +36,7 @@ export class CreateListComponent  implements OnInit {
   
     const nombreLista = this.form.get('nombre')?.value;
   
-    const nuevaLista: Playlist = {
+    const nuevaLista: playlist = {
       name: nombreLista,
       member: this.member
     };
