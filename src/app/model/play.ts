@@ -8,4 +8,6 @@ export interface playlist {
     crested_at ?: Date;
     movies ?: Movie[];
     member ?: Member;
+
+    //playlist
 }

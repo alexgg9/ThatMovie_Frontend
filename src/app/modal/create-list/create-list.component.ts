@@ -7,7 +7,7 @@ import { MemberService } from 'src/app/services/member.service';
 
 
 import { Member } from 'src/app/model/member';
-import { playlist } from 'src/app/model/playlist';
+import { playlist } from 'src/app/model/play';
 
 @Component({
   selector: 'app-create-list',
