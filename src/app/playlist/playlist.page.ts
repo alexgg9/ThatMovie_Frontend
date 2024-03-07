@@ -2,7 +2,6 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { Playlist } from '../model/Playlist';
 import { PlaylistService } from '../services/playlist.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, of } from 'rxjs';
@@ -10,6 +9,7 @@ import { CreateListComponent } from '../modal/create-list/create-list.component'
 import { RouterModule } from '@angular/router';
 import { MovieService } from '../services/movie.service';
 import { NavbarComponent } from "../components/navbar/navbar.component";
+import { Playlist } from '../model/playlist';
 
 @Component({
     selector: 'app-playlist',
@@ -141,7 +141,7 @@ export class PlaylistPage implements OnInit {
     this.getPostersForPlaylist(playlistId).subscribe((result) => {
       this.posters = result;
     }, (error) => {
-      // Manejar errores si es necesario
+      console.error('Error al obtener los posters:', error);
     });
   }
 
@@ -150,7 +150,7 @@ export class PlaylistPage implements OnInit {
     const modal = await this.modalController.create({
       component: CreateListComponent,
       componentProps: {
-        // Aquí puedes pasar cualquier dato que necesites al modal
+       
       }
     });
   
@@ -158,7 +158,7 @@ export class PlaylistPage implements OnInit {
   
     const { data } = await modal.onDidDismiss();
   
-    // Realiza el refresco de página aquí después de cerrar el modal
+    
     window.location.reload();
   }
   
