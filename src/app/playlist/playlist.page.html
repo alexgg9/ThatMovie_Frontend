@@ -23,30 +23,24 @@
    
   </div>
   }
-<div class="movie-list movie-list-container">
-  <div class="movie-list-item">
-    @for(list of playlist; track list.id) {
-      <ion-card  [routerLink]="['/movie-list', list?.id]">
-        
-        <ion-card-header>
-          <ion-card-title>{{list?.name}}</ion-card-title>
-          <ion-card-subtitle>{{ list?.crested_at | date: 'dd/MM/yyyy' }}</ion-card-subtitle>
-        </ion-card-header>
-        @for(posterUrl of posters; track posterUrl) {
-        <ion-list>
+  <div class="movie-list movie-list-container">
+    <div class="movie-list-item">
+      @for(list of playlist; track list.id) {
+        <ion-list [routerLink]="['/movie-list', list?.id]">
           <ion-item>
-           <div>
-            
-            <img [src]="'https://image.tmdb.org/t/p/w500/' + posterUrl" alt="{{ list?.name }}">
-           </div>
+            <ion-thumbnail slot="start">
+              <!-- Aquí puedes agregar la imagen del poster de la lista si es necesario -->
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{list?.name}}</h2>
+              <p>{{ list?.crested_at | date: 'dd/MM/yyyy' }}</p>
+            </ion-label>
+            <ion-button>{{list.like}}</ion-button>
           </ion-item>
         </ion-list>
-        }
-      </ion-card>
-     
-    }
+      }
     </div>
-    <ion-button  class="fixed-button"(click)="openCreateListModal()">
-      <ion-icon  src="assets/icon/add-circle.svg"></ion-icon>
+    <ion-button class="fixed-button" (click)="openCreateListModal()">
+      <ion-icon slot="icon-only" src="assets/icon/add-circle.svg"></ion-icon>
     </ion-button>
-</div>
+  </div>

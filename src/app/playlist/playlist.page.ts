@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+
 import { PlaylistService } from '../services/playlist.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, of } from 'rxjs';
@@ -20,7 +21,7 @@ import { Playlist } from 'src/app/model/playlist';
     imports: [IonicModule, CommonModule, FormsModule, RouterModule, NavbarComponent]
 })
 export class PlaylistPage implements OnInit {
-  playlist: Playlist[] = [];
+  playlist: playlist[] = [];
   posters: string[] = [];
   router: any;
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
@@ -124,7 +125,7 @@ export class PlaylistPage implements OnInit {
 /*PLAYLIST   */
   allplaylist(): void {
     
-    this.playlistService.getPlaylist().subscribe((data: Playlist[]) => {
+    this.playlistService.getPlaylist().subscribe((data: playlist[]) => {
       
       this.playlist = data; 
     });

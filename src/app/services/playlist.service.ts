@@ -25,8 +25,8 @@ export class PlaylistService {
 
 
 
-  getPlaylist(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>(this.apiPlaylist);
+  getPlaylist(): Observable<playlist[]> {
+    return this.http.get<playlist[]>(this.apiPlaylist);
   }
 
 
@@ -35,15 +35,15 @@ export class PlaylistService {
     return this.http.get<string[]>(url);
   }
 
-  postCreateList(playlist: Playlist): Observable<Playlist> {
-    return this.http.post<Playlist>(this.createList, playlist);
+  postCreateList(playlist: playlist): Observable<playlist> {
+    return this.http.post<playlist>(this.createList, playlist);
   }
 
 
 
-  getMovieList(id: number): Observable<Playlist> {
+  getMovieList(id: number): Observable<playlist> {
     const url = `${this.movieList}/${id}`;
-    return this.http.get<Playlist>(url);
+    return this.http.get<playlist>(url);
   }
 
   addMovieToList(playlistId: string, movieId: string): Observable<any> {

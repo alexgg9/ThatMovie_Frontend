@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PlaylistService } from 'src/app/services/playlist.service';
+
 import { Playlist } from 'src/app/model/playlist';
+
 import { Movie } from 'src/app/model/movie';
 import { ActivatedRoute } from '@angular/router';
 
@@ -35,7 +37,7 @@ export class MovieListComponent implements OnInit {
   }
 
   getMovieList(playlistId: number) {
-    this.playlistService.getMovieList(playlistId).subscribe((playlist: Playlist) => {
+    this.playlistService.getMovieList(playlistId).subscribe((playlist: playlist) => {
       this.movies = playlist.movies; // Suponiendo que la propiedad que contiene las películas se llama "movies"
     });
   }
