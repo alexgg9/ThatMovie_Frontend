@@ -6,7 +6,7 @@ import { PlaylistService } from 'src/app/services/playlist.service';
 
 import { Movie } from 'src/app/model/movie';
 import { ActivatedRoute } from '@angular/router';
-import { Playlist } from 'src/app/model/playlist';
+import { playlist } from 'src/app/model/playlist';
 
 @Component({
   selector: 'app-movie-list',
@@ -36,7 +36,7 @@ export class MovieListComponent implements OnInit {
   }
 
   getMovieList(playlistId: number) {
-    this.playlistService.getMovieList(playlistId).subscribe((playlist: Playlist) => {
+    this.playlistService.getMovieList(playlistId).subscribe((playlist: playlist) => {
       this.movies = playlist.movies; // Suponiendo que la propiedad que contiene las películas se llama "movies"
     });
   }

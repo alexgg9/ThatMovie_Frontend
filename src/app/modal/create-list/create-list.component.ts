@@ -5,7 +5,8 @@ import { IonInput, ModalController, IonButton, IonTitle, ToastController } from 
 import { MemberService } from 'src/app/services/member.service';
 
 import { Member } from 'src/app/model/member';
-import { Playlist } from 'src/app/model/playlist';
+import { playlist } from 'src/app/model/playlist';
+
 
 @Component({
   selector: 'app-create-list',
@@ -36,8 +37,10 @@ export class CreateListComponent  implements OnInit {
       return;
     }
     const nombreLista = this.form.get('nombre')?.value;
+
     console.log(this.member)
-    const nuevaLista: Playlist = {
+    const nuevaLista: playlist = {
+
       name: nombreLista,
       member: this.member,
 
