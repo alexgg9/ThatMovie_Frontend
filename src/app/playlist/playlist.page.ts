@@ -9,7 +9,8 @@ import { CreateListComponent } from '../modal/create-list/create-list.component'
 import { RouterModule } from '@angular/router';
 import { MovieService } from '../services/movie.service';
 import { NavbarComponent } from "../components/navbar/navbar.component";
-import { Playlist } from 'src/app/model/playlist';
+import { Playlist } from '../model/playlist';
+
 
 
 @Component({
