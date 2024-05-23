@@ -32,4 +32,8 @@ export class ReviewService {
     return this.http.delete<void>(`${this.apiReviews}/${id}`);
   }
 
+  getAverageRating(movieId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiReviews}/average-rating/${movieId}`);
+  }
+
 }

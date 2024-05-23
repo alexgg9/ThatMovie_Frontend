@@ -28,8 +28,10 @@ register();
 export class ProfilePage implements AfterViewInit, OnInit {
   faStar = faStar;
   rating = 0;
+  defaultRating = 0;
   content: string = '';
-  movie?: Movie | undefined;
+  movie?: Movie;
+  averageRating = 0;
   similarMovies: Movie[] = [];
   member?: Member;
   reviews: Review[] = [];
@@ -70,6 +72,7 @@ ngOnInit(): void {
     if (!isNaN(movieId)) {
       this.getMovieProfile(movieId);
       this.getSimilarMovies(movieId);
+      this.getAverageRating(movieId);
     } else {
       console.error('El ID de la película no es un número válido.');
     }
@@ -86,6 +89,17 @@ getMember(): void {
   } else {
     console.error('No se pudo obtener la información del usuario.');
   }
+}
+
+getAverageRating(movieId: number): void {
+  this.reviewService.getAverageRating(movieId).subscribe(
+    (rating) => {
+      this.averageRating = rating;
+    },
+    (error) => {
+      console.error('Error fetching average rating:', error);
+    }
+  );
 }
 
 
@@ -220,6 +234,9 @@ getSimilarMovies(id: number): void {
     this.reviewService.createReview(review).subscribe(
       (response) => {
         this.showToast('Revisión creada con exito', 'success', 2000);
+        if (this.movie && this.movie.id) {  
+          this.getAverageRating(this.movie.id);
+        }
       },
       (error) => {
         this.showToast('Error al crear la revisión', 'danger', 2000);

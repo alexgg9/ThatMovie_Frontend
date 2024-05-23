@@ -201,3 +201,32 @@ fa-icon{
 
   }
 }
+
+.average-rating-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rating-header h3 {
+  font-size: 1.2em; 
+  margin: 0;
+}
+
+.separator {
+  border: 0;
+  height: 1px;
+  background: #898989;
+  margin: 10px 5%; 
+}
+
+.average-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4em;
+}
+
+.star-icon {
+  color: gold;
+  margin-left: 5px;
+}

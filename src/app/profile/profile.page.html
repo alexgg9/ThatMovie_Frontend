@@ -8,12 +8,11 @@
         <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path" [alt]="movie?.title" />
       </ion-col>
 
-      <ion-col size-xs="12" size-md="5">
-        <div class="movie-details">
-          <h1 class="movie-title">{{ movie?.title }}</h1>
-          <p class="movie-director"> Directed By {{ getDirectors() }} </p>
-          <p class="movie-release-date">{{ movie?.release_date | date:'yyyy' }}</p>
-          <p class="movie-overview">{{ movie?.overview }}</p>
+      <ion-col size-xs="12" size-md="5"><div class="movie-details">
+        <h1 class="movie-title">{{ movie?.title }}</h1>
+        <p class="movie-director">Directed By {{ getDirectors() }}</p>
+        <p class="movie-release-date">{{ movie?.release_date | date:'yyyy' }}</p>
+        <p class="movie-overview">{{ movie?.overview }}</p>
           <div class="genre-container">
             <ng-container *ngFor="let genre of movie?.genres; let last = last;">
               <ion-button mode="ios" shape="round" fill="outline" size="small">{{ genre.name }}</ion-button>
@@ -50,7 +49,17 @@
               <ion-button class="button-color" color="success" (click)="submitReview()">Save Review</ion-button>
             </div>
           </ion-card-content>
-        </ion-card>
+        </ion-card><!-- Average Rating Section -->
+        <div class="average-rating-container">
+          <div class="rating-header">
+            <h3>Ratings</h3>
+          </div>
+          <hr class="separator"/>
+          <div class="average-rating">
+            <span>{{ (averageRating != null) ? (averageRating | number: '1.1-1') : '0' }} / 5</span>
+            <fa-icon [icon]="faStar" class="star-icon"></fa-icon>
+          </div>
+        </div>
       </ion-col>
     </ion-row>
   }
