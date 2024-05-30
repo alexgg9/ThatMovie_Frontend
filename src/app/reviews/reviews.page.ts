@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ReviewService } from '../services/review.service';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Review } from '../model/review';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { MemberService } from '../services/member.service';
-import { Member } from '../model/member';
+import { EditReviewModalComponent } from '../edit-review-modal/edit-review-modal.component';
 
 @Component({
   selector: 'app-reviews',
@@ -20,30 +19,31 @@ import { Member } from '../model/member';
 export class ReviewsPage implements OnInit {
   reviews: Review[] = [];
   FaStar = faStar;
-  member?: Member;
+  userId?: number;
   
-  constructor(private reviewService: ReviewService, private memberService: MemberService) { }
+  constructor(
+      private reviewService: ReviewService,
+      private modalController: ModalController
+    ) { }
 
   ngOnInit(): void {
-    this.getMember();
+    this.loadUserId();
     this.getReviews();
   }
-  
-  
-  getMember(): void {
-    const currentMember = this.memberService.getCurrentMember();
-    if (currentMember) {
-      this.member = currentMember;
-      console.log('Member:', this.member);
+
+  loadUserId(): void {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.userId = Number(userId);
+      console.log('User ID:', this.userId);
     } else {
-      console.error('No se pudo obtener la información del usuario.');
+      console.error('No se pudo obtener el ID del usuario.');
     }
   }
-  
-  
-  getReviews() {
-    if (this.member && this.member.id != null) { 
-      this.reviewService.getMemberReviews(this.member.id).subscribe(
+
+  getReviews(): void {
+    if (this.userId != null) { 
+      this.reviewService.getMemberReviews(this.userId).subscribe(
         (data: Review[]) => { 
           this.reviews = data;
           console.log(data);
@@ -53,12 +53,9 @@ export class ReviewsPage implements OnInit {
         }
       );
     } else {
-      console.error('ID de miembro no válido.');
+      console.error('ID de usuario no válido.');
     }
   }
-  
-  
-  
 
   getStarArray(rating: number | undefined): any[] {
     if (rating === undefined) {
@@ -67,20 +64,46 @@ export class ReviewsPage implements OnInit {
     return Array(rating).fill(0);
   }
   
-  editReview(review: Review): void {
-    
+  async editReview(review: Review): Promise<void> {
+    const modal = await this.modalController.create({
+      component: EditReviewModalComponent,
+      componentProps: {
+        review: review
+      }
+    });
+  
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        this.reviewService.createReview(result.data).subscribe(
+          updatedReview => {
+            const index = this.reviews.findIndex(r => r.id === updatedReview.id);
+            if (index !== -1) {
+              this.reviews[index] = updatedReview;
+            }
+          },
+          error => {
+            console.error('Error al actualizar la reseña:', error);
+          }
+        );
+      }
+    });
+  
+    await modal.present();
   }
   
+
   deleteReview(review: Review): void {
-    if (review.id !== undefined) {
+    if (review.id != undefined) {
       this.reviewService.deleteReview(review.id).subscribe(
         () => {
           this.reviews = this.reviews.filter(r => r.id !== review.id);
+        },
+        error => {
+          console.error('Error al eliminar la reseña:', error);
         }
       );
     } else {
       console.error('Review ID is undefined');
     }
   }
-
 }

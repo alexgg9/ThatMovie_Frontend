@@ -5,9 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { IonButton, IonCard, IonCardContent, IonContent, IonItem, ToastController } from '@ionic/angular/standalone';
+import { ToastController } from '@ionic/angular/standalone';
 import { MemberService } from '../services/member.service';
-import { Member } from '../model/member';
+
 
 
 @Component({
@@ -38,33 +38,37 @@ export class LoginPage {
  
   login(): void {
     if (this.loginForm.valid) {
-      const username = this.loginForm.value.username;
-      const password = this.loginForm.value.password;
-      this.authService.login(username, password)
-        .subscribe(
-          (response: any) => {
-            this.memberService.getMemberByUsername(username)
-              .subscribe(
-                (member: Member) => {
-                  this.memberService.setCurrentMember(member);
-                  console.log(member);
-                  this.router.navigate(['/home']);
-                },
-                error => {
-                  console.error('Error al obtener el miembro:', error);
-                  this.showToast('Error en el inicio de sesión', 'danger', 2000);
-                }
-              );
-          },
-          error => {
-            console.error('Error en el inicio de sesión:', error);
-            this.showToast('Error en el inicio de sesión', 'danger', 2000);
-          }
-        );
+      const { username, password } = this.loginForm.value;
+      this.authService.login(username, password).subscribe(
+        (response: any) => {
+          localStorage.setItem('isLoggedIn', 'true');
+          this.memberService.getMemberByUsername(username).subscribe(
+            (member: any) => {
+              const userId = member.id;
+              if (userId) {
+                this.authService.setLoggedInUserId(userId);
+                this.memberService.setCurrentMember(member);
+                this.router.navigate(['/home']);
+              } else {
+                console.error('El userId no está presente en la respuesta del miembro');
+              }
+            },
+            error => {
+              console.error('Error al obtener el miembro:', error);
+            }
+          );
+        },
+        error => {
+          console.error('Error en el inicio de sesión:', error);
+          this.showToast('Credenciales incorrectas', 'danger', 2000);
+        }
+      );
     } else {
       this.showToast('Formulario inválido', 'warning');
     }
   }
+  
+  
 
   async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
     const toast = await this.toastController.create({

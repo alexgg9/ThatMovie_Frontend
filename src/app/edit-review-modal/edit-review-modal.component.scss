@@ -1,0 +1,65 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-content {
+  --background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.edit-review-card {
+  width: 90%;
+  max-width: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin: 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.star-rating fa-icon {
+  color: grey;
+  margin-right: 5px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.star-rating fa-icon.rated,
+.star-rating fa-icon:hover,
+.star-rating fa-icon:hover ~ fa-icon {
+  color: gold;
+}
+
+ion-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  resize: vertical;
+  margin-top: 10px;
+  flex: 1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

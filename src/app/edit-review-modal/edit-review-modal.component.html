@@ -1,0 +1,24 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title style="text-align: center;">Edit Rating</ion-card-title>
+    </ion-card-header>
+
+    <div class="star-rating">
+      <fa-icon [class.rated]="editReviewForm.get('rating')?.value >= 5" [icon]="faStar" (click)="setRating(5)"></fa-icon>
+      <fa-icon [class.rated]="editReviewForm.get('rating')?.value >= 4" [icon]="faStar" (click)="setRating(4)"></fa-icon>
+      <fa-icon [class.rated]="editReviewForm.get('rating')?.value >= 3" [icon]="faStar" (click)="setRating(3)"></fa-icon>
+      <fa-icon [class.rated]="editReviewForm.get('rating')?.value >= 2" [icon]="faStar" (click)="setRating(2)"></fa-icon>
+      <fa-icon [class.rated]="editReviewForm.get('rating')?.value >= 1" [icon]="faStar" (click)="setRating(1)"></fa-icon>
+    </div>
+
+    <ion-card-content>
+      <form [formGroup]="editReviewForm" (ngSubmit)="saveReview()">
+        <ion-textarea formControlName="content" rows="4" placeholder="Edit your review..."></ion-textarea>
+        <div style="display: flex; justify-content: center; margin-top: 10px;">
+          <ion-button class="button-color" color="success" expand="full" type="submit">Save Review</ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

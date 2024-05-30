@@ -17,6 +17,10 @@ export class ReviewService {
     return this.http.get<Review[]>(`${this.apiMembersReviews}/${id}`);
   }
 
+  getUserMemberForMovie(memberId: number, movieId: number): Observable<Review> {
+    return this.http.get<Review>(`${this.apiMembersReviews}/${memberId}/movie/${movieId}`);
+  }
+
   getAllReviews(): Observable<Review[]> {
     return this.http.get<Review[]>(this.apiReviews);
   }

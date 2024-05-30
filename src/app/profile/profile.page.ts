@@ -82,14 +82,50 @@ ngOnInit(): void {
 }
 
 getMember(): void {
-  const currentMember = this.memberService.getCurrentMember();
-  if (currentMember) {
-    this.member = currentMember;
-    console.log('Member:', this.member);
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    this.memberService.getMemberById(+userId).subscribe(
+      (member: Member) => {
+        this.member = member;
+        console.log('Member:', this.member);
+        const movieIdString = this.route.snapshot.paramMap.get('id');
+        if (movieIdString !== null) {
+          const movieId = parseInt(movieIdString, 10);
+          if (!isNaN(movieId)) {
+            this.loadUserReview(movieId);
+          }
+        }
+      },
+      (error) => {
+        console.error('Error fetching member:', error);
+      }
+    );
   } else {
-    console.error('No se pudo obtener la información del usuario.');
+    console.error('No se pudo obtener el ID del usuario desde el localStorage.');
   }
 }
+
+loadUserReview(movieId: number): void {
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    this.reviewService.getUserMemberForMovie(+userId, movieId).subscribe(
+      (review: Review | undefined) => {
+        if (review) {
+          this.rating = review.rating || 0;
+          this.content = review.content || '';
+        }
+      },
+      (error: any) => {
+        console.error('Error al obtener la reseña del usuario:', error);
+      }
+    );
+  } else {
+    console.error('No se pudo obtener el ID del usuario desde el localStorage.');
+  }
+}
+
+
+
 
 getAverageRating(movieId: number): void {
   this.reviewService.getAverageRating(movieId).subscribe(
@@ -142,6 +178,7 @@ getSimilarMovies(id: number): void {
       direction: 'horizontal',
       slidesPerView: 7,
       spaceBetween: 20,
+      loop: true,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
@@ -173,6 +210,8 @@ getSimilarMovies(id: number): void {
     const similarSwiper = new Swiper(this.similarContainer.nativeElement, {
       direction: 'horizontal',
       slidesPerView: 7,
+      spaceBetween: 20,
+      loop: true,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
