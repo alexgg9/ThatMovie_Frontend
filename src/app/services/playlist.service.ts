@@ -21,7 +21,8 @@ import { playlist } from '../model/playlist';
 })
 export class PlaylistService {
   private apiPlaylist = environment.apiUrl + '/playlist';
-  private PosterList = environment.apiUrl + '/playlist/posters';
+  private PosterList = environment.apiUrl + '/playlist/5/posters';
+  private addmovie = environment.apiUrl + '/playlist/playlist/{id}/addMovie  ';  
   private createList = environment.apiUrl + '/playlist';
   private movieList = environment.apiUrl + '/playlist';
   private addMovieList = environment.apiUrl + '/playlist/playlist/{id}/addMovie';
@@ -36,8 +37,10 @@ export class PlaylistService {
   }
 
 
+  
   getPostersForPlaylist(id: number): Observable<string[]> {
-    const url = `${this.PosterList}/${id}/posters`;
+    const url = `${environment.apiUrl}/playlist/${id}/posters`;
+    console.log('URL para obtener posters:', url);
     return this.http.get<string[]>(url);
   }
 
@@ -55,6 +58,16 @@ export class PlaylistService {
   addMovieToList(playlistId: string, movieId: string): Observable<any> {
     const url = this.addMovieList.replace('{id}', playlistId);
     return this.http.post(url, { movieId: movieId });
+  }
+
+  postAddMovieToPlaylist(playlistId: number, movieId: number): Observable<any> {
+    const url = this.addmovie.replace('{id}', playlistId.toString());
+    const body = { movieId };
+
+    console.log('URL para añadir película:', url);
+    console.log('Datos de la película a añadir:', body);
+
+    return this.http.post<any>(url, body);
   }
 
 }
