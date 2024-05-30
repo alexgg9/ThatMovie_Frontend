@@ -30,6 +30,16 @@
       
       <!-- RATING CARD -->
       <ion-col size-xs="12" size-md="4">
+        <div class="average-rating-container">
+          <div class="rating-header">
+            <h3>Average Rating</h3>
+          </div>
+          <div class="average-rating">
+            <span>{{ (averageRating != null) ? (averageRating | number: '1.1-1') : '0' }} / 5</span>
+            <fa-icon [icon]="faStar" class="star-icon"></fa-icon>
+          </div>
+        </div>
+        <hr>
         <ion-card>
           <ion-card-header>
             <ion-card-title style="text-align: center;">Rating</ion-card-title>
@@ -49,51 +59,42 @@
               <ion-button class="button-color" color="success" (click)="submitReview()">Save Review</ion-button>
             </div>
           </ion-card-content>
-        </ion-card><!-- Average Rating Section -->
-        <div class="average-rating-container">
-          <div class="rating-header">
-            <h3>Ratings</h3>
-          </div>
-          <hr class="separator"/>
-          <div class="average-rating">
-            <span>{{ (averageRating != null) ? (averageRating | number: '1.1-1') : '0' }} / 5</span>
-            <fa-icon [icon]="faStar" class="star-icon"></fa-icon>
-          </div>
-        </div>
+        </ion-card>
       </ion-col>
     </ion-row>
   }
   <ion-label style="margin-left: 15px; font-size: 20px;">Cast</ion-label>
-  <div #swiperContainer class="swiper-container">
-    <div class="swiper-wrapper">
-      @for(actor of movie?.credits?.cast; track actor.name) {
-        <div class="swiper-slide">
-          <ion-card class="actor-card">
-            <img [src]="actor.profile_path ? 'https://image.tmdb.org/t/p/w500/' + actor.profile_path : getGenderAvatar(actor.gender ?? 0)" alt="{{ actor.name }}" class="actor-image" />
-            <div class="actor-info-box">
-              <p>{{ actor.name }}</p>
-              <p>{{ actor.character }}</p>
-            </div>
-          </ion-card>
-        </div>
-        <div class="swiper-pagination"></div>
-      }
-    </div>
-  </div>
-
-  <ion-label style="margin-left: 15px; font-size: 20px;">Similar Movies</ion-label>
-  <div #similarContainer class="swiper-container">
-      <div class="swiper-wrapper">
-        @for(movie of similarMovies; track movie.id) {
-        <div class="swiper-slide" *ngIf="movie.poster_path">
-          <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
-            <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
-          </ion-card>
-        </div>
-        }
+<div #swiperContainer class="swiper-container">
+  <div class="swiper-wrapper">
+    @for(actor of movie?.credits?.cast; track actor.name) {
+      <div class="swiper-slide">
+        <ion-card class="actor-card">
+          <img [src]="actor.profile_path ? 'https://image.tmdb.org/t/p/w500/' + actor.profile_path : getGenderAvatar(actor.gender ?? 0)" alt="{{ actor.name }}" class="actor-image" />
+          <div class="actor-info-box">
+            <p>{{ actor.name }}</p>
+            <p>{{ actor.character }}</p>
+          </div>
+        </ion-card>
       </div>
-      <div class="swiper-pagination"></div>
+    }
   </div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<ion-label style="margin-left: 15px; font-size: 20px;">Similar Movies</ion-label>
+<div #similarContainer class="swiper-container">
+  <div class="swiper-wrapper">
+    @for(movie of similarMovies; track movie.id) {
+      <div class="swiper-slide" *ngIf="movie.poster_path">
+        <ion-card class="movie-card" [routerLink]="['/profile', movie.id]">
+          <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}">
+        </ion-card>
+      </div>
+    }
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+
   </ion-grid>
 </div>
 

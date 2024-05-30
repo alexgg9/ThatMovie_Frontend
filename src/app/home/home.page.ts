@@ -50,6 +50,7 @@ export class HomePage implements AfterViewInit, OnInit{
         el: '.swiper-pagination',
         clickable: true,
       },
+      touchMoveStopPropagation: false,
       breakpoints: {
         1024: {
           slidesPerView: 7,
@@ -70,10 +71,10 @@ export class HomePage implements AfterViewInit, OnInit{
   
 
   ngOnInit(): void {
+    this.calculateHeight();
     this.getPopularMovies();
     this.getNowPlaying();
     this.getUpcomingMovies();
-    this.calculateHeight();
   }
 
   getPopularMovies() {
@@ -91,7 +92,7 @@ export class HomePage implements AfterViewInit, OnInit{
     this.movieService.getNowPlaying().subscribe((response: MovieResponse) => {
       console.log('Movies from service:', response.results);
       if (response.results) {
-        this.nowPlayingMovies = response.results;
+        this.nowPlayingMovies = response.results.reverse();
       } else {
         console.error('No se encontraron más pelúculas en la respuesta.');
       }
@@ -102,7 +103,7 @@ export class HomePage implements AfterViewInit, OnInit{
     this.movieService.getUpcomingMovies().subscribe((response: MovieResponse) => {
       console.log('Movies from service:', response.results);
       if (response.results) {
-        this.upcomingMovies = response.results;
+        this.upcomingMovies = response.results.reverse();
       } else {
         console.error('No se encontraron más pelúculas en la respuesta.');
       }
@@ -139,8 +140,8 @@ export class HomePage implements AfterViewInit, OnInit{
           this.moviesSearched = [];
         }
         this.statusSearch = false;
-        if (this.moviesSearched.length === 0) {
-          this.searching = false; // Ocultar el div de búsqueda si no hay resultados
+        if (this.moviesSearched.length == 0) {
+          this.searching = false; 
         }
       },
       (error: any) => {
@@ -172,7 +173,7 @@ export class HomePage implements AfterViewInit, OnInit{
   
   private calculateHeight() {
     const windowHeight = window.innerHeight;
-    const calculatedHeight = windowHeight - 80; // Ajusta según el tamaño del encabezado
+    const calculatedHeight = windowHeight - 80;
     console.log('Altura calculada:', calculatedHeight);
     if (this.container) {
       this.container.nativeElement.style.height = calculatedHeight + 'px';

@@ -42,7 +42,7 @@ export class NavbarComponent  {
   }
 
   logout(): void {
-    this.authService.isLogout();
+    this.authService.logout();
     this.router.navigate(['/login']);
     this.showToast('Sesión finalizada', 'success', 2000);
   }
