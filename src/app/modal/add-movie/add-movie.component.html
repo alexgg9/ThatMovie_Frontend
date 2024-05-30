@@ -1,3 +1,15 @@
-<p>
-  add-movie works!
-</p>
+<div class="modal-container">
+  <ion-title>Añadir Película a la Lista</ion-title>
+  <div class="search-container">
+    <ion-input placeholder="Buscar película..." (ionInput)="onSearch($event)"></ion-input>
+  </div>
+  <div class="search-results" *ngIf="searching">
+    <div *ngFor="let movie of moviesSearched">
+      <img [src]="getImageUrl(movie.poster_path)" alt="{{movie.title}}">
+      <div class="movie-details">
+        <span>{{movie.title}}</span>
+        <ion-button (click)="addMovieToPlaylist(movie.id)">Añadir</ion-button>
+      </div>
+    </div>
+  </div>
+</div>

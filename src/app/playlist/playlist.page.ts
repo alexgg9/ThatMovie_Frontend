@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MovieService } from '../services/movie.service';
 import { NavbarComponent } from "../components/navbar/navbar.component";
 import { playlist } from '../model/playlist';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -20,11 +21,11 @@ import { playlist } from '../model/playlist';
     templateUrl: './playlist.page.html',
     styleUrls: ['./playlist.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule, RouterModule, NavbarComponent]
+    imports: [IonicModule, CommonModule, FormsModule, RouterModule, NavbarComponent, MatListModule]
 })
 export class PlaylistPage implements OnInit {
   playlist: playlist[] = [];
-  posters: string[] = [];
+  posters: { [key: number]: string[] } = {}; 
   router: any;
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('container') container!: ElementRef
@@ -124,32 +125,72 @@ export class PlaylistPage implements OnInit {
 
 
 
-/*PLAYLIST   */
-  allplaylist(): void {
-    
-    this.playlistService.getPlaylist().subscribe((data: playlist[]) => {
-      
-      this.playlist = data; 
+/**
+ * Obtiene todas las listas
+ * @param playlistId - El identificador de la lista
+ * @returns void
+ * @description Obtiene todas las listas
+ * @param playlistId - El identificador de la lista
+ * @returns void
+  */ 
+allplaylist(): void {
+  this.playlistService.getPlaylist().subscribe((data: playlist[]) => { // Usa minúsculas aquí
+    this.playlist = data;
+    this.playlist.forEach(list => {
+      if (list.id !== undefined) {
+        this.obtenerYAsignarPosters(list.id);
+      }
     });
-  }
+  });
+}
 
-  getPostersForPlaylist(playlistId: number | undefined): Observable<string[]> {
-    if (playlistId !== undefined) {
-      return this.playlistService.getPostersForPlaylist(playlistId);
+getPostersForPlaylist(playlistId: number): Observable<string[]> {
+  return this.playlistService.getPostersForPlaylist(playlistId);
+}
+
+obtenerYAsignarPosters(playlistId: number) {
+  console.log(`Obteniendo posters para playlist ${playlistId}`);
+  this.getPostersForPlaylist(playlistId).subscribe((result) => {
+    if (result && result.length) {
+      console.log(`Posters obtenidos para playlist ${playlistId}:`, result);
+      this.posters[playlistId] = result.map(posterPath => this.getImageUrl(posterPath));
+      console.log(`URLs de posters asignadas para playlist ${playlistId}:`, this.posters[playlistId]);
     } else {
-      return of([]); 
+      this.posters[playlistId] = ['assets/default-poster.webp'];
     }
+  }, (error) => {
+    console.error(`Error al obtener los posters para playlist ${playlistId}:`, error.message);
+    this.posters[playlistId] = ['assets/default-poster.webp'];
+  });
+}
+
+
+
+trackById(index: number, item: playlist): number {    
+  return item.id !== undefined ? item.id : index; // Asegúrate de que siempre retorne un número
+}
+
+
+getImageUrl(posterPath: string): string {
+  const baseUrl = 'https://image.tmdb.org/t/p/w500'; // URL base correcta
+  const fullUrl = `${baseUrl}${posterPath}`;
+  console.log('Construyendo URL de imagen:', fullUrl);
+  return fullUrl;
+}
+
+
+handleImageError(event: Event, playlistId: number | undefined, index: number) {
+  if (playlistId !== undefined) {
+    const target = event.target as HTMLImageElement;
+    console.error(`Error al cargar la imagen: ${target.src}`);
+    this.posters[playlistId][index] = 'assets/default-poster.webp'; // Ruta a una imagen por defecto
   }
+}
 
-  obtenerYAsignarPosters(playlistId: number | undefined) {
-    this.getPostersForPlaylist(playlistId).subscribe((result) => {
-      this.posters = result;
-    }, (error) => {
-      console.error('Error al obtener los posters:', error);
-    });
-  }
-
-
+/**
+ * @returns void
+ * @description Abre el modal para crear una nueva lista
+ */
   async openCreateListModal() {
     const modal = await this.modalController.create({
       component: CreateListComponent,

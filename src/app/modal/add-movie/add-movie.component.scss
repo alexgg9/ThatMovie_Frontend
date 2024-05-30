@@ -1,0 +1,32 @@
+.modal-container {
+    padding: 20px;
+  }
+  
+  .search-container {
+    margin-bottom: 20px;
+  }
+  
+  .search-results {
+    display: flex;
+    flex-direction: column;
+  
+    div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      img {
+        width: 50px;
+        height: 75px;
+        margin-right: 10px;
+      }
+  
+      .movie-details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+  }
+      
