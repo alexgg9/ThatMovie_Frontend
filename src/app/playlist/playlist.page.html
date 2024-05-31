@@ -25,7 +25,7 @@
   }
   
   <div class="container">
-    <div class="section-title">CREW LISTS</div>
+    <div class="section-title">Recently Liked</div>
     <div class="grid-container">
       <ng-container *ngFor="let list of playlist; trackBy: trackById">
         <div class="grid-item" [routerLink]="['/movie-list', list.id]">
@@ -36,15 +36,22 @@
               </ng-container>
             </div>
           </div>
-          <h3>{{ list.name }}</h3>
-          <button>{{ list.like ? 'Liked' : 'Like' }}</button>
+          <div class="text-container">
+            <h3>{{ list.name }}</h3>
+            <div class="like-info">
+              <span>{{ list.like}} likes</span>
+            </div>
+          </div>
         </div>
+        <hr class="divider">
       </ng-container>
     </div>
     <ion-button class="fixed-button" (click)="openCreateListModal()">
       <ion-icon slot="icon-only" src="assets/icon/add-circle.svg"></ion-icon>
     </ion-button>
   </div>
+  
+  
   
   
   
