@@ -6,22 +6,23 @@ import { PlaylistService } from 'src/app/services/playlist.service';
 import { Movie } from 'src/app/model/movie';
 import { ActivatedRoute } from '@angular/router';
 import { playlist } from 'src/app/model/playlist';
-
+import { AddMovieComponent } from 'src/app/modal/add-movie/add-movie.component';
 
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.page.html',
   styleUrls: ['./movie-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule] // Importa el componente standalone
+  imports: [IonicModule, CommonModule, FormsModule] 
 })
 export class MovieListComponent implements OnInit {
-  movies: Movie[] | undefined; // Suponiendo que Movie representa el modelo de datos de las películas
+  movies: Movie[] | undefined;
+  playlistName: string | undefined;
 
   constructor(
     private route: ActivatedRoute, 
     private playlistService: PlaylistService,
-    private modalController: ModalController // Inyecta ModalController
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -40,7 +41,8 @@ export class MovieListComponent implements OnInit {
 
   getMovieList(playlistId: number) {
     this.playlistService.getMovieList(playlistId).subscribe((playlist: playlist) => {
-      this.movies = playlist.movies; // Suponiendo que la propiedad que contiene las películas se llama "movies"
+      this.playlistName = playlist.name;
+      this.movies = playlist.movies; 
     });
   }
 
@@ -48,7 +50,7 @@ export class MovieListComponent implements OnInit {
     const modal = await this.modalController.create({
       component: AddMovieComponent,
       componentProps: {
-        playlistId: this.route.snapshot.paramMap.get('id') // Pasar el ID de la lista al modal
+        playlistId: this.route.snapshot.paramMap.get('id')
       }
     });
     return await modal.present();
