@@ -1,16 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { IonInput, IonTitle, IonButton, ModalController } from "@ionic/angular/standalone";
+import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ModalController, IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from 'src/app/services/movie.service'; // Ajusta la ruta según sea necesario
 import { PlaylistService } from 'src/app/services/playlist.service'; // Ajusta la ruta según sea necesario
+import { Movie } from 'src/app/model/movie';
 
 @Component({
   selector: 'app-add-movie',
   templateUrl: './add-movie.component.html',
   styleUrls: ['./add-movie.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonButton, IonTitle, IonInput],
+  imports: [CommonModule, FormsModule, IonicModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AddMovieComponent implements OnInit {
   @Input() playlistId: number | null = null;
@@ -19,21 +21,26 @@ export class AddMovieComponent implements OnInit {
   searchInputClicked = false;
   searching = false;
   statusSearch = false;
+  movie?: Movie;
 
   constructor(
     private movieService: MovieService,
     private playlistService: PlaylistService,
-    private modalController: ModalController // Inyecta ModalController
+    private modalController: ModalController
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onSearch(event: any) {
-    if (event) {
+    
+    const query = event.target.value;
+    if (query && query.trim() !== '') {
       this.searching = true;
       this.searchInputClicked = true;
-      this.searchMovies(event.data);
+      this.searchMovies(query);
     } else {
+      this.moviesSearched = [];
       this.searching = false;
     }
   }
@@ -46,16 +53,15 @@ export class AddMovieComponent implements OnInit {
           this.moviesSearched = response.results.map((movie: any) => ({
             id: movie.id,
             title: movie.title,
-            poster_path: movie.poster_path
+            poster_path: movie.poster_path,
+            release_date: movie.release_date
           }));
         } else {
           console.error('No se encontraron películas en la respuesta.');
           this.moviesSearched = [];
         }
         this.statusSearch = false;
-        if (this.moviesSearched.length === 0) {
-          this.searching = false; // Ocultar el div de búsqueda si no hay resultados
-        }
+        this.searching = this.moviesSearched.length > 0;
       },
       (error: any) => {
         console.error('Error al obtener películas:', error);
@@ -75,7 +81,7 @@ export class AddMovieComponent implements OnInit {
       try {
         await this.playlistService.postAddMovieToPlaylist(this.playlistId, movieId).toPromise();
         console.log('Película añadida con éxito');
-        this.modalController.dismiss(); // Cierra el modal después de añadir la película
+        this.modalController.dismiss();
       } catch (error) {
         console.error('Error al añadir película a la lista:', error);
       }
@@ -87,4 +93,13 @@ export class AddMovieComponent implements OnInit {
   close() {
     this.modalController.dismiss();
   }
+  getDirectors(): string {
+    if (!this.movie || !this.movie.credits || !this.movie.credits.crew) {
+      return '';
+    }
+    
+    const directors = this.movie.credits.crew.filter(crew => crew.job === 'Director').map(crew => crew.name);
+    return directors.join(', ');
+  }
+
 }

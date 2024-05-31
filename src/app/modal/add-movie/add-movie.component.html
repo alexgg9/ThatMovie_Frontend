@@ -1,15 +1,39 @@
-<div class="modal-container">
-  <ion-title>Añadir Película a la Lista</ion-title>
-  <div class="search-container">
-    <ion-input placeholder="Buscar película..." (ionInput)="onSearch($event)"></ion-input>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Película</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar
+    placeholder="Buscar película"
+    (ionInput)="onSearch($event)"
+    debounce="500">
+  </ion-searchbar>
+
+  <div class="center-spinner" *ngIf="statusSearch">
+    <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <div class="search-results" *ngIf="searching">
-    <div *ngFor="let movie of moviesSearched">
-      <img [src]="getImageUrl(movie.poster_path)" alt="{{movie.title}}">
-      <div class="movie-details">
-        <span>{{movie.title}}</span>
-        <ion-button (click)="addMovieToPlaylist(movie.id)">Añadir</ion-button>
-      </div>
-    </div>
-  </div>
-</div>
+
+  <ion-list *ngIf="searchInputClicked && !statusSearch">
+    <ion-item *ngFor="let movie of moviesSearched">
+      <ion-thumbnail slot="start">
+        <img [src]="getImageUrl(movie.poster_path)" [alt]="movie.title">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ movie.title }} ({{ movie.release_date | date: 'yyyy' }})</h2>
+        <p>{{ getDirectors() }}</p>
+      </ion-label>
+      <ion-button slot="end" (click)="addMovieToPlaylist(movie.id)">
+        Añadir
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-label class="no-results" *ngIf="!statusSearch && searchInputClicked && moviesSearched.length === 0">
+    No hay resultados
+  </ion-label>
+</ion-content>

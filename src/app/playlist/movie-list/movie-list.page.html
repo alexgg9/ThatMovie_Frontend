@@ -1,19 +1,16 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Lista de Películas</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openAddMovieModal()">Añadir Película</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let movie of movies">
-      <ion-label>{{ movie.title }}</ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-button class="fixed-button" (click)="openAddMovieModal()"> <!-- Botón con el evento click -->
-    <ion-icon src="assets/icon/add-circle.svg"></ion-icon>
-  </ion-button>
+  <div class="playlist-container" *ngIf="movies && movies.length">
+    <ion-label class="playlist-title">{{ playlistName }}</ion-label>
+    
+    <div class="movie-covers">
+      <ion-thumbnail *ngFor="let movie of movies" slot="start">
+        <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.title">
+      </ion-thumbnail>
+    </div>
+    
+    <ion-button class="fixed-button" (click)="openAddMovieModal()" slot="end">
+      <ion-icon slot="icon-only" src="assets/icon/add-circle.svg"></ion-icon>
+    </ion-button>
+  </div>
 </ion-content>
+
