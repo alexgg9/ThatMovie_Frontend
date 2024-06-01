@@ -25,15 +25,15 @@
       </ion-thumbnail>
       <ion-label>
         <h2>{{ movie.title }} ({{ movie.release_date | date: 'yyyy' }})</h2>
-        <p>{{ getDirectors() }}</p>
+        <p>{{ movie.director }}</p>
       </ion-label>
-      <ion-button slot="end" (click)="addMovieToPlaylist(movie.id)">
+      <ion-button slot="end" (click)="addMovieToPlaylist(movie)">
         Añadir
       </ion-button>
     </ion-item>
   </ion-list>
 
-  <ion-label class="no-results" *ngIf="!statusSearch && searchInputClicked && moviesSearched.length === 0">
+  <ion-label class="no-results" *ngIf="!statusSearch && searchInputClicked && moviesSearched.length == 0">
     No hay resultados
   </ion-label>
 </ion-content>
