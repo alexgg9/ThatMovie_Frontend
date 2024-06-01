@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
 import { ModalController, IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from 'src/app/services/movie.service'; // Ajusta la ruta según sea necesario
 import { PlaylistService } from 'src/app/services/playlist.service'; // Ajusta la ruta según sea necesario
 import { Movie } from 'src/app/model/movie';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-add-movie',
@@ -15,6 +16,7 @@ import { Movie } from 'src/app/model/movie';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AddMovieComponent implements OnInit {
+  @Input() playlist: Movie[] = [];
   @Input() playlistId: number | null = null;
   searchQuery: string = '';
   moviesSearched: any[] = [];
@@ -26,14 +28,14 @@ export class AddMovieComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private playlistService: PlaylistService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private toastController: ToastController,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSearch(event: any) {
-    
     const query = event.target.value;
     if (query && query.trim() !== '') {
       this.searching = true;
@@ -50,11 +52,13 @@ export class AddMovieComponent implements OnInit {
     this.movieService.getSearchMovies(query).subscribe(
       (response: any) => {
         if (response.results) {
+          console.log('Respuesta:', response);
           this.moviesSearched = response.results.map((movie: any) => ({
             id: movie.id,
             title: movie.title,
             poster_path: movie.poster_path,
-            release_date: movie.release_date
+            release_date: movie.release_date,
+            director: movie.credits?.crew ? movie.credits.crew.find((crewMember: any) => crewMember.job === 'Director')?.name : ''
           }));
         } else {
           console.error('No se encontraron películas en la respuesta.');
@@ -76,30 +80,35 @@ export class AddMovieComponent implements OnInit {
     return `${baseUrl}${posterPath}`;
   }
 
-  async addMovieToPlaylist(movieId: number) {
-    if (this.playlistId !== null) {
+  async addMovieToPlaylist(movie: Movie) {
+    if (this.playlistId != null) {
       try {
-        await this.playlistService.postAddMovieToPlaylist(this.playlistId, movieId).toPromise();
-        console.log('Película añadida con éxito');
-        this.modalController.dismiss();
+        const response = await this.playlistService.postAddMovieToPlaylist(this.playlistId, movie).toPromise();
+
+        this.playlist = [...this.playlist, movie];
+        this.changeDetectorRef.detectChanges();
+
+        this.showToast('Película añadida con éxito', 'success');
+        this.modalController.dismiss(this.playlist);
       } catch (error) {
-        console.error('Error al añadir película a la lista:', error);
+        this.showToast('Error al añadir película a la lista', 'danger');
       }
     } else {
-      console.error('ID de la lista no proporcionado');
+      this.showToast('ID de la lista no proporcionado', 'warning');
     }
   }
 
   close() {
     this.modalController.dismiss();
   }
-  getDirectors(): string {
-    if (!this.movie || !this.movie.credits || !this.movie.credits.crew) {
-      return '';
-    }
-    
-    const directors = this.movie.credits.crew.filter(crew => crew.job === 'Director').map(crew => crew.name);
-    return directors.join(', ');
+
+  async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: duration,
+      color: color
+    });
+    toast.present();
   }
 
 }

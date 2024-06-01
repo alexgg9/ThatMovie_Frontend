@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from './auth.service';
 import { MemberService } from './member.service';
 import { playlist } from '../model/playlist';
+import { Movie } from '../model/movie';
+import { catchError, throwError } from 'rxjs';
 
 
 
@@ -60,14 +62,13 @@ export class PlaylistService {
     return this.http.post(url, { movieId: movieId });
   }
 
-  postAddMovieToPlaylist(playlistId: number, movieId: number): Observable<any> {
+  postAddMovieToPlaylist(playlistId: number, movie: Movie): Observable<any> {
     const url = this.addmovie.replace('{id}', playlistId.toString());
-    const body = { movieId };
-
-    console.log('URL para añadir película:', url);
-    console.log('Datos de la película a añadir:', body);
-
-    return this.http.post<any>(url, body);
+    return this.http.post(url, movie, { responseType: 'text' }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error al añadir la película: ${error.message}`));
+      })
+    );
   }
 
 }

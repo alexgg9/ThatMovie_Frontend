@@ -50,9 +50,17 @@ export class MovieListComponent implements OnInit {
     const modal = await this.modalController.create({
       component: AddMovieComponent,
       componentProps: {
-        playlistId: this.route.snapshot.paramMap.get('id')
+        playlistId: this.route.snapshot.paramMap.get('id'),
+        playlist: this.movies
       }
     });
+
+    modal.onDidDismiss().then((data) => {
+      if (data.data) {
+        this.movies = data.data;
+      }
+    });
+
     return await modal.present();
   }
 }
