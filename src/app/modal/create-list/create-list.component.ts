@@ -1,71 +1,95 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlaylistService } from 'src/app/services/playlist.service';
-import { IonInput, ModalController, IonButton, IonTitle, ToastController } from "@ionic/angular/standalone";
-import { MemberService } from 'src/app/services/member.service';
-
+import { ModalController, ToastController, IonicModule } from "@ionic/angular";
 import { Member } from 'src/app/model/member';
 import { playlist } from 'src/app/model/playlist';
-
+import { MemberService } from 'src/app/services/member.service';
 
 @Component({
   selector: 'app-create-list',
   templateUrl: './create-list.component.html',
   styleUrls: ['./create-list.component.scss'],
   standalone: true,
-  imports: [IonTitle, IonButton, IonInput, FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, IonicModule],
 })
-export class CreateListComponent  implements OnInit {
+export class CreateListComponent implements OnInit {
   public form: FormGroup;
   member?: Member;
 
-  constructor(private formBuilder: FormBuilder,private playlistService: PlaylistService, private memberService: MemberService, private modalController: ModalController, public toastController: ToastController) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private playlistService: PlaylistService,
+    private memberService: MemberService,
+    private modalController: ModalController,
+    public toastController: ToastController
+  ) {
     this.form = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.minLength(4)] ]
-      
+      nombre: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
-
   ngOnInit(): void {
-    this.getMember();
+    this.getMemberFromLocalStorage();
   }
 
   public crearLista(): void {
     if (this.form.invalid || !this.member) {
-      console.error('El formulario es inválido o no hay un miembro actual.');
+      this.showToast('Por favor, completa el formulario correctamente y asegúrate de tener un miembro actual.', 'danger');
       return;
     }
+    
     const nombreLista = this.form.get('nombre')?.value;
-
-    console.log(this.member)
-    const nuevaLista: playlist = {
-
-      name: nombreLista,
-      member: this.member,
-
-    };
-    console.log('Nueva lista:', nuevaLista);
-    this.playlistService.postCreateList(nuevaLista).subscribe(
-      (nuevaLista) => {
-        this.modalController.dismiss();
-        this.showToast('Lista creada con éxito', 'success', 2000);
+    if (!nombreLista) {
+      this.showToast('El nombre de la lista es obligatorio.', 'danger');
+      return;
+    }
+    
+    
+    const memberId = Number(localStorage.getItem('userId'));
+  
+    this.memberService.getMemberById(memberId).subscribe(
+      (member) => {
+        const list: playlist = {
+          name: nombreLista,
+          member: member 
+        };
+        
+        console.log(list);
+        this.playlistService.postCreateList(list).subscribe(
+          (response) => {
+            if (response) {
+              this.dismissModalAndShowToast('Lista creada con éxito', 'success');
+            } else {
+              this.showToast('Error al crear la lista', 'danger');
+            }
+          },
+          (error) => {
+            this.showToast('Error al crear la lista', 'danger');
+          }
+        );
       },
       (error) => {
-        console.error('Error al crear la lista:', error);
-        this.showToast('Error al crear la lista', 'danger', 2000);
+        this.showToast('Error al obtener el miembro', 'danger');
       }
     );
   }
+  
+  
 
-  getMember(): void {
-    const currentMember = this.memberService.getCurrentMember();
-    console.log(currentMember);
-    if (currentMember) {
-      this.member = currentMember;
+  
+  private async dismissModalAndShowToast(message: string, color: string): Promise<void> {
+    await this.modalController.dismiss();
+    this.showToast(message, color);
+  }
+
+  getMemberFromLocalStorage(): void {
+    const storedMember = localStorage.getItem('userId');
+    if (storedMember) {
+      this.member = JSON.parse(storedMember);
       console.log('Member:', this.member);
     } else {
-      console.error('No se pudo obtener la información del usuario.');
+      console.error('No se pudo obtener la información del usuario desde el LocalStorage.');
     }
   }
 
@@ -81,6 +105,4 @@ export class CreateListComponent  implements OnInit {
     });
     toast.present();
   }
-
-
 }

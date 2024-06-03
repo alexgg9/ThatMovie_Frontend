@@ -1,16 +1,27 @@
+<app-navbar [title]="'ThatMovie'"></app-navbar>
 <ion-content>
-  <div class="playlist-container" *ngIf="movies && movies.length">
+  <div class="playlist-container">
     <ion-label class="playlist-title">{{ playlistName }}</ion-label>
     
-    <div class="movie-covers">
-      <ion-thumbnail *ngFor="let movie of movies" slot="start">
-        <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.title">
-      </ion-thumbnail>
+    <div class="button-group">
+      <ion-button class="add-movie" (click)="openAddMovieModal()" slot="end">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+      <ion-button (click)="toggleDeleteButtons()" color="danger" class="fixed-button" slot="end">
+        <ion-icon slot="icon-only" [name]="showDeleteButtons ? 'eye-off' : 'trash'"></ion-icon>
+      </ion-button>
     </div>
-    
-    <ion-button class="fixed-button" (click)="openAddMovieModal()" slot="end">
-      <ion-icon slot="icon-only" src="assets/icon/add-circle.svg"></ion-icon>
-    </ion-button>
+
+    <div class="movie-covers">
+      <div *ngFor="let movie of movies" class="movie-item">
+        <ion-thumbnail slot="start" [routerLink]="['/profile', movie.id]">
+          <img class="movie-poster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.title">
+        </ion-thumbnail>
+        <ion-button shape="round" color="danger" *ngIf="showDeleteButtons && movie.id" class="remove-button" (click)="removeMovie(movie.id)" size="small">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
   </div>
 </ion-content>
 
