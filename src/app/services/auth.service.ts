@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Member } from '../model/member';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ export class AuthService {
 
   private apiAuthRegister = environment.apiUrl + '/auth/signup';
   private apiAuthLogin = environment.apiUrl + '/auth/login';
+  private apiUserInfo = environment.apiUrl + '/member/id';
+
 
   constructor(private http: HttpClient) { }
 
@@ -47,5 +50,12 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userId');
+  }
+
+  getUserInfo(userId: number): Observable<Member> {
+    return this.http.get<Member>(`${this.apiUserInfo}/${userId}`);
+  }
+  updateUserInfo(user: Member): Observable<any> {
+    return this.http.put<any>(this.apiAuthRegister, user);
   }
 }
