@@ -12,6 +12,7 @@ import { MovieService } from '../services/movie.service';
 import { NavbarComponent } from "../components/navbar/navbar.component";
 import { playlist } from '../model/playlist';
 import { MatListModule } from '@angular/material/list';
+import { ToastController } from '@ionic/angular/standalone';
 
 
 
@@ -37,12 +38,13 @@ export class PlaylistPage implements OnInit {
     title: string,
     poster_path: string    
   }[] = [];
+  lists: any[] = [];
   public searching = false;
   public statusSearch=false;
   private searchInputClicked = false;
  
 
-  constructor(private playlistService: PlaylistService, private modalController: ModalController, private movieService: MovieService) { }
+  constructor(private playlistService: PlaylistService, private modalController: ModalController, private movieService: MovieService, private toastController: ToastController) { }
 
 
   onSearch(event: any) {
@@ -75,7 +77,7 @@ export class PlaylistPage implements OnInit {
         }
         this.statusSearch = false;
         if (this.moviesSearched.length === 0) {
-          this.searching = false; // Ocultar el div de búsqueda si no hay resultados
+          this.searching = false; 
         }
       },
       (error: any) => {
@@ -107,7 +109,7 @@ export class PlaylistPage implements OnInit {
   
   private calculateHeight() {
     const windowHeight = window.innerHeight;
-    const calculatedHeight = windowHeight - 80; // Ajusta según el tamaño del encabezado
+    const calculatedHeight = windowHeight - 80;
     console.log('Altura calculada:', calculatedHeight);
     if (this.container) {
       this.container.nativeElement.style.height = calculatedHeight + 'px';
@@ -134,7 +136,7 @@ export class PlaylistPage implements OnInit {
  * @returns void
   */ 
 allplaylist(): void {
-  this.playlistService.getPlaylist().subscribe((data: playlist[]) => { // Usa minúsculas aquí
+  this.playlistService.getPlaylist().subscribe((data: playlist[]) => { 
     this.playlist = data;
     this.playlist.forEach(list => {
       if (list.id !== undefined) {
@@ -149,30 +151,26 @@ getPostersForPlaylist(playlistId: number): Observable<string[]> {
 }
 
 obtenerYAsignarPosters(playlistId: number) {
-  console.log(`Obteniendo posters para playlist ${playlistId}`);
   this.getPostersForPlaylist(playlistId).subscribe((result) => {
     if (result && result.length) {
-      console.log(`Posters obtenidos para playlist ${playlistId}:`, result);
       this.posters[playlistId] = result.map(posterPath => this.getImageUrl(posterPath));
-      console.log(`URLs de posters asignadas para playlist ${playlistId}:`, this.posters[playlistId]);
     } else {
-      this.posters[playlistId] = ['assets/default-poster.webp'];
+      this.posters[playlistId] = ['assets/default-poster.png'];
     }
   }, (error) => {
-    console.error(`Error al obtener los posters para playlist ${playlistId}:`, error.message);
-    this.posters[playlistId] = ['assets/default-poster.webp'];
+    this.posters[playlistId] = ['assets/default-poster.png'];
   });
 }
 
 
 
 trackById(index: number, item: playlist): number {    
-  return item.id !== undefined ? item.id : index; // Asegúrate de que siempre retorne un número
+  return item.id !== undefined ? item.id : index; 
 }
 
 
 getImageUrl(posterPath: string): string {
-  const baseUrl = 'https://image.tmdb.org/t/p/w500'; // URL base correcta
+  const baseUrl = 'https://image.tmdb.org/t/p/w500'; 
   const fullUrl = `${baseUrl}${posterPath}`;
   console.log('Construyendo URL de imagen:', fullUrl);
   return fullUrl;
@@ -182,9 +180,24 @@ getImageUrl(posterPath: string): string {
 handleImageError(event: Event, playlistId: number | undefined, index: number) {
   if (playlistId !== undefined) {
     const target = event.target as HTMLImageElement;
-    console.error(`Error al cargar la imagen: ${target.src}`);
-    this.posters[playlistId][index] = 'assets/default-poster.webp'; // Ruta a una imagen por defecto
+    this.posters[playlistId][index] = 'assets/default-poster.png';
   }
+}
+
+deletePlaylist(listId: number, event: Event) {
+  event.stopPropagation(); 
+  event.preventDefault();
+
+  this.playlistService.deletePlaylist(listId).subscribe(
+    () => {
+      this.showToast('Lista eliminada con éxito', 'success');
+      this.lists = this.lists.filter((list: any) => list.id !== listId);
+      this.allplaylist();
+    },
+    (error) => {
+      this.showToast('Error al eliminar la lista', 'danger');
+    }
+  );
 }
 
 /**
@@ -208,6 +221,13 @@ handleImageError(event: Event, playlistId: number | undefined, index: number) {
   }
   
  
-
+  async showToast(message: string, status: string) {
+    const toast = await this.toastController.create({
+      message,
+      color: status,
+      duration: 2000
+    });
+    await toast.present();
+  }
 
 }

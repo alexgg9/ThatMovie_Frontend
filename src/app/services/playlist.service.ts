@@ -10,35 +10,34 @@ import { Movie } from '../model/movie';
 import { catchError, throwError } from 'rxjs';
 
 
-
-
-
-
-
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
   private apiPlaylist = environment.apiUrl + '/playlist';
-  private PosterList = environment.apiUrl + '/playlist/5/posters';
-  private addmovie = environment.apiUrl + '/playlist/playlist/{id}/addMovie  ';  
+  private addmovie = environment.apiUrl + '/playlist/playlist/{id}/addMovie';  
   private createList = environment.apiUrl + '/playlist';
   private movieList = environment.apiUrl + '/playlist';
   private addMovieList = environment.apiUrl + '/playlist/playlist/{id}/addMovie';
 
+
   constructor(private http: HttpClient,private memberService: MemberService) {}
-
-
 
 
   getPlaylist(): Observable<playlist[]> {
     return this.http.get<playlist[]>(this.apiPlaylist);
   }
 
+  deletePlaylist(id: number): Observable<any> {
+    const url = `${this.apiPlaylist}/${id}`;
+    return this.http.delete(url);
+  }
 
+  removeMovieFromPlaylist(playlistId: number, movieId: number): Observable<any> {
+    const endpoint = `${this.apiPlaylist}/${playlistId}/movies/${movieId}`;
+    return this.http.delete(endpoint);
+  }
+  
   
   getPostersForPlaylist(id: number): Observable<string[]> {
     const url = `${environment.apiUrl}/playlist/${id}/posters`;
@@ -47,11 +46,13 @@ export class PlaylistService {
   }
 
   postCreateList(playlist: playlist): Observable<playlist> {
-    return this.http.post<playlist>(this.createList, playlist);
+    return this.http.post<playlist>(this.createList, playlist).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error al crear la lista de reproducción: ${error.message}`));
+      })
+    );
   }
-
-
-
+  
   getMovieList(id: number): Observable<playlist> {
     const url = `${this.movieList}/${id}`;
     return this.http.get<playlist>(url);

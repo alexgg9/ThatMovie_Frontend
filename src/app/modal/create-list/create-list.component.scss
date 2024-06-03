@@ -1,39 +1,32 @@
-/* Estilos para el contenedor del ion-input y el botón */
-.input-container {
+.form-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  height: 50vh; /* Ajusta la altura según tus preferencias */
-  margin-bottom: 20px; /* Añade espacio entre el contenedor y otros elementos */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
-/* Estilos para el ion-input */
-ion-input {
-  width: 80%; /* Ajusta el ancho del ion-input según tus preferencias */
-  padding: 20px; /* Ajusta el relleno del ion-input según tus preferencias */
-  border: 1px solid #ccc; /* Añade un borde alrededor del ion-input */
-  border-radius: 5px; /* Agrega esquinas redondeadas al ion-input */
-  font-size: 16px; /* Ajusta el tamaño del texto del ion-input según tus preferencias */
-  margin-bottom: 20px; /* Añade más espacio entre el ion-input y el botón */
+.input-container {
+  width: 80%;
+  text-align: center;
 }
 
-/* Estilos para el botón */
-button {
-  width: 80%; /* Ajusta el ancho del botón para que sea igual que el ion-input */
-  padding: 20px; /* Ajusta el relleno del botón según tus preferencias */
-  border: none; /* Elimina el borde del botón */
-  border-radius: 5px; /* Agrega esquinas redondeadas al botón */
-  background-color: #007bff; /* Cambia el color de fondo del botón según tus preferencias */
-  color: #fff; /* Cambia el color del texto del botón según tus preferencias */
-  font-size: 16px; /* Ajusta el tamaño del texto del botón según tus preferencias */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  margin-bottom: 20px; /* Añade más espacio entre los botones y otros elementos */
-}
-
-ion-title {
-  font-size: 50px;
+.form-title {
+  font-size: 30px;
   font-weight: bold;
-  color: #FFDB58;
   margin-bottom: 10px;
+}
+
+.form-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 }
