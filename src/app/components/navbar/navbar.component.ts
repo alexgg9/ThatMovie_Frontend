@@ -1,6 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
+import { Member } from 'src/app/model/member';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,18 +10,31 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   standalone: true,
-  imports: [IonicModule, RouterModule],
+  imports: [IonicModule, RouterModule, CommonModule],
 })
 export class NavbarComponent  {
   @Input() title: string = 'ThatMovie';
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
-
+  user: Member | null = null;
+  defaultAvatar: string = 'assets/default-avatar.png';
   isSmallScreen: boolean = false;
   isLargeScreen: boolean = false;
 
   constructor(private elRef:ElementRef, public authService: AuthService, private router: Router, private toastController: ToastController) {}
 
-  
+  ngOnInit() {
+    this.loadUserInfo();
+  }
+  loadUserInfo(): void {
+    const userId = this.authService.getLoggedInUserId();
+    if (userId) {
+      this.authService.getUserInfo(userId).subscribe(user => {
+        this.user = user;
+      }, error => {
+        console.error('Error al obtener la información del usuario', error);
+      });
+    }
+  }
 
   onSearchInput(event: CustomEvent) {
     console.log(this.elRef.nativeElement.left);
@@ -55,5 +70,10 @@ export class NavbarComponent  {
     });
     toast.present();
   }
-
+  goToProfile(): void {
+    this.router.navigate(['/user-profile']); 
+  }
+  setDefaultAvatar(event: Event) {
+    (event.target as HTMLImageElement).src = this.defaultAvatar;
+  }
 }

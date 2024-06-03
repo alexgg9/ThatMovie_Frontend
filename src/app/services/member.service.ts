@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class MemberService {
 
   private apiMembers = environment.apiUrl + '/member';
+  
   private currentMember: Member | undefined;
 
   constructor(private http: HttpClient) { }
@@ -22,7 +23,6 @@ export class MemberService {
     return this.currentMember;
   }
 
-
   getAllMembers(): Observable<Member[]> {
     return this.http.get<Member[]>(this.apiMembers);
   }
@@ -33,6 +33,10 @@ export class MemberService {
 
   createMember(member: Member): Observable<Member> {
     return this.http.post<Member>(this.apiMembers, member);
+  }
+
+  updateMember(member: Member): Observable<Member> {
+    return this.http.post<Member>(`${this.apiMembers}`, member);
   }
 
   deleteMember(id: number): Observable<void> {
