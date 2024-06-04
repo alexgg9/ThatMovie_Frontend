@@ -153,12 +153,17 @@ getPostersForPlaylist(playlistId: number): Observable<string[]> {
 obtenerYAsignarPosters(playlistId: number) {
   this.getPostersForPlaylist(playlistId).subscribe((result) => {
     if (result && result.length) {
-      this.posters[playlistId] = result.map(posterPath => this.getImageUrl(posterPath));
+      const posterUrls = result.map(posterPath => this.getImageUrl(posterPath));
+      if (posterUrls.length > 1) {
+        this.posters[playlistId] = posterUrls;
+      } else {
+        this.posters[playlistId] = posterUrls.concat(['assets/default-poster.png', 'assets/default-poster.png']);
+      }
     } else {
-      this.posters[playlistId] = ['assets/default-poster.png'];
+      this.posters[playlistId] = ['assets/default-poster.png', 'assets/default-poster.png', 'assets/default-poster.png'];
     }
   }, (error) => {
-    this.posters[playlistId] = ['assets/default-poster.png'];
+    this.posters[playlistId] = ['assets/default-poster.png', 'assets/default-poster.png', 'assets/default-poster.png'];
   });
 }
 

@@ -4,6 +4,7 @@ import { MovieService } from '../services/movie.service';
 import { MovieResponse } from '../model/movieResponse';
 import { IonicModule} from '@ionic/angular';
 import { NavbarComponent } from '../components/navbar/navbar.component';
+import { SearchMovieComponent } from '../modal/search-movie/search-movie.component';
 import { register } from 'swiper/element/bundle';
 import Swiper from 'swiper';
 import { RouterModule } from '@angular/router';
@@ -15,18 +16,13 @@ register();
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, NavbarComponent, RouterModule]
+  imports: [IonicModule, NavbarComponent, RouterModule, SearchMovieComponent],
 })
 export class HomePage implements AfterViewInit, OnInit{
   
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('container') container!: ElementRef
   calculatedHeightVariable!: number;
-  public moviesSearched:{
-    id: number,
-    title: string,
-    poster_path: string    
-  }[] = [];
   public searching = false;
   public statusSearch=false;
   private searchInputClicked = false;
@@ -111,46 +107,7 @@ export class HomePage implements AfterViewInit, OnInit{
   }
 
 
-  onSearch(event: any) {
-    console.log(event.pos);  
-    if (event) {
-      this.searching = true;
-      this.searchInputClicked = true;
-      this.searchMovies(event.data);
-    } else {
-      this.searching = false;
-    }
-
-  }
-
-  searchMovies(query: string) {
-    console.log(query)
-    this.statusSearch = true;
-    this.movieService.getSearchMovies(query).subscribe(
-      (response: any) => {
-        console.log(response)
-        if (response.results) {
-          this.moviesSearched = response.results.map((movie: any) => ({
-            id: movie.id,
-            title: movie.title,
-            poster_path: movie.poster_path
-          }));
-        } else {
-          console.error('No se encontraron películas en la respuesta.');
-          this.moviesSearched = [];
-        }
-        this.statusSearch = false;
-        if (this.moviesSearched.length == 0) {
-          this.searching = false; 
-        }
-      },
-      (error: any) => {
-        console.error('Error al obtener películas:', error);
-        this.moviesSearched = [];
-        this.statusSearch = false;
-      }
-    );
-  }
+  
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {

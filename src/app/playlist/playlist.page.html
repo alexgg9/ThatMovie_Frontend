@@ -27,7 +27,7 @@
       <ion-item [routerLink]="['/movie-list', list.id]">
         <ion-thumbnail slot="start">
           <ng-container *ngIf="list.id !== undefined && posters[list.id] && posters[list.id].length">
-            <img *ngFor="let poster of posters[list.id].slice(0, 4); let i = index" [src]="poster" [class]="'stack-image-' + i" (error)="handleImageError($event, list.id, i)">
+            <img *ngFor="let poster of posters[list.id].slice(0, 3); let i = index" [src]="poster" [class]="'stack-image-' + i" (error)="handleImageError($event, list.id, i)">
           </ng-container>
         </ion-thumbnail>
         <ion-label style="margin-left: 30px;">

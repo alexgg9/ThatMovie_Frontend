@@ -2,8 +2,8 @@ import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } f
 import { ModalController, IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MovieService } from 'src/app/services/movie.service'; // Ajusta la ruta según sea necesario
-import { PlaylistService } from 'src/app/services/playlist.service'; // Ajusta la ruta según sea necesario
+import { MovieService } from 'src/app/services/movie.service';
+import { PlaylistService } from 'src/app/services/playlist.service'; 
 import { Movie } from 'src/app/model/movie';
 import { ToastController } from '@ionic/angular/standalone';
 
