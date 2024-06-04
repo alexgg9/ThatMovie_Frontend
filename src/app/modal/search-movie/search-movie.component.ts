@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { MovieService } from 'src/app/services/movie.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-search-movie',
   templateUrl: './search-movie.component.html',
@@ -15,7 +15,7 @@ export class SearchMovieComponent implements OnInit {
   moviesSearched: any[] = [];
   searchInputClicked = false;
   statusSearch = false;
-  constructor(private modalCtrl: ModalController, private movieService: MovieService,  ) { }
+  constructor(private modalCtrl: ModalController, private movieService: MovieService, private router: Router ) { }
 
   ngOnInit() {}
 
@@ -55,6 +55,9 @@ export class SearchMovieComponent implements OnInit {
     return `https://image.tmdb.org/t/p/w500${path}`;
   }
   
-  
+  openProfile(movieId: number) {
+    this.modalCtrl.dismiss(); // Cierra el modal
+    this.router.navigateByUrl(`/profile/${movieId}`); // Navega a la página del perfil de la película
+  }
 
 }

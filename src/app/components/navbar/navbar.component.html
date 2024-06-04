@@ -3,7 +3,7 @@
     <ion-title slot="start">{{ title }}</ion-title>
     <ion-buttons slot="secondary">
       <ion-button routerLink="/home">Home</ion-button>
-      <ion-button routerLink="/playlist">List</ion-button>
+      <ion-button (click)="navigateAndReload('/playlist')">List</ion-button>
       <ion-button routerLink="/reviews">Reviews</ion-button>
       <ion-button (click)="openModal()">
         <ion-icon slot="icon-only" name="search"></ion-icon>
