@@ -98,7 +98,6 @@ export class UserProfilePage implements OnInit {
             error => console.error('Error updating user information', error)
           );
         }).catch(error => {
-          console.error('Error converting image to Base64', error);
           this.showToast('Error converting image to Base64', 'danger', 2000);
         });
       } else {

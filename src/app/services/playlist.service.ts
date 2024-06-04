@@ -19,6 +19,7 @@ export class PlaylistService {
   private createList = environment.apiUrl + '/playlist';
   private movieList = environment.apiUrl + '/playlist';
   private addMovieList = environment.apiUrl + '/playlist/playlist/{id}/addMovie';
+  private playlistsUser = environment.apiUrl + '/playlist/playlistsUser/{userId}';
 
 
   constructor(private http: HttpClient,private memberService: MemberService) {}
@@ -43,6 +44,11 @@ export class PlaylistService {
     const url = `${environment.apiUrl}/playlist/${id}/posters`;
     console.log('URL para obtener posters:', url);
     return this.http.get<string[]>(url);
+  }
+
+  getPlaylistsUser(userId: number): Observable<playlist[]> {
+    const url = this.playlistsUser.replace('{userId}', userId.toString());
+    return this.http.get<playlist[]>(url);
   }
 
   postCreateList(playlist: playlist): Observable<playlist> {
