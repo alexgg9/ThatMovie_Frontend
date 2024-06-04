@@ -18,9 +18,9 @@
     <ion-spinner name="crescent"></ion-spinner>
   </div>
 
-  <ion-list *ngIf="searchInputClicked && !statusSearch">
-    <ion-item *ngFor="let movie of moviesSearched">
-      <ion-thumbnail slot="start" [routerLink]="['/profile', movie.id]">
+  <ion-list *ngIf="searchInputClicked && !statusSearch" >
+    <ion-item *ngFor="let movie of moviesSearched" (click)="openProfile(movie.id)">
+      <ion-thumbnail slot="start" >
         <img [src]="getImageUrl(movie.poster_path)" [alt]="movie.title">
       </ion-thumbnail>
       <ion-label>

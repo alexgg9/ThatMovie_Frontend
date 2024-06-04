@@ -87,4 +87,10 @@ export class NavbarComponent  {
       modal.present();
     });
   }
+  navigateAndReload(route: string) {
+    // Navega a la ruta deseada y recarga la página después
+    this.router.navigate([route]).then(() => {
+      window.location.reload();
+    });
+  }
 }
