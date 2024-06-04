@@ -56,14 +56,14 @@
   top:60px;
   border-radius: 20px;
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
-  left: 990px;
-  width:25%;
+  left: 1040px;
+  width:20%;
  
   background-color: rgba(36, 34, 34, 0.5);
   padding:20px;
   z-index:9999;
   max-height: 300px; 
-
+  overflow-y:auto;
   ::ng-deep ion-list,
   ::ng-deep ion-item {
     background-color: rgba(37, 36, 36, 0.5) !important;

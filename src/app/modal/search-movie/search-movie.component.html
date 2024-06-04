@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add Movie</ion-title>
+    <ion-title>Search Movie</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">Close</ion-button>
     </ion-buttons>
@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-searchbar
-    placeholder="Buscar película"
+    placeholder="Search Movie..."
     (ionInput)="onSearch($event)"
     debounce="500">
   </ion-searchbar>
@@ -20,16 +20,12 @@
 
   <ion-list *ngIf="searchInputClicked && !statusSearch">
     <ion-item *ngFor="let movie of moviesSearched">
-      <ion-thumbnail slot="start">
+      <ion-thumbnail slot="start" [routerLink]="['/profile', movie.id]">
         <img [src]="getImageUrl(movie.poster_path)" [alt]="movie.title">
       </ion-thumbnail>
       <ion-label>
         <h2>{{ movie.title }} ({{ movie.release_date | date: 'yyyy' }})</h2>
-        <p>{{ movie.director }}</p>
       </ion-label>
-      <ion-button slot="end" (click)="addMovieToPlaylist(movie)">
-        Add
-      </ion-button>
     </ion-item>
   </ion-list>
 

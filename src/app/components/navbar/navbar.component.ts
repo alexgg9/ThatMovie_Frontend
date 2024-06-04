@@ -4,6 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Member } from 'src/app/model/member';
 import { AuthService } from 'src/app/services/auth.service';
+import { ModalController } from '@ionic/angular';
+import { SearchMovieComponent } from '../../modal/search-movie/search-movie.component';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +22,7 @@ export class NavbarComponent  {
   isSmallScreen: boolean = false;
   isLargeScreen: boolean = false;
 
-  constructor(private elRef:ElementRef, public authService: AuthService, private router: Router, private toastController: ToastController) {}
+  constructor(private elRef:ElementRef, public authService: AuthService, private router: Router, private modalController: ModalController,private toastController: ToastController) {}
 
   ngOnInit() {
     this.loadUserInfo();
@@ -71,9 +73,18 @@ export class NavbarComponent  {
     toast.present();
   }
   goToProfile(): void {
-    this.router.navigate(['/user-profile']); 
+    const userId = this.authService.getLoggedInUserId();
+    this.router.navigate(['/user-profile', userId]);
   }
   setDefaultAvatar(event: Event) {
     (event.target as HTMLImageElement).src = this.defaultAvatar;
+  }
+
+  openModal() {
+    this.modalController.create({
+      component: SearchMovieComponent
+    }).then(modal => {
+      modal.present();
+    });
   }
 }

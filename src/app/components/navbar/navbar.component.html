@@ -5,15 +5,15 @@
       <ion-button routerLink="/home">Home</ion-button>
       <ion-button routerLink="/playlist">List</ion-button>
       <ion-button routerLink="/reviews">Reviews</ion-button>
+      <ion-button (click)="openModal()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-searchbar debounce="300" (ionInput)="onSearchInput($event)" slot="secondary"></ion-searchbar>
     <div class="profile-section" slot="end">
-      <ion-label *ngIf="user" (click)="goToProfile()">{{ user?.username }}</ion-label>
       <ion-avatar *ngIf="user" (click)="goToProfile()" class="avatar">
-        <img [src]="user?.avatar || defaultAvatar" alt="User Avatar" (error)="setDefaultAvatar($event)">
+        <img [src]="user.avatar || defaultAvatar" alt="User Avatar" (error)="setDefaultAvatar($event)">
       </ion-avatar>
-      <span class="separator">|</span>
-      <button class="logout-button" (click)="logout()">Logout</button>
+      <ion-button class="logout-button" color="danger" fill="clear" (click)="logout()">Logout</ion-button>
     </div>
   </ion-toolbar>
 </ion-header>

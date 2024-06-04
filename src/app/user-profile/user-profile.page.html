@@ -33,9 +33,11 @@
           <ion-card-header>
             <ion-card-title>Avatar</ion-card-title>
           </ion-card-header>
-          <ion-card-content>
+          <ion-card-content class="avatar-container">
+            <div class="avatar-wrapper">
+              <img class="avatar-preview" [src]="getAvatarUrl()">
+            </div>
             <input type="file" (change)="onFileSelected($event)" accept="image/*">
-            <img class="avatar-preview" [src]="getAvatarUrl()">
             <ion-button color="success" (click)="saveChanges()">Save Changes</ion-button>
           </ion-card-content>
         </ion-card>
