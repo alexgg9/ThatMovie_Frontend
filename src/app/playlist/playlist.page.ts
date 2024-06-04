@@ -13,6 +13,8 @@ import { NavbarComponent } from "../components/navbar/navbar.component";
 import { playlist } from '../model/playlist';
 import { MatListModule } from '@angular/material/list';
 import { ToastController } from '@ionic/angular/standalone';
+import { MemberService } from '../services/member.service';
+import { AuthService } from '../services/auth.service';
 
 
 
@@ -44,85 +46,11 @@ export class PlaylistPage implements OnInit {
   private searchInputClicked = false;
  
 
-  constructor(private playlistService: PlaylistService, private modalController: ModalController, private movieService: MovieService, private toastController: ToastController) { }
-
-
-  onSearch(event: any) {
-    console.log(event.pos);  
-    if (event) {
-      this.searching = true;
-      this.searchInputClicked = true;
-      this.searchMovies(event.data);
-    } else {
-      this.searching = false;
-    }
-
-  }
-
-  searchMovies(query: string) {
-    console.log(query)
-    this.statusSearch = true;
-    this.movieService.getSearchMovies(query).subscribe(
-      (response: any) => {
-        console.log(response)
-        if (response.results) {
-          this.moviesSearched = response.results.map((movie: any) => ({
-            id: movie.id,
-            title: movie.title,
-            poster_path: movie.poster_path
-          }));
-        } else {
-          console.error('No se encontraron películas en la respuesta.');
-          this.moviesSearched = [];
-        }
-        this.statusSearch = false;
-        if (this.moviesSearched.length === 0) {
-          this.searching = false; 
-        }
-      },
-      (error: any) => {
-        console.error('Error al obtener películas:', error);
-        this.moviesSearched = [];
-        this.statusSearch = false;
-      }
-    );
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: any) {
-    if (!this.searchInputClicked && !event.target.closest('.searchResults')) {
-      this.searching = false;
-    }
-    this.searchInputClicked = false;
-  }
-  
-
-  @HostListener('window:load', ['$event'])
-  onLoad(event: any) {
-    this.calculateHeight();
-  }
-  
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.calculateHeight(); 
-  }
-  
-  private calculateHeight() {
-    const windowHeight = window.innerHeight;
-    const calculatedHeight = windowHeight - 80;
-    console.log('Altura calculada:', calculatedHeight);
-    if (this.container) {
-      this.container.nativeElement.style.height = calculatedHeight + 'px';
-    }
-  }
-  
-
-
-
+  constructor(private playlistService: PlaylistService, private authService: AuthService,private modalController: ModalController, private movieService: MovieService, private toastController: ToastController) { }
 
 
   ngOnInit(): void {
-    this.allplaylist();
+    this.allplaylistUser();
   }
 
 
@@ -135,8 +63,8 @@ export class PlaylistPage implements OnInit {
  * @param playlistId - El identificador de la lista
  * @returns void
   */ 
-allplaylist(): void {
-  this.playlistService.getPlaylist().subscribe((data: playlist[]) => { 
+allplaylistUser(): void {
+  this.playlistService.getPlaylistsUser(this.authService.getLoggedInUserId()).subscribe((data) => {
     this.playlist = data;
     this.playlist.forEach(list => {
       if (list.id !== undefined) {
@@ -197,7 +125,7 @@ deletePlaylist(listId: number, event: Event) {
     () => {
       this.showToast('Lista eliminada con éxito', 'success');
       this.lists = this.lists.filter((list: any) => list.id !== listId);
-      this.allplaylist();
+      this.allplaylistUser();
     },
     (error) => {
       this.showToast('Error al eliminar la lista', 'danger');
