@@ -5,7 +5,6 @@ import { IonicModule, ModalController } from '@ionic/angular';
 
 import { PlaylistService } from '../services/playlist.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, of } from 'rxjs';
 import { CreateListComponent } from '../modal/create-list/create-list.component';
 import { RouterModule } from '@angular/router';
 import { MovieService } from '../services/movie.service';
@@ -13,7 +12,6 @@ import { NavbarComponent } from "../components/navbar/navbar.component";
 import { playlist } from '../model/playlist';
 import { MatListModule } from '@angular/material/list';
 import { ToastController } from '@ionic/angular/standalone';
-import { MemberService } from '../services/member.service';
 import { AuthService } from '../services/auth.service';
 
 

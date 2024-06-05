@@ -12,12 +12,16 @@ export class AuthService {
   private apiAuthRegister = environment.apiUrl + '/auth/signup';
   private apiAuthLogin = environment.apiUrl + '/auth/login';
   private apiUserInfo = environment.apiUrl + '/member/id';
+  
 
 
   constructor(private http: HttpClient) { }
 
   register(member: any): Observable<any> {
     return this.http.post<any>(this.apiAuthRegister, member);
+  }
+  checkUsernameExists(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`/usernameExists/${username}`);
   }
 
   login(username: string, password: string): Observable<any> {

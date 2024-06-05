@@ -6,21 +6,6 @@ ion-toolbar {
     width: 170px;
   }
 
-  ion-searchbar {
-    width: 100%;
-    max-width: 1000px;
-    --border-radius: 25px;
-    font-size: 1em;
-    
-    .searchbar-input {
-      text-align: left;
-    }
-
-    .searchbar-placeholder {
-      text-align: left;
-    }
-  }
-
   ion-buttons {
     display: flex !important;
     align-items: center;
@@ -34,32 +19,11 @@ ion-toolbar {
     ion-title {
       font-size: 1.2em;
     }
-
-    ion-searchbar {
-      display: block;
-      font-size: 0.8em;
-      width: 100%;
-      max-width: none;
-      margin-left: 0;
-    }
-  }
-
-  @media (min-width: 768px) {
-    ion-searchbar {
-      max-width: 500px;
-      --border-radius: 30px;
-      width: auto;
-    }
   }
 
   .profile-section {
     display: flex;
     align-items: center;
-  }
-
-  .separator {
-    margin: 0 10px;
-    color: white;
   }
 
   .logout-button {
@@ -88,4 +52,9 @@ ion-toolbar {
     height: 100%;
     object-fit: cover;
   }
+}
+
+.active {
+  font-weight: bold;
+  border-bottom: 2px solid #FFDB58;
 }

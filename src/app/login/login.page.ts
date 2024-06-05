@@ -59,7 +59,6 @@ export class LoginPage {
           );
         },
         error => {
-          console.error('Error en el inicio de sesión:', error);
           this.showToast('Credenciales incorrectas', 'danger', 2000);
         }
       );
