@@ -8,7 +8,7 @@
       <div class="register-container">
         <form [formGroup]="registerForm" (ngSubmit)="register()">
           <ion-item lines="none">
-            <ion-input formControlName="username" placeholder="Username" type="text"></ion-input>
+            <ion-input formControlName="username" placeholder="Username" type="text" (blur)="checkUsernameExists()"></ion-input>
           </ion-item>
           <ion-item lines="none">
             <ion-input formControlName="email" placeholder="Email" type="email"></ion-input>
@@ -26,6 +26,7 @@
           <div class="login">
             <a href="/login">Already have an account? Log in</a>
           </div>
+          <div *ngIf="usernameExists" class="error-message">Username already exists</div>
         </form>        
       </div>
     </ion-card-content>

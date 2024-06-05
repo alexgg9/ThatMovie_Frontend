@@ -1,10 +1,10 @@
-<ion-header>
+<ion-header *ngIf="isInitialized">
   <ion-toolbar>
     <ion-title slot="start">{{ title }}</ion-title>
     <ion-buttons slot="secondary">
-      <ion-button routerLink="/home">Home</ion-button>
-      <ion-button (click)="navigateAndReload('/playlist')">List</ion-button>
-      <ion-button routerLink="/reviews">Reviews</ion-button>
+      <ion-button routerLink="/home" routerDirection="forward" routerLinkActive="active">Home</ion-button>
+      <ion-button routerLink="/playlist" routerDirection="forward" routerLinkActive="active">List</ion-button>
+      <ion-button routerLink="/reviews" routerDirection="forward" routerLinkActive="active">Reviews</ion-button>
       <ion-button (click)="openModal()">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>

@@ -75,7 +75,6 @@ export class HomePage implements AfterViewInit, OnInit{
 
   getPopularMovies() {
     this.movieService.getPopularMovies().subscribe((response: MovieResponse) => {
-      console.log('Movies from service:', response.results);
       if (response.results) {
         this.popularMovies = response.results;
       } else {
@@ -86,7 +85,6 @@ export class HomePage implements AfterViewInit, OnInit{
 
   getNowPlaying() {
     this.movieService.getNowPlaying().subscribe((response: MovieResponse) => {
-      console.log('Movies from service:', response.results);
       if (response.results) {
         this.nowPlayingMovies = response.results.reverse();
       } else {
@@ -97,7 +95,6 @@ export class HomePage implements AfterViewInit, OnInit{
 
   getUpcomingMovies() {
     this.movieService.getUpcomingMovies().subscribe((response: MovieResponse) => {
-      console.log('Movies from service:', response.results);
       if (response.results) {
         this.upcomingMovies = response.results.reverse();
       } else {
