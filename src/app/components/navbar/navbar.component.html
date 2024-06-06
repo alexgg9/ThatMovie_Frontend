@@ -1,4 +1,4 @@
-<ion-header *ngIf="isInitialized">
+<ion-header>
   <ion-toolbar>
     <ion-title slot="start">{{ title }}</ion-title>
     <ion-buttons slot="secondary">
@@ -10,10 +10,10 @@
       </ion-button>
     </ion-buttons>
     <div class="profile-section" slot="end">
-      <ion-avatar *ngIf="user" (click)="goToProfile()" class="avatar">
+      <ion-avatar *ngIf="user$ | async as user" (click)="goToProfile()" class="avatar">
         <img [src]="user.avatar || defaultAvatar" alt="User Avatar" (error)="setDefaultAvatar($event)">
       </ion-avatar>
-      <ion-button class="logout-button" color="danger" fill="clear" (click)="logout()">Logout</ion-button>
+      <ion-button *ngIf="user$ | async" class="logout-button" color="danger" fill="clear" (click)="logout()">Logout</ion-button>
     </div>
   </ion-toolbar>
 </ion-header>

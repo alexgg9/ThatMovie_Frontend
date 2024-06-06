@@ -15,6 +15,7 @@ export class SearchMovieComponent implements OnInit {
   moviesSearched: any[] = [];
   searchInputClicked = false;
   statusSearch = false;
+  searching = false;
   constructor(private modalCtrl: ModalController, private movieService: MovieService, private router: Router ) { }
 
   ngOnInit() {}
@@ -23,28 +24,41 @@ export class SearchMovieComponent implements OnInit {
   onSearch(event: any) {
     const query = event.target.value;
     if (query && query.trim() !== '') {
+      this.searching = true;
       this.searchInputClicked = true;
       this.searchMovies(query);
     } else {
       this.moviesSearched = [];
-      this.searchInputClicked = false;
+      this.searching = false;
     }
   }
 
-  async searchMovies(query: string) {
+  searchMovies(query: string) {
     this.statusSearch = true;
-    try {
-      const response = await this.movieService.getSearchMovies(query).toPromise();
-      if (response && response.results && response.results.length > 0) {
-        this.moviesSearched = response.results;
-      } else {
+    this.movieService.getSearchMovies(query).subscribe(
+      (response: any) => {
+        if (response.results) {
+          console.log('Respuesta:', response);
+          this.moviesSearched = response.results.map((movie: any) => ({
+            id: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path,
+            release_date: movie.release_date,
+            director: movie.credits?.crew ? movie.credits.crew.find((crewMember: any) => crewMember.job === 'Director')?.name : ''
+          }));
+        } else {
+          console.error('No se encontraron películas en la respuesta.');
+          this.moviesSearched = [];
+        }
+        this.statusSearch = false;
+        this.searching = this.moviesSearched.length > 0;
+      },
+      (error: any) => {
+        console.error('Error al obtener películas:', error);
         this.moviesSearched = [];
+        this.statusSearch = false;
       }
-    } catch (error) {
-      console.error('Error searching for movies:', error);
-    } finally {
-      this.statusSearch = false;
-    }
+    );
   }
 
   close() {
@@ -56,8 +70,8 @@ export class SearchMovieComponent implements OnInit {
   }
   
   openProfile(movieId: number) {
-    this.modalCtrl.dismiss(); // Cierra el modal
-    this.router.navigateByUrl(`/profile/${movieId}`); // Navega a la página del perfil de la película
+    this.modalCtrl.dismiss(); 
+    this.router.navigateByUrl(`/profile/${movieId}`); 
   }
 
 }

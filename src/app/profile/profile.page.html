@@ -1,6 +1,5 @@
-<app-navbar [title]="'ThatMovie'"></app-navbar>
+<app-navbar></app-navbar>
 <div #container class="container">
- 
   <ion-grid class="movie-profile">
     @if(loaded()){
     <ion-row class="movie-header">
@@ -56,7 +55,7 @@
       </ion-col>
     </ion-row>
   }
-  <ion-label style="margin-left: 15px; font-size: 20px;">Cast</ion-label>
+<ion-label style="margin-left: 15px; font-size: 20px;">{{titleCast}}</ion-label>
 <div #swiperContainer class="swiper-container">
   <div class="swiper-wrapper">
     @for(actor of movie?.credits?.cast; track actor.name) {
@@ -74,7 +73,7 @@
   <div class="swiper-pagination"></div>
 </div>
 
-<ion-label style="margin-left: 15px; font-size: 20px;">Similar Movies</ion-label>
+<ion-label style="margin-left: 15px; font-size: 20px;">{{titleSimilarMovies}}</ion-label>
 <div #similarContainer class="swiper-container">
   <div class="swiper-wrapper">
     @for(movie of similarMovies; track movie.id) {

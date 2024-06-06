@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { IonicModule, ToastController } from '@ionic/angular';
-import { Member } from 'src/app/model/member';
+import { IonicModule, ToastController, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
-import { ModalController } from '@ionic/angular';
+import { MemberService } from 'src/app/services/member.service';
 import { SearchMovieComponent } from '../../modal/search-movie/search-movie.component';
+import { Member } from 'src/app/model/member';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -17,37 +18,23 @@ import { SearchMovieComponent } from '../../modal/search-movie/search-movie.comp
 })
 export class NavbarComponent implements OnInit {
   @Input() title: string = 'ThatMovie';
-  @Output() onSearch: EventEmitter<any> = new EventEmitter();
-  user: Member | null = null;
   defaultAvatar: string = 'assets/default-avatar.png';
-  isInitialized: boolean = false;
+  user$: Observable<Member | null>;
+
   constructor(
-    private cdRef: ChangeDetectorRef,
-    public authService: AuthService,
+    private memberService: MemberService,
+    private authService: AuthService,
     private router: Router,
     private modalController: ModalController,
     private toastController: ToastController
-  ) {}
-
-  ngOnInit() {
-    this.loadUserInfo();
-    setTimeout(() => {
-      this.isInitialized = true;
-    }, 0);
+  ) {
+    this.user$ = this.memberService.currentMember$;
   }
 
-  loadUserInfo(): void {
+  ngOnInit() {
     const userId = this.authService.getLoggedInUserId();
     if (userId) {
-      this.authService.getUserInfo(userId).subscribe(
-        (user) => {
-          this.user = user;
-          this.cdRef.markForCheck(); 
-        },
-        (error) => {
-          console.error('Error al obtener la información del usuario', error);
-        }
-      );
+      this.memberService.loadCurrentMember(userId);
     }
   }
 

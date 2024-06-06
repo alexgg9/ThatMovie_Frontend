@@ -12,6 +12,7 @@ export class AuthService {
   private apiAuthRegister = environment.apiUrl + '/auth/signup';
   private apiAuthLogin = environment.apiUrl + '/auth/login';
   private apiUserInfo = environment.apiUrl + '/member/id';
+  private apiCheckUsername = environment.apiUrl + '/member/usernameExists';
   
 
 
@@ -21,7 +22,7 @@ export class AuthService {
     return this.http.post<any>(this.apiAuthRegister, member);
   }
   checkUsernameExists(username: string): Observable<boolean> {
-    return this.http.get<boolean>(`/usernameExists/${username}`);
+    return this.http.get<boolean>(`${this.apiCheckUsername}/${username}`);
   }
 
   login(username: string, password: string): Observable<any> {

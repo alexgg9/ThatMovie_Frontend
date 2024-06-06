@@ -1,6 +1,6 @@
-<app-navbar [title]="'ThatMovie'"></app-navbar>
+<app-navbar></app-navbar>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-list lines="none">
     <ng-container *ngFor="let review of reviews">
       <ng-container *ngIf="review.movie?.poster_path">

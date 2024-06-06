@@ -1,6 +1,6 @@
-<app-navbar [title]="'ThatMovie'"></app-navbar>
+<app-navbar></app-navbar>
 
-<ion-content class="content">
+<ion-content class="content" [fullscreen]="true">
   <ion-list>
     <ng-container *ngFor="let list of playlist; trackBy: trackById">
       <ion-item [routerLink]="['/movie-list', list.id]">

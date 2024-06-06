@@ -7,22 +7,19 @@
 ion-content {
   --background: transparent;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
 
-.edit-review-card {
-  width: 90%;
-  max-width: 600px;
-  height: 100%;
+.full-height-card {
+  width: 95%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  margin: 0;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-right: 20px; 
 }
 
 .star-rating {
@@ -47,6 +44,13 @@ ion-content {
   color: gold;
 }
 
+ion-card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 ion-textarea {
   width: 100%;
   min-height: 100px;
@@ -55,7 +59,7 @@ ion-textarea {
   border-radius: 4px;
   resize: vertical;
   margin-top: 10px;
-  flex: 1;
+  flex-grow: 1;
 }
 
 .button-container {

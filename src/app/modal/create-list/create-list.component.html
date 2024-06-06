@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="crearLista()" class="form-container">
   <div class="input-container">
     <ion-title class="form-title">Add List</ion-title>
-    <ion-input label-placement="floating" placeholder="Name of the list..." fill="outline" id="nombre" formControlName="nombre" class="form-input"></ion-input>
+    <ion-textarea label-placement="floating" placeholder="Name of the list..." id="nombre" fill="outline" formControlName="nombre" class="form-input"></ion-textarea>
     <ion-button type="submit" color="success" class="form-button">Create List</ion-button>
   </div>
 </form>

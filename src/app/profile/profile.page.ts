@@ -23,7 +23,7 @@ register();
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent, FontAwesomeModule, RouterModule]
+  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent, FontAwesomeModule, RouterModule],
 })
 export class ProfilePage implements AfterViewInit, OnInit {
   faStar = faStar;
@@ -40,6 +40,8 @@ export class ProfilePage implements AfterViewInit, OnInit {
   @ViewChild('container') container!: ElementRef
   calculatedHeightVariable!: number;
   loaded:WritableSignal<boolean> = signal<boolean>(false);
+  titleCast: string = '';
+  titleSimilarMovies: string = '';
 
   constructor(
     private movieService: MovieService,
@@ -156,7 +158,8 @@ getSimilarMovies(id: number): void {
     this.movieService.getProfileMovies(id).subscribe((movie) => {
       this.movie = movie;
       this.loaded.set(true);
-      console.log('Movie profile:', this.movie);
+      this.titleCast = 'Cast';
+      this.titleSimilarMovies = 'Similar Movies';
     });
   }
 
@@ -219,15 +222,19 @@ getSimilarMovies(id: number): void {
       breakpoints: {
         1024: {
           slidesPerView: 7,
+          spaceBetween: 20,
         },
         768: {
           slidesPerView: 5,
+          spaceBetween: 20,
         },
         640: {
           slidesPerView: 3,
+          spaceBetween: 20,
         },
         320: {
           slidesPerView: 2,
+          spaceBetween: 20,
         },
       }
     })
