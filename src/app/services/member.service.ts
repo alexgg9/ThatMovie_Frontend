@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../model/member';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +10,24 @@ import { Observable } from 'rxjs';
 export class MemberService {
 
   private apiMembers = environment.apiUrl + '/member';
-  
-  private currentMember: Member | undefined;
+  private currentMemberSubject = new BehaviorSubject<Member | null>(null);
+  currentMember$ = this.currentMemberSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
   setCurrentMember(member: Member) {
-    this.currentMember = member;
+    this.currentMemberSubject.next(member);
   }
 
-  getCurrentMember(): Member | undefined {
-    return this.currentMember;
+  getCurrentMember(): Member | null {
+    return this.currentMemberSubject.value;
+  }
+
+  loadCurrentMember(userId: number): void {
+    this.getMemberById(userId).subscribe(
+      member => this.setCurrentMember(member),
+      error => console.error('Error al obtener la información del usuario', error)
+    );
   }
 
   getAllMembers(): Observable<Member[]> {

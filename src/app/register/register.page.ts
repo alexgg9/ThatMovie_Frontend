@@ -58,7 +58,7 @@ export class RegisterPage {
                     this.usernameExists = false;
                     this.authService.register(this.registerForm.value).subscribe(
                         response => {
-                            this.showToast(response, 'success', 2000);
+                            this.showToast("Usuario registrado correctamente", 'success', 2000);
                             this.router.navigate(['/login']);
                         },
                         error => {
