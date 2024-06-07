@@ -20,7 +20,7 @@ export class EditReviewModalComponent implements OnInit {
   editReviewForm: FormGroup;
   starArray = [1, 2, 3, 4, 5];
   faStar = faStar;
-
+  
   constructor(private fb: FormBuilder, private modalController: ModalController) {
     this.editReviewForm = this.fb.group({
       rating: [0, Validators.required],
@@ -36,11 +36,12 @@ export class EditReviewModalComponent implements OnInit {
       });
     }
   }
+  
 
   dismissModal(): void {
     this.modalController.dismiss();
   }
-
+  
   saveReview(): void {
     if (this.editReviewForm.valid) {
       const updatedReview = {

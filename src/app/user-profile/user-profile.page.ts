@@ -37,7 +37,11 @@ export class UserProfilePage implements OnInit {
   ngOnInit() {
     this.loadUserInfo();
   }
-
+  /**
+   * Carga la información del usuario
+   * Obtiene el ID del usuario
+   * 
+   */
   loadUserInfo(): void {
     const userId = this.authService.getLoggedInUserId();
     if (userId) {
@@ -52,7 +56,11 @@ export class UserProfilePage implements OnInit {
       console.error('No hay un usuario actual establecido');
     }
   }
-
+  /**
+   * Guarda los cambios
+   * Obtiene el ID del usuario
+   * 
+   */
   saveChanges(): void {
     if (this.user.id) {
       if (this.selectedFile) {
@@ -68,7 +76,11 @@ export class UserProfilePage implements OnInit {
       }
     }
   }
-
+  /**
+   *  @param event evento de click en el input de imagen de perfil 
+   * @param file  archivo seleccionado por el usuario 
+   * @returns 
+   */
   uploadFile(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -77,7 +89,11 @@ export class UserProfilePage implements OnInit {
       }, 2000);
     });
   }
-
+  /**
+   * Actualiza la información del usuario
+   * Obtiene el ID del usuario
+   * 
+   */
   updateUser(): void {
     const userId = this.authService.getLoggedInUserId();
     if (userId) {
@@ -108,7 +124,11 @@ export class UserProfilePage implements OnInit {
       }
     }
   }
-
+  /**
+   *  @param event evento de click en el input de imagen de perfil 
+   * @param file  archivo seleccionado por el usuario
+   * @returns   
+   */
   convertToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -120,7 +140,13 @@ export class UserProfilePage implements OnInit {
       fileReader.readAsDataURL(file);
     });
   }
-
+  /**
+   * 
+   * @param event evento de click en el input de imagen de perfil 
+   * @param file  archivo seleccionado por el usuario
+   * @returns
+   * 
+   */
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
@@ -134,11 +160,20 @@ export class UserProfilePage implements OnInit {
     }
   }
   
-
+  /**
+   * 
+   * @returns url de la imagen
+   *  
+   */
   getAvatarUrl(): string {
     return this.selectedFileUrl || this.user.avatar || 'assets/default-avatar.png';
   }
-
+  /**
+   * 
+   * @param msg  mensaje para mostrar en el toast 
+   * @param color  color 
+   * @param duration  duracion del toast 
+   */
   async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
     const toast = await this.toastController.create({
       message: msg,

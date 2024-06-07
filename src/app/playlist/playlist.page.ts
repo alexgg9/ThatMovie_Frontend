@@ -71,11 +71,20 @@ allplaylistUser(): void {
     });
   });
 }
-
+  /**
+   * 
+   * @param playlistId - El identificador de la lista
+   * @returns void 
+   */
 getPostersForPlaylist(playlistId: number): Observable<string[]> {
   return this.playlistService.getPostersForPlaylist(playlistId);
 }
-
+/**
+ * 
+ * @param playlistId - El identificador de la lista
+ * @returns void
+ * @description Obtiene todas las listas
+ */
 obtenerYAsignarPosters(playlistId: number) {
   this.getPostersForPlaylist(playlistId).subscribe((result) => {
     if (result && result.length) {
@@ -93,13 +102,22 @@ obtenerYAsignarPosters(playlistId: number) {
   });
 }
 
-
+  /**
+   * 
+   * @param index - El identificador de la lista
+   * @param item 
+   * @returns 
+   */
 
 trackById(index: number, item: playlist): number {    
   return item.id !== undefined ? item.id : index; 
 }
 
-
+/**
+ * 
+ * @param posterPath poster de la pelúcula 
+ * @returns  url de la imagen
+ */
 getImageUrl(posterPath: string): string {
   const baseUrl = 'https://image.tmdb.org/t/p/w500'; 
   const fullUrl = `${baseUrl}${posterPath}`;
@@ -107,14 +125,23 @@ getImageUrl(posterPath: string): string {
   return fullUrl;
 }
 
-
+/**
+ *  
+ * @param event  evento  
+ * @param playlistId  plstae id 
+ * @param index  
+ */
 handleImageError(event: Event, playlistId: number | undefined, index: number) {
   if (playlistId !== undefined) {
     const target = event.target as HTMLImageElement;
     this.posters[playlistId][index] = 'assets/default-poster.png';
   }
 }
-
+/**
+ * 
+ * @param listId lista id
+ * @param event  lista
+ */
 deletePlaylist(listId: number, event: Event) {
   event.stopPropagation(); 
   event.preventDefault();
@@ -151,7 +178,11 @@ deletePlaylist(listId: number, event: Event) {
     window.location.reload();
   }
   
- 
+ /**
+  * 
+  * @param message  mesaje para mostrar en el toast
+  * @param status  color del toast
+  */
   async showToast(message: string, status: string) {
     const toast = await this.toastController.create({
       message,

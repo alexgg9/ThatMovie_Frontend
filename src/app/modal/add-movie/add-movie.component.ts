@@ -34,7 +34,10 @@ export class AddMovieComponent implements OnInit {
   ) { }
 
   ngOnInit() {}
-
+  /**
+   *  Busca películas por nombre y director y las muestra en el modal de busqueda de pelúculas. 
+   * @param event valor del input
+   */
   onSearch(event: any) {
     const query = event.target.value;
     if (query && query.trim() !== '') {
@@ -46,7 +49,14 @@ export class AddMovieComponent implements OnInit {
       this.searching = false;
     }
   }
-
+  /**
+   * 
+   * @param query nombre de la pelúcula
+   * Busca pelúculas
+   * @param query nombre de la pelúcula
+   * Busca pelúculas
+   * 
+   */
   searchMovies(query: string) {
     this.statusSearch = true;
     this.movieService.getSearchMovies(query).subscribe(
@@ -74,12 +84,21 @@ export class AddMovieComponent implements OnInit {
       }
     );
   }
-
+  /**
+   * 
+   * @param posterPath poster de la pelúcula
+   * @returns  url de la imagen
+   */
   getImageUrl(posterPath: string): string {
     const baseUrl = 'https://image.tmdb.org/t/p/w500';
     return `${baseUrl}${posterPath}`;
   }
-
+  /**
+   * 
+   * @param movie pelúcula a anadir
+   * Anade pelúcula a la lista
+   * 
+   */
   async addMovieToPlaylist(movie: Movie) {
     if (this.playlistId != null) {
       try {
@@ -101,7 +120,12 @@ export class AddMovieComponent implements OnInit {
   close() {
     this.modalController.dismiss();
   }
-
+  /**
+   * 
+   * @param msg mensaje para mostrar en el toast
+   * @param color color del toast
+   * @param duration duracion del toast
+   */
   async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
     const toast = await this.toastController.create({
       message: msg,

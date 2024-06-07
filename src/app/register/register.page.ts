@@ -30,7 +30,12 @@ export class RegisterPage {
       name: ['', Validators.required]
     });
   }
-
+  /**
+   * Comprueba si el nombre de usuario ya existe
+   * y actualiza el valor de 'usernameExists'
+   * @param username nombre de usuario
+   * @returns void 
+   */
   checkUsernameExists() {
     const username = this.registerForm.get('username')?.value;
 
@@ -45,7 +50,12 @@ export class RegisterPage {
       );
     }
   }
-
+  /**
+   * Registra un nuevo usuario
+   * @param void 
+   * @returns void
+   * @throws
+   */
   register(): void {
     if (this.registerForm.valid) {
         const username = this.registerForm.get('username')?.value;
@@ -75,7 +85,12 @@ export class RegisterPage {
         this.showToast('Formulario inválido', 'danger');
     }
 }
-
+  /**
+   *  Muestra un toast con un mensaje y color personalizado 
+   * @param msg  mensaje para mostrar en el toast
+   * @param color color 
+   * @param duration 
+   */
 
   async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
     const toast = await this.toastController.create({

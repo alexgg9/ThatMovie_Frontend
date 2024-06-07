@@ -30,7 +30,11 @@ export class ReviewsPage implements OnInit {
     this.loadUserId();
     this.getReviews();
   }
-
+/**
+ * Load user ID from local storage and log it to the console.
+ * If the user ID is not found, log an error message.
+ * @returns void 
+ */
   loadUserId(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
@@ -40,7 +44,11 @@ export class ReviewsPage implements OnInit {
       console.error('No se pudo obtener el ID del usuario.');
     }
   }
-
+/**
+ * Get reviews.
+ * @returns void
+ * @throws Error al obtener las revisiones del usuario
+ */
   getReviews(): void {
     if (this.userId != null) { 
       this.reviewService.getMemberReviews(this.userId).subscribe(
@@ -56,14 +64,22 @@ export class ReviewsPage implements OnInit {
       console.error('ID de usuario no válido.');
     }
   }
-
+  /**
+   * 
+   * @param rating  rating de la reseña 
+   * @returns 
+   */
   getStarArray(rating: number | undefined): any[] {
     if (rating === undefined) {
       return [];
     }
     return Array(rating).fill(0);
   }
-  
+  /**
+   * 
+   * @param review review
+   * @returns 
+   */
   async editReview(review: Review): Promise<void> {
     const modal = await this.modalController.create({
       component: EditReviewModalComponent,
@@ -71,7 +87,10 @@ export class ReviewsPage implements OnInit {
         review: review
       }
     });
-  
+  /**
+   * 
+   * @param result  result de la reseña 
+   */
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         this.reviewService.createReview(result.data).subscribe(
@@ -91,7 +110,10 @@ export class ReviewsPage implements OnInit {
     await modal.present();
   }
   
-
+  /**
+   * 
+   * @param review review recibido por parametro
+   */
   deleteReview(review: Review): void {
     if (review.id != undefined) {
       this.reviewService.deleteReview(review.id).subscribe(

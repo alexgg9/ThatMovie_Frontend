@@ -50,7 +50,11 @@ export class ProfilePage implements AfterViewInit, OnInit {
     private memberService: MemberService,
     private toastController: ToastController
   ) {}
-  
+  /**
+   * @param rating 
+   * setea el rating
+   * 
+   */
   setRating(rating: number): void {
     if (this.rating === rating) {
       this.rating = 0;
@@ -59,7 +63,10 @@ export class ProfilePage implements AfterViewInit, OnInit {
     }
   }
   
-
+  /**
+   * 
+   * @param event  evento 
+   */
   onReviewInput(event: Event): void {
     const target = event.target as HTMLIonTextareaElement;
     this.content = target.value || '';
@@ -82,7 +89,10 @@ ngOnInit(): void {
     console.error('El parámetro "id" es nulo o no está presente en la URL.');
   }
 }
-
+/**
+ *  
+ * @returns void 
+ */
 getMember(): void {
   const userId = localStorage.getItem('userId');
   if (userId) {
@@ -106,7 +116,10 @@ getMember(): void {
     console.error('No se pudo obtener el ID del usuario desde el localStorage.');
   }
 }
-
+/**
+ * 
+ * @param movieId   id de la pelicula
+ */
 loadUserReview(movieId: number): void {
   const userId = localStorage.getItem('userId');
   if (userId) {
@@ -128,7 +141,10 @@ loadUserReview(movieId: number): void {
 
 
 
-
+/**
+ *  
+ * @param movieId id de la pelicula 
+ */
 getAverageRating(movieId: number): void {
   this.reviewService.getAverageRating(movieId).subscribe(
     (rating) => {
@@ -140,7 +156,10 @@ getAverageRating(movieId: number): void {
   );
 }
 
-
+/**
+ * 
+ * @param id id de la pelicula
+ */
 getSimilarMovies(id: number): void {
   this.movieService.getSimilarMovies(id).subscribe((response: MovieResponse) => {
     console.log('Similar movies:', response.results);
@@ -152,7 +171,11 @@ getSimilarMovies(id: number): void {
   });
 }
 
-
+  /**
+   * 
+   * @param id id de la pelicula
+   * 
+   */
 
   getMovieProfile(id: number) {
     this.movieService.getProfileMovies(id).subscribe((movie) => {
@@ -162,7 +185,11 @@ getSimilarMovies(id: number): void {
       this.titleSimilarMovies = 'Similar Movies';
     });
   }
-
+  /**
+   * 
+   * @param gender genero del cast
+   * @returns  url del cast
+   */
   getGenderAvatar(gender: number): string {
     switch(gender){
       case 1:
@@ -175,7 +202,10 @@ getSimilarMovies(id: number): void {
   }
 
   
-
+  /**
+   *  
+   * 
+   */
   ngAfterViewInit(): void {
     const movieSwiper = new Swiper(this.swiperContainer.nativeElement, {
       direction: 'horizontal',
@@ -205,7 +235,10 @@ getSimilarMovies(id: number): void {
         },
       }
     });
-  
+  /**
+   * 
+   * 
+   */
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 200);
@@ -239,17 +272,30 @@ getSimilarMovies(id: number): void {
       }
     })
   }
-
+  /**
+   *  
+   * @param event  evento 
+   */
   @HostListener('window:load', ['$event'])
   onLoad(event: any) {
     this.calculateHeight();
   }
-
+  /**
+   * 
+   * @param event 
+   * calcula la altura del swiper
+   * 
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateHeight(); 
   }
-
+  /**
+   *  
+   * @param event  evento de click en el input de busqueda
+   * calcula la altura del swiper
+   * 
+   */
   private calculateHeight() {
     const windowHeight = window.innerHeight;
     const calculatedHeight = windowHeight - 80;
@@ -258,7 +304,11 @@ getSimilarMovies(id: number): void {
       this.container.nativeElement.style.height = calculatedHeight + 'px';
     }
   }
-
+  /**
+   * 
+   * @returns director de la pelicula
+   * 
+   */
   getDirectors(): string {
     if (!this.movie || !this.movie.credits || !this.movie.credits.crew) {
       return '';
@@ -267,7 +317,10 @@ getSimilarMovies(id: number): void {
     const directors = this.movie.credits.crew.filter(crew => crew.job === 'Director').map(crew => crew.name);
     return directors.join(', ');
   }
-  
+  /**
+   * 
+   * @param id id de la pelicula
+   */
   submitReview(): void {
     console.log(this.rating, this.content, this.member, this.movie);
     const review: Review = {
@@ -289,7 +342,12 @@ getSimilarMovies(id: number): void {
       }
     );
   }
-
+  /**
+   * 
+   * @param msg  mensaje para mostrar en el toast
+   * @param color color del toast
+   * @param duration duracion del toast
+   */
   async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
     const toast = await this.toastController.create({
       message: msg,

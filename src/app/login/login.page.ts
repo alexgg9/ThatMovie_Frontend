@@ -34,7 +34,11 @@ export class LoginPage {
     });
   }
 
-  
+  /**
+   * Método para realizar el login
+   * Se comprueba que el formulario sea válido
+   * Se obtiene el username y el password del formulario
+   */
  
   login(): void {
     if (this.loginForm.valid) {
@@ -68,7 +72,12 @@ export class LoginPage {
   }
   
   
-
+  /**
+   * 
+   * @param msg  mensaje para mostrar en el toast
+   * @param color color
+   * @param duration duración del toast
+   */
   async showToast(msg: string, color: string = 'primary', duration: number = 2000): Promise<void> {
     const toast = await this.toastController.create({
       message: msg,

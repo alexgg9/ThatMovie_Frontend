@@ -36,7 +36,11 @@ export class HomePage implements AfterViewInit, OnInit{
   constructor(private movieService: MovieService) {
     
    }
-
+   /**
+    * Metodo que calcula la altura del swiper
+    * calcula la altura del swiper
+    * 
+    */
    ngAfterViewInit(): void {
     new Swiper('.swiper-container', {
       direction: 'horizontal',
@@ -72,7 +76,11 @@ export class HomePage implements AfterViewInit, OnInit{
     this.getNowPlaying();
     this.getUpcomingMovies();
   }
-
+  /**
+   * Metodo que obtiene las pelúculas populares
+   * obtiene las pelúculas populares
+   * 
+   */
   getPopularMovies() {
     this.movieService.getPopularMovies().subscribe((response: MovieResponse) => {
       if (response.results) {
@@ -82,7 +90,10 @@ export class HomePage implements AfterViewInit, OnInit{
       }
     });
   }
-
+  /**
+   * Metodo que obtiene las pelúculas en cartelera
+   * 
+   */
   getNowPlaying() {
     this.movieService.getNowPlaying().subscribe((response: MovieResponse) => {
       if (response.results) {
@@ -93,6 +104,10 @@ export class HomePage implements AfterViewInit, OnInit{
     });
   }
 
+  /**
+   * Metodo que obtiene las pelúculas en cartelera
+   * 
+   */
   getUpcomingMovies() {
     this.movieService.getUpcomingMovies().subscribe((response: MovieResponse) => {
       if (response.results) {
@@ -105,7 +120,10 @@ export class HomePage implements AfterViewInit, OnInit{
 
 
   
-
+  /**
+   * 
+   * @param event  evento de click en el input de busqueda
+   */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
     if (!this.searchInputClicked && !event.target.closest('.searchResults')) {
@@ -114,17 +132,32 @@ export class HomePage implements AfterViewInit, OnInit{
     this.searchInputClicked = false;
   }
   
-
+  /**
+   * 
+   * @param event  evento de click en el input de busqueda
+   * calcula la altura del swiper
+   * 
+   */
   @HostListener('window:load', ['$event'])
   onLoad(event: any) {
     this.calculateHeight();
   }
-  
+  /**
+   * 
+   * @param event  evento de click en el input de busqueda
+   * calcula la altura del swiper
+   * 
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateHeight(); 
   }
-  
+  /**
+   * 
+   * @param event  evento de click en el input de busqueda
+   * calcula la altura del swiper
+   * 
+   */
   private calculateHeight() {
     const windowHeight = window.innerHeight;
     const calculatedHeight = windowHeight - 80;
