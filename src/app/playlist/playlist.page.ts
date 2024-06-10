@@ -41,7 +41,7 @@ export class PlaylistPage implements OnInit {
   lists: any[] = [];
   public searching = false;
   public statusSearch=false;
-  private searchInputClicked = false;
+  
  
 
   constructor(private playlistService: PlaylistService, private authService: AuthService,private modalController: ModalController, private movieService: MovieService, private toastController: ToastController) { }
@@ -51,7 +51,9 @@ export class PlaylistPage implements OnInit {
     this.allplaylistUser();
   }
 
-
+  ionViewWillEnter(): void {
+    this.allplaylistUser();
+  }
 
 /**
  * Obtiene todas las listas
@@ -143,13 +145,14 @@ handleImageError(event: Event, playlistId: number | undefined, index: number) {
  * @param event  lista
  */
 deletePlaylist(listId: number, event: Event) {
-  event.stopPropagation(); 
+  event.stopPropagation();
   event.preventDefault();
 
   this.playlistService.deletePlaylist(listId).subscribe(
     () => {
       this.showToast('Lista eliminada con éxito', 'success');
       this.lists = this.lists.filter((list: any) => list.id !== listId);
+      this.obtenerYAsignarPosters(this.authService.getLoggedInUserId());
       this.allplaylistUser();
     },
     (error) => {
@@ -173,9 +176,9 @@ deletePlaylist(listId: number, event: Event) {
     await modal.present();
   
     const { data } = await modal.onDidDismiss();
-  
     
-    window.location.reload();
+    this.obtenerYAsignarPosters(this.authService.getLoggedInUserId());
+    this.allplaylistUser();
   }
   
  /**
